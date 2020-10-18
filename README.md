@@ -1,4 +1,4 @@
-# infrastructure <GitLab path="android-research/knowledge/tree/master/libs/infrastructure"/>
+# infrastructure <GitHub path="RedMadRobot/gradle-infrastructure"/>
 [![Version](https://img.shields.io/bintray/v/redmadrobot-opensource/android/infrastructure?style=flat-square)][bintray] [![Build Status](https://img.shields.io/github/workflow/status/RedMadRobot/gradle-infrastructure/CI/main?style=flat-square)][ci] [![License](https://img.shields.io/github/license/RedMadRobot/gradle-infrastructure?style=flat-square)][license]
 
 Small plugins to reduce boilerplate in Gradle build scripts.
