@@ -1,0 +1,26 @@
+name: Publish
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  check:
+    name: Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Run Publication
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: publish
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
