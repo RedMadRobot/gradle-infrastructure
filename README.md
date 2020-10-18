@@ -26,19 +26,13 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 
 ## Installation
 
-Add rpository to `settings.gradle`:
+Add repositories to `settings.gradle.kts`:
 ```kotlin
 pluginManagement {
     repositories {
         google()
         gradlePluginPortal()
-
-        // If you want to use SNAPSHOTs
-        maven {
-            name = "GitHubPackages"
-            setUrl("https://maven.pkg.github.com/RedMadRobot/gradle-infrastructure")
-            credentials(PasswordCredentials::class)
-        }
+        maven(url = "https://dl.bintray.com/redmadrobot-opensource/android")
     }
 }
 ```
@@ -46,9 +40,37 @@ pluginManagement {
 Then you can apply any of plugins where you need:
 ```kotlin
 plugins {
+    id("redmadrobot.kotlin-library") version "0.2"
+    id("redmadrobot.publish") version "0.2"
     id("redmadrobot.detekt") version "0.2"
 }
 ```
+
+<details>
+  <summary>Alternatively you can specify plugin resolution strategy and set infrastructure version there</summary>
+
+```kotlin
+// settings.gradle.kts
+pluginManagement {
+    //...
+
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.namespace == "redmadrobot") {
+                useModule("com.redmadrobot.build:infrastructure:0.2")
+            }
+        }
+    }
+}
+
+// build.gradle.kts
+plugins {
+    id("redmadrobot.kotlin-library")
+    id("redmadrobot.publish")
+    id("redmadrobot.detekt")
+}
+```
+</details>
 
 ## Plugins
 
