@@ -26,18 +26,18 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 
 ## Installation
 
-Add the resolution strategy to `settings.gradle`:
+Add rpository to `settings.gradle`:
 ```kotlin
 pluginManagement {
     repositories {
         google()
         gradlePluginPortal()
+
+        // If you want to use SNAPSHOTs
         maven {
-            setUrl("https://nexus.redmadrobot.com/repository/android/")
-            credentials {
-                username = "android-consumer"
-                password = "**************"
-            }
+            name = "GitHubPackages"
+            setUrl("https://maven.pkg.github.com/RedMadRobot/gradle-infrastructure")
+            credentials(PasswordCredentials::class)
         }
     }
 }

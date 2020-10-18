@@ -59,8 +59,8 @@ java {
 publishing {
     repositories {
         maven {
-            name = "rmrNexus"
-            setUrl("https://nexus.redmadrobot.com/repository/android/")
+            name = "GitHubPackages"
+            setUrl("https://maven.pkg.github.com/RedMadRobot/gradle-infrastructure")
             credentials(PasswordCredentials::class)
         }
     }
