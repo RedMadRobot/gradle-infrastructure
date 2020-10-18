@@ -4,6 +4,7 @@ plugins {
 }
 
 group = "com.redmadrobot.build"
+description = "Small plugins to reduce boilerplate in Gradle build scripts."
 version = "0.2-SNAPSHOT"
 
 kotlinDslPluginOptions {
@@ -56,12 +57,21 @@ java {
     withSourcesJar()
 }
 
+val publishToBintray = "bintrayUsername" in properties && "bintrayPassword" in properties
+val isSnapshot = version.toString().endsWith("-SNAPSHOT")
 publishing {
     repositories {
         maven {
             name = "GitHubPackages"
             setUrl("https://maven.pkg.github.com/RedMadRobot/gradle-infrastructure")
             credentials(PasswordCredentials::class)
+        }
+        if (publishToBintray && !isSnapshot) {
+            maven {
+                name = "bintray"
+                setUrl("https://api.bintray.com/maven/redmadrobot-opensource/android/infrastructure/")
+                credentials(PasswordCredentials::class)
+            }
         }
     }
 }
