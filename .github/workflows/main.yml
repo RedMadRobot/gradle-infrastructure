@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
+      
+      - run: echo ${{ github.ref }}
 
       - name: Setup Java
         uses: actions/setup-java@v1
