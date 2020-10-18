@@ -1,5 +1,5 @@
 # infrastructure <GitLab path="android-research/knowledge/tree/master/libs/infrastructure"/>
-[![License](https://img.shields.io/badge/license-MIT-green)][license]
+[![Version](https://img.shields.io/bintray/v/redmadrobot-opensource/android/infrastructure?style=flat-square)][bintray] [![Build Status](https://img.shields.io/github/workflow/status/RedMadRobot/gradle-infrastructure/CI/main?style=flat-square)][ci] [![License](https://img.shields.io/github/license/RedMadRobot/gradle-infrastructure?style=flat-square)][license]
 
 Small plugins to reduce boilerplate in Gradle build scripts.
 
@@ -79,7 +79,7 @@ plugins {
 Common configurations for pure Kotlin libraries.
 
 - Applies plugin `kotlin`
-- Specifies `jvmTarget` to 1.8
+- Specifies `jvmTarget` 1.8
 - Adds repository `jcenter`
 - Adds `kotlin-stdlib-jdk8` as dependency with `api` scope
 - Adds `kotlin-test` and `junit` as test dependencies
@@ -90,7 +90,7 @@ Common configurations for pure Kotlin libraries.
 Common configurations for Android libraries and application.
 
 Both:
-- Specifies `jvmTarget` and `compatibility` to 1.8
+- Specifies `jvmTarget` and `compatibility` 1.8
 - Specifies default compile, min and target SDK
 - Disables `aidl`, `renderScript` and `shaders` [build-features]
 - Adds `kotlin/` dirs to source sets
@@ -168,7 +168,7 @@ Execution failed for task ':app:stripDebugDebugSymbols'.
 ```
 
 It is because NDK version on CI differs from a requested version.
-You change requested version by setting `android.ndkVersion`.
+You can change requested version by setting `android.ndkVersion`.
 
 Plugins `redmadrobot.android-library` and `redmadrobot.application` by default apply NDK version from env variable `ANDROID_NDK_VERSION` if it set.
 
@@ -182,6 +182,9 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [RedmadrobotExtension]: src/main/kotlin/extension/RedmadrobotExtension.kt
 
+[bintray]: https://bintray.com/redmadrobot-opensource/android/infrastructure
+[ci]: https://github.com/RedMadRobot/gradle-infrastructure/actions
 [license]: LICENSE
+
 [build-features]: https://developer.android.com/reference/tools/gradle-api/com/android/build/api/dsl/BuildFeatures
 [explicit-api]: https://kotlinlang.org/docs/reference/whatsnew14.html#explicit-api-mode-for-library-authors
