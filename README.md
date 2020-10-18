@@ -20,6 +20,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
   - [Tests failed - `No value has been specified for property 'localResourcesFile'`](#tests-failed---no-value-has-been-specified-for-property-localresourcesfile)
   - [Build failed on CI - `No version of NDK matched the requested version`](#build-failed-on-ci---no-version-of-ndk-matched-the-requested-version)
 - [Contributing](#contributing)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -153,8 +154,12 @@ Plugins `redmadrobot.android-library` and `redmadrobot.application` by default a
 Merge requests are welcome.
 For major changes, please open an issue first to discuss what you would like to change.
 
+## License
+
+[MIT][license]
+
 [RedmadrobotExtension]: src/main/kotlin/extension/RedmadrobotExtension.kt
 
-[license]: https://git.redmadrobot.com/android-research/knowledge/blob/master/LICENSE
+[license]: LICENSE
 [build-features]: https://developer.android.com/reference/tools/gradle-api/com/android/build/api/dsl/BuildFeatures
 [explicit-api]: https://kotlinlang.org/docs/reference/whatsnew14.html#explicit-api-mode-for-library-authors
