@@ -1,11 +1,13 @@
 package com.redmadrobot.build
 
-import com.redmadrobot.build.extension.rmrNexus
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.register
 
 class PublishPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -16,7 +18,6 @@ class PublishPlugin : Plugin<Project> {
         } else {
             configurePublication()
         }
-        configureNexusRepository()
     }
 }
 
@@ -53,14 +54,6 @@ private fun Project.configurePublication() {
     publishing {
         publications.create<MavenPublication>("maven") {
             from(components["java"])
-        }
-    }
-}
-
-private fun Project.configureNexusRepository() {
-    publishing {
-        repositories {
-            rmrNexus()
         }
     }
 }
