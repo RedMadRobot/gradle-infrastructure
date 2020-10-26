@@ -114,8 +114,19 @@ Application:
 Common publish configurations for both Android and Kotlin libraries.
 
 - Applies plugin `maven-publish`
-- Adds repository [rmrNexus]
 - Adds sources to publication
+
+You should specify publishing repositories manually. You can also use predicates for publication:
+```kotlin
+publishing {
+    repositories {
+        rmrNexus()
+        githubPackages("RedMadRobot/gradle-infrastructure")
+        // Publication with conditions
+        if (!isSnapshotVersion && credentialsExist("bintray")) rmrBintray("infrastructure")
+    }
+}
+```
 
 ### detekt
 
