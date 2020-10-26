@@ -11,7 +11,7 @@ open class RedmadrobotExtension(objects: ObjectFactory) {
         const val NAME = "redmadrobot"
 
         // Relative to root project directory.
-        internal const val DEFAULT_CONFIGS_DIR = "configs/"
+        internal const val DEFAULT_CONFIGS_DIR = "config/"
 
         // Relative to root project build directory.
         internal const val DEFAULT_REPORTS_DIR = "reports/"
