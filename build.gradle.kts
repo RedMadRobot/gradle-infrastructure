@@ -62,7 +62,7 @@ val isSnapshot = version.toString().endsWith("-SNAPSHOT")
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
+            name = "githubPackages"
             setUrl("https://maven.pkg.github.com/RedMadRobot/gradle-infrastructure")
             credentials(PasswordCredentials::class)
         }
