@@ -52,6 +52,8 @@ private fun Project.configureApp() = android<AppExtension> {
             initWith(release)
             applicationIdSuffix = ".staging"
             isDebuggable = true
+            matchingFallbacks += BUILD_TYPE_RELEASE
+            signingConfig = signingConfigs.findByName(BUILD_TYPE_DEBUG)
         }
     }
 }
