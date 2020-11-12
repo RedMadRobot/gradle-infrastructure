@@ -4,6 +4,7 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
@@ -27,4 +28,8 @@ internal fun <T : BaseExtension> Project.android(configure: T.() -> Unit) {
 
 public inline fun Project.kotlinCompile(crossinline configure: KotlinCompile.() -> Unit) {
     tasks.withType<KotlinCompile> { configure() }
+}
+
+inline fun Project.kotlinTest(crossinline configure: Test.() -> Unit) {
+    tasks.withType<Test> { configure() }
 }
