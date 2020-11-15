@@ -60,9 +60,9 @@ private fun Project.configureApp() = android<AppExtension> {
 
 // Constants
 
-private const val BUILD_TYPE_DEBUG: String = "debug"
-private const val BUILD_TYPE_STAGING: String = "staging"
-private const val BUILD_TYPE_RELEASE: String = "release"
+const val BUILD_TYPE_DEBUG: String = "debug"
+const val BUILD_TYPE_STAGING: String = "staging"
+const val BUILD_TYPE_RELEASE: String = "release"
 
 private const val VAR_LOCK_ORIENTATION = "LOCK_ORIENTATION"
 private const val VAR_CRASH_REPORTS_ENABLED = "CRASH_REPORTS_ENABLED"
