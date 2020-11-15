@@ -6,10 +6,14 @@ import org.gradle.api.Project
 val Project.isSnapshotVersion: Boolean
     get() = version.toString().endsWith("-SNAPSHOT")
 
+/** Returns `true` if build is running on CI. */
+val isRunningOnCi: Boolean
+    get() = System.getenv("CI") == "true"
+
 /**
  * Checks that credentials for the repository with given [name] are exist.
  *
- * See: https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials
+ * See: [Handling credentials](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials)
  */
 fun Project.credentialsExist(name: String): Boolean {
     return hasProperty("${name}Username") && hasProperty("${name}Password")
