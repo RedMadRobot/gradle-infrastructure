@@ -116,13 +116,14 @@ Common publish configurations for both Android and Kotlin libraries.
 - Applies plugin `maven-publish`
 - Adds sources to publication
 
-You should specify publishing repositories manually. You can also use predicates for publication:
+You should specify publishing repositories manually. You can also use [predicates] for publication:
 ```kotlin
 publishing {
     repositories {
+        // Unconditional publication
         rmrNexus()
-        githubPackages("RedMadRobot/gradle-infrastructure")
         // Publication with conditions
+        if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
         if (!isSnapshotVersion && credentialsExist("bintray")) rmrBintray("infrastructure")
     }
 }
@@ -192,6 +193,7 @@ For major changes, please open an issue first to discuss what you would like to 
 [MIT][license]
 
 [RedmadrobotExtension]: src/main/kotlin/extension/RedmadrobotExtension.kt
+[predicates]: src/main/kotlin/extension/PublishingPredicates.kt
 
 [bintray]: https://bintray.com/redmadrobot-opensource/android/infrastructure
 [ci]: https://github.com/RedMadRobot/gradle-infrastructure/actions
