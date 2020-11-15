@@ -163,7 +163,7 @@ ij_xml_use_custom_settings = true
 [*.md]
 trim_trailing_whitespace = false
 
-[{*.yaml,*.yml}]
+[{*.yaml, *.yml}]
 indent_size = 2
 ij_yaml_spaces_within_brackets = false
 ij_yaml_keep_indents_on_empty_lines = false
