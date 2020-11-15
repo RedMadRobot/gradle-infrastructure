@@ -25,7 +25,7 @@ class DetektPlugin : Plugin<Project> {
         }
 
         dependencies {
-            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.1")
+            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
         }
     }
 
