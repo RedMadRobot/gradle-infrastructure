@@ -8,6 +8,7 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.repositories
+import java.io.File
 
 abstract class BaseAndroidPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -43,12 +44,15 @@ private fun Project.configureAndroid() = android<BaseExtension> {
         shaders = false
     }
 
-    // Add kotlin folder to all source sets
-    for (sourceSet in sourceSets) {
-        sourceSet.java.srcDirs("src/${sourceSet.name}/kotlin")
-    }
-
     afterEvaluate {
+        // Add kotlin folder to all source sets
+        // Do it after evaluate because there can be added build types
+        for (sourceSet in sourceSets) {
+            val javaSrcDirs = sourceSet.java.srcDirs.map(File::toString)
+            val kotlinSrcDirs = javaSrcDirs.map { it.replace("/java", "/kotlin") }
+            sourceSet.java.srcDirs(javaSrcDirs + kotlinSrcDirs)
+        }
+
         // Keep only release unit tests to reduce tests execution time
         tasks.named("test") {
             setDependsOn(dependsOn.filter { it !is TaskProvider<*> || it.name.endsWith("ReleaseUnitTest") })
