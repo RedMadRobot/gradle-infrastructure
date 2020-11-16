@@ -16,6 +16,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
   - [detekt](#detekt)
 - [Usage](#usage)
   - [Configuration](#configuration)
+  - [Share sources between build types](#share-sources-between-build-types)
 - [Troubleshooting](#troubleshooting)
   - [Tests failed - `No value has been specified for property 'localResourcesFile'`](#tests-failed---no-value-has-been-specified-for-property-localresourcesfile)
   - [Build failed on CI - `No version of NDK matched the requested version`](#build-failed-on-ci---no-version-of-ndk-matched-the-requested-version)
@@ -153,6 +154,17 @@ redmadrobot {
 }
 ```
 
+### Share sources between build types
+
+You can use sources from one build type in another build type.  
+For example, you need to use debug panel in both debug and staging builds, and don't want write similar duplicating code for each of these build types.
+You can do it with one line with [mergeSourceSets] extension-function:
+```kotlin
+android {
+    mergeSourceSets(BUILD_TYPE_DEBUG to BUILD_TYPE_STAGING)
+}
+```
+
 ## Troubleshooting
 
 ### Tests failed - `No value has been specified for property 'localResourcesFile'`
@@ -194,6 +206,7 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [RedmadrobotExtension]: src/main/kotlin/extension/RedmadrobotExtension.kt
 [predicates]: src/main/kotlin/extension/PublishingPredicates.kt
+[mergeSourceSets]: src/main/kotlin/extension/SourceSets.kt
 
 [bintray]: https://bintray.com/redmadrobot-opensource/android/infrastructure
 [ci]: https://github.com/RedMadRobot/gradle-infrastructure/actions
