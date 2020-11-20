@@ -18,7 +18,7 @@ open class RedmadrobotExtension(objects: ObjectFactory) {
     }
 
     /** Kotlin version that should be used for all projects. */
-    var kotlinVersion: String = "1.4.10"
+    var kotlinVersion: String = "1.4.20"
 
     /** Directory where stored configs for static analyzers. */
     val configsDir: DirectoryProperty = objects.directoryProperty()
