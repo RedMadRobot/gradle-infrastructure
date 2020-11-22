@@ -17,7 +17,8 @@ class AndroidLibraryPlugin : BaseAndroidPlugin() {
             buildFeatures {
                 buildConfig = false
                 resValues = false
-                androidResources = false
+                // TODO #11: Disable when issue in AGP will be fixed
+                // androidResources = false
             }
         }
 
