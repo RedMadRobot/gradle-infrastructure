@@ -41,9 +41,9 @@ pluginManagement {
 Then you can apply any of plugins where you need:
 ```kotlin
 plugins {
-    id("redmadrobot.kotlin-library") version "0.3"
-    id("redmadrobot.publish") version "0.3"
-    id("redmadrobot.detekt") version "0.3"
+    id("redmadrobot.kotlin-library") version "0.4"
+    id("redmadrobot.publish") version "0.4"
+    id("redmadrobot.detekt") version "0.4"
 }
 ```
 
@@ -58,7 +58,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.namespace == "redmadrobot") {
-                useModule("com.redmadrobot.build:infrastructure:0.3")
+                useModule("com.redmadrobot.build:infrastructure:0.4")
             }
         }
     }
