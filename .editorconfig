@@ -24,6 +24,7 @@ ij_formatter_off_tag = @formatter:off
 [{*.kt, *.kts}]
 ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
 ij_continuation_indent_size = 4 # To match ktlint settings
+ij_kotlin_keep_indents_on_empty_lines = false
 
 ## Wrapping and Braces
 # Keep when reformatting
@@ -123,6 +124,8 @@ ij_kotlin_blank_lines_before_declaration_with_comment_or_annotation_on_separate_
 ij_kotlin_name_count_to_use_star_import = 5
 ij_kotlin_name_count_to_use_star_import_for_members = 3
 ij_kotlin_import_nested_classes = false
+ij_kotlin_packages_to_use_import_on_demand = java.util.*, kotlinx.android.synthetic.**, io.ktor.**
+ij_kotlin_imports_layout = *, java.**, javax.**, kotlin.**, ^
 
 ## Other
 ij_kotlin_allow_trailing_comma = true
