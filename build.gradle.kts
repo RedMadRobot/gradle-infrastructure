@@ -5,7 +5,7 @@ plugins {
 
 group = "com.redmadrobot.build"
 description = "Small plugins to reduce boilerplate in Gradle build scripts."
-version = "0.5-SNAPSHOT"
+version = "0.5"
 
 kotlinDslPluginOptions {
     experimentalWarning.set(false)

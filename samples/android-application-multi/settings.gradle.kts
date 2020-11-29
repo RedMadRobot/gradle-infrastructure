@@ -10,7 +10,7 @@ pluginManagement {
             // It may be useful to set infrastructure version here.
             // In this case you don't need to specify it for each of plugins.
             if (requested.id.namespace == "redmadrobot") {
-                useModule("com.redmadrobot.build:infrastructure:0.4.1")
+                useModule("com.redmadrobot.build:infrastructure:0.5")
             }
         }
     }

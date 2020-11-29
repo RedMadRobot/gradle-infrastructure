@@ -1,5 +1,5 @@
 plugins {
-    id("redmadrobot.application") version "0.4.1"
+    id("redmadrobot.application") version "0.5"
 }
 
 // Plugin "redmadrobot.application" configures build types, SDK versions, proguard and so on.
