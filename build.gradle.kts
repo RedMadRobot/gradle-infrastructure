@@ -13,6 +13,10 @@ kotlinDslPluginOptions {
 
 gradlePlugin {
     plugins {
+        register("root-project") {
+            id = "redmadrobot.root-project"
+            implementationClass = "com.redmadrobot.build.RootProjectPlugin"
+        }
         register("application") {
             id = "redmadrobot.application"
             implementationClass = "com.redmadrobot.build.AndroidApplicationPlugin"
