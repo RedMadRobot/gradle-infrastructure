@@ -49,6 +49,13 @@ public class AndroidSettings {
 
     /** Target Android SDK that will be applied to all android modules. */
     public var targetSdk: Int = 30
+
+    /** Settings for Android test task */
+    val testOptions: TestOptions = TestOptions()
+
+    fun testOptions(configure: TestOptions.() -> Unit) {
+        testOptions.run(configure)
+    }
 }
 
 class TestOptions {
