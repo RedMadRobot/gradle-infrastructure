@@ -3,6 +3,7 @@ package com.redmadrobot.build.extension
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 import org.gradle.kotlin.dsl.getByType
 
 public open class RedmadrobotExtension(objects: ObjectFactory) {
@@ -41,6 +42,25 @@ public class AndroidSettings {
 
     /** Target Android SDK that will be applied to all android modules. */
     public var targetSdk: Int = 30
+}
+
+class TestOptions {
+
+    /** Flag for using Junit Jupiter Platform */
+    internal var useJunitPlatform: Boolean = true
+        private set
+
+    /** Options for JUnit Platform */
+    internal val jUnitPlatformOptions by lazy { JUnitPlatformOptions() }
+
+    fun useJunitPlatform(testFrameworkConfigure: JUnitPlatformOptions.() -> Unit = {}) {
+        useJunitPlatform = true
+        testFrameworkConfigure.invoke(jUnitPlatformOptions)
+    }
+
+    fun useJunit() {
+        useJunitPlatform = false
+    }
 }
 
 internal val Project.redmadrobot: RedmadrobotExtension
