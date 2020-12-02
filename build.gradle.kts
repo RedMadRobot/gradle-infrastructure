@@ -1,6 +1,12 @@
+import com.redmadrobot.build.extension.*
+
 plugins {
     `kotlin-dsl`
-    `maven-publish`
+
+    val infrastructureVersion = "0.5"
+    id("redmadrobot.publish") version infrastructureVersion
+    id("redmadrobot.kotlin-library") version infrastructureVersion
+    id("redmadrobot.detekt") version infrastructureVersion
 }
 
 group = "com.redmadrobot.build"
@@ -41,7 +47,6 @@ gradlePlugin {
 }
 
 repositories {
-    jcenter()
     google()
 }
 
@@ -51,31 +56,9 @@ dependencies {
     implementation(kotlin("gradle-plugin", version = "1.4.20"))
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-java {
-    targetCompatibility = JavaVersion.VERSION_1_8
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    withSourcesJar()
-}
-
-val publishToBintray = "bintrayUsername" in properties && "bintrayPassword" in properties
-val isSnapshot = version.toString().endsWith("-SNAPSHOT")
 publishing {
     repositories {
-        maven {
-            name = "githubPackages"
-            setUrl("https://maven.pkg.github.com/RedMadRobot/gradle-infrastructure")
-            credentials(PasswordCredentials::class)
-        }
-        if (publishToBintray && !isSnapshot) {
-            maven {
-                name = "bintray"
-                setUrl("https://api.bintray.com/maven/redmadrobot-opensource/android/infrastructure/")
-                credentials(PasswordCredentials::class)
-            }
-        }
+        if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
+        if (!isSnapshotVersion && credentialsExist("bintray")) rmrBintray("infrastructure")
     }
 }
