@@ -25,6 +25,6 @@ internal fun <T : BaseExtension> Project.android(configure: T.() -> Unit) {
     extensions.configure("android", configure)
 }
 
-inline fun Project.kotlinCompile(crossinline configure: KotlinCompile.() -> Unit) {
+public inline fun Project.kotlinCompile(crossinline configure: KotlinCompile.() -> Unit) {
     tasks.withType<KotlinCompile> { configure() }
 }

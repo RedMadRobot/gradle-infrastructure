@@ -4,14 +4,16 @@ import com.android.build.gradle.AppExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 
-class AndroidApplicationPlugin : BaseAndroidPlugin() {
+public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
-    override fun apply(target: Project) = with(target) {
-        apply(plugin = "com.android.application")
-        super.apply(target)
+    override fun apply(target: Project) {
+        with(target) {
+            apply(plugin = "com.android.application")
+            super.apply(target)
 
-        configureKotlinDependencies("implementation")
-        configureApp()
+            configureKotlinDependencies("implementation")
+            configureApp()
+        }
     }
 }
 
@@ -60,9 +62,9 @@ private fun Project.configureApp() = android<AppExtension> {
 
 // Constants
 
-const val BUILD_TYPE_DEBUG: String = "debug"
-const val BUILD_TYPE_STAGING: String = "staging"
-const val BUILD_TYPE_RELEASE: String = "release"
+public const val BUILD_TYPE_DEBUG: String = "debug"
+public const val BUILD_TYPE_STAGING: String = "staging"
+public const val BUILD_TYPE_RELEASE: String = "release"
 
 private const val VAR_LOCK_ORIENTATION = "LOCK_ORIENTATION"
 private const val VAR_CRASH_REPORTS_ENABLED = "CRASH_REPORTS_ENABLED"

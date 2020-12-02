@@ -21,7 +21,7 @@ import org.gradle.kotlin.dsl.maven
  * }
  * ```
  */
-fun RepositoryHandler.rmrNexus(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
+public fun RepositoryHandler.rmrNexus(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
     return maven("https://nexus.redmadrobot.com/repository/android/") {
         name = "rmrNexus"
         credentials(PasswordCredentials::class)
@@ -42,7 +42,7 @@ fun RepositoryHandler.rmrNexus(configure: MavenArtifactRepository.() -> Unit = {
  * }
  * ```
  */
-fun RepositoryHandler.githubPackages(
+public fun RepositoryHandler.githubPackages(
     repoName: String,
     configure: MavenArtifactRepository.() -> Unit = {}
 ): MavenArtifactRepository {
@@ -63,7 +63,7 @@ fun RepositoryHandler.githubPackages(
  * }
  * ```
  */
-fun RepositoryHandler.rmrBintray(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
+public fun RepositoryHandler.rmrBintray(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
     return maven("https://dl.bintray.com/redmadrobot-opensource/android", configure)
 }
 
@@ -73,7 +73,7 @@ fun RepositoryHandler.rmrBintray(configure: MavenArtifactRepository.() -> Unit =
  *
  * See: https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials
  */
-fun RepositoryHandler.rmrBintray(
+public fun RepositoryHandler.rmrBintray(
     packageName: String,
     publish: Boolean = false,
     configure: MavenArtifactRepository.() -> Unit = {}

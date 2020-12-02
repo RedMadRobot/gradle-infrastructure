@@ -10,14 +10,16 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
-abstract class BaseAndroidPlugin : Plugin<Project> {
-    override fun apply(target: Project) = with(target) {
-        rootProject.apply<RootProjectPlugin>()
-        apply(plugin = "kotlin-android")
+public abstract class BaseAndroidPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            rootProject.apply<RootProjectPlugin>()
+            apply(plugin = "kotlin-android")
 
-        configureKotlin()
-        configureAndroid()
-        configureRepositories()
+            configureKotlin()
+            configureAndroid()
+            configureRepositories()
+        }
     }
 }
 

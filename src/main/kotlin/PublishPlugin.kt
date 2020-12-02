@@ -9,14 +9,16 @@ import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 
-class PublishPlugin : Plugin<Project> {
-    override fun apply(target: Project) = with(target) {
-        apply(plugin = "maven-publish")
+public class PublishPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            apply(plugin = "maven-publish")
 
-        if (plugins.hasPlugin("kotlin-android")) {
-            configureAndroidPublication()
-        } else {
-            configurePublication()
+            if (plugins.hasPlugin("kotlin-android")) {
+                configureAndroidPublication()
+            } else {
+                configurePublication()
+            }
         }
     }
 }
