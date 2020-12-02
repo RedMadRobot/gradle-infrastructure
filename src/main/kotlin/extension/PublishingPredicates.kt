@@ -3,11 +3,11 @@ package com.redmadrobot.build.extension
 import org.gradle.api.Project
 
 /** Returns `true` if version contains `-SNAPSHOT` suffix. */
-val Project.isSnapshotVersion: Boolean
+public val Project.isSnapshotVersion: Boolean
     get() = version.toString().endsWith("-SNAPSHOT")
 
 /** Returns `true` if build is running on CI. */
-val isRunningOnCi: Boolean
+public val isRunningOnCi: Boolean
     get() = System.getenv("CI") == "true"
 
 /**
@@ -15,6 +15,6 @@ val isRunningOnCi: Boolean
  *
  * See: [Handling credentials](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials)
  */
-fun Project.credentialsExist(name: String): Boolean {
+public fun Project.credentialsExist(name: String): Boolean {
     return hasProperty("${name}Username") && hasProperty("${name}Password")
 }

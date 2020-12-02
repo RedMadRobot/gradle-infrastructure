@@ -18,7 +18,7 @@ import org.gradle.kotlin.dsl.get
  *  }
  * ```
  */
-fun BaseExtension.mergeSourceSets(mapping: Pair<String, String>) {
+public fun BaseExtension.mergeSourceSets(mapping: Pair<String, String>) {
     mergeSourceSets(mapping.first, mapping.second)
 }
 
@@ -33,7 +33,7 @@ fun BaseExtension.mergeSourceSets(mapping: Pair<String, String>) {
  *  }
  * ```
  */
-fun BaseExtension.mergeSourceSets(from: String, to: String) {
+public fun BaseExtension.mergeSourceSets(from: String, to: String) {
     val fromSourceSet = sourceSets[from].java
     val toSourceSet = sourceSets[to].java
     toSourceSet.setSrcDirs(fromSourceSet.srcDirs + toSourceSet.srcDirs)

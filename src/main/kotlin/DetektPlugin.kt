@@ -9,14 +9,16 @@ import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.repositories
 
-class DetektPlugin : Plugin<Project> {
+public class DetektPlugin : Plugin<Project> {
 
-    override fun apply(target: Project) = with(target) {
-        rootProject.apply<RootProjectPlugin>()
-        apply(plugin = "io.gitlab.arturbosch.detekt")
+    override fun apply(target: Project) {
+        with(target) {
+            rootProject.apply<RootProjectPlugin>()
+            apply(plugin = "io.gitlab.arturbosch.detekt")
 
-        configureDependencies()
-        configureDetektTasks()
+            configureDependencies()
+            configureDetektTasks()
+        }
     }
 
     private fun Project.configureDependencies() {

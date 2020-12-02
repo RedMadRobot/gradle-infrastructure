@@ -8,26 +8,28 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 private const val ARG_EXPLICIT_API = "-Xexplicit-api"
 
-class AndroidLibraryPlugin : BaseAndroidPlugin() {
-    override fun apply(target: Project) = with(target) {
-        apply(plugin = "com.android.library")
-        super.apply(target)
+public class AndroidLibraryPlugin : BaseAndroidPlugin() {
+    override fun apply(target: Project) {
+        with(target) {
+            apply(plugin = "com.android.library")
+            super.apply(target)
 
-        android<LibraryExtension> {
-            buildFeatures {
-                buildConfig = false
-                resValues = false
-                // TODO #11: Disable when issue in AGP will be fixed
-                // androidResources = false
+            android<LibraryExtension> {
+                buildFeatures {
+                    buildConfig = false
+                    resValues = false
+                    // TODO #11: Disable when issue in AGP will be fixed
+                    // androidResources = false
+                }
             }
-        }
 
-        configureKotlinDependencies()
+            configureKotlinDependencies()
 
-        // Enable Explicit API by default
-        if (kotlin.explicitApi == null) kotlin.explicitApi()
-        afterEvaluate {
-            configureExplicitApi(kotlin.explicitApi)
+            // Enable Explicit API by default
+            if (kotlin.explicitApi == null) kotlin.explicitApi()
+            afterEvaluate {
+                configureExplicitApi(kotlin.explicitApi)
+            }
         }
     }
 }
