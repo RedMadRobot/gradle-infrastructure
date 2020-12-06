@@ -2,14 +2,11 @@ package com.redmadrobot.build
 
 import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.extension.redmadrobot
-import groovy.lang.Closure
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.closureOf
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 

@@ -30,6 +30,6 @@ public inline fun Project.kotlinCompile(crossinline configure: KotlinCompile.() 
     tasks.withType<KotlinCompile> { configure() }
 }
 
-inline fun Project.kotlinTest(crossinline configure: Test.() -> Unit) {
+internal inline fun Project.kotlinTest(crossinline configure: Test.() -> Unit) {
     tasks.withType<Test> { configure() }
 }

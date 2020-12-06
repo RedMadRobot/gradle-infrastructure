@@ -31,13 +31,13 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     public val android: AndroidSettings = AndroidSettings()
 
     /** Settings for JVM test task */
-    val testOptions: TestOptions = TestOptions()
+    public val testOptions: TestOptions = TestOptions()
 
     public fun android(configure: AndroidSettings.() -> Unit) {
         android.run(configure)
     }
 
-    fun testOptions(configure: TestOptions.() -> Unit) {
+    public fun testOptions(configure: TestOptions.() -> Unit) {
         testOptions.run(configure)
     }
 }
@@ -51,14 +51,14 @@ public class AndroidSettings {
     public var targetSdk: Int = 30
 
     /** Settings for Android test task */
-    val testOptions: TestOptions = TestOptions()
+    public val testOptions: TestOptions = TestOptions()
 
-    fun testOptions(configure: TestOptions.() -> Unit) {
+    public fun testOptions(configure: TestOptions.() -> Unit) {
         testOptions.run(configure)
     }
 }
 
-class TestOptions {
+public class TestOptions {
 
     /** Flag for using Junit Jupiter Platform */
     internal var useJunitPlatform: Boolean = true
@@ -67,12 +67,12 @@ class TestOptions {
     /** Options for JUnit Platform */
     internal val jUnitPlatformOptions by lazy { JUnitPlatformOptions() }
 
-    fun useJunitPlatform(testFrameworkConfigure: JUnitPlatformOptions.() -> Unit = {}) {
+    public fun useJunitPlatform(testFrameworkConfigure: JUnitPlatformOptions.() -> Unit = {}) {
         useJunitPlatform = true
         testFrameworkConfigure.invoke(jUnitPlatformOptions)
     }
 
-    fun useJunit() {
+    public fun useJunit() {
         useJunitPlatform = false
     }
 }
