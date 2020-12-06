@@ -19,7 +19,7 @@ public abstract class BaseAndroidPlugin : Plugin<Project> {
             configureKotlin()
             configureAndroid()
             configureRepositories()
-            configureKotlinTestDependencies(redmadrobot.android.testOptions)
+            configureKotlinTestDependencies(redmadrobot.android.test)
         }
     }
 }
@@ -63,7 +63,7 @@ private fun Project.configureAndroid() = android<BaseExtension> {
     }
 
     testOptions {
-        unitTests.all { it.configure(redmadrobot.android.testOptions) }
+        unitTests.all { it.configure(redmadrobot.android.test) }
     }
 }
 

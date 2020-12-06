@@ -51,10 +51,10 @@ public class AndroidOptions {
     public var targetSdk: Int = 30
 
     /** Settings for Android test task */
-    public val testOptions: TestOptions = TestOptions()
+    public val test: TestOptions = TestOptions()
 
     public fun testOptions(configure: TestOptions.() -> Unit) {
-        testOptions.run(configure)
+        test.run(configure)
     }
 }
 
