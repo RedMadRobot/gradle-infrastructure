@@ -28,12 +28,12 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     public val reportsDir: DirectoryProperty = objects.directoryProperty()
 
     /** Settings for android modules. */
-    public val android: AndroidSettings = AndroidSettings()
+    public val android: AndroidOptions = AndroidOptions()
 
     /** Settings for JVM test task */
     public val testOptions: TestOptions = TestOptions()
 
-    public fun android(configure: AndroidSettings.() -> Unit) {
+    public fun android(configure: AndroidOptions.() -> Unit) {
         android.run(configure)
     }
 
@@ -42,7 +42,7 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     }
 }
 
-public class AndroidSettings {
+public class AndroidOptions {
 
     /** Minimal Android SDK that will be applied to all android modules. */
     public var minSdk: Int = 21
