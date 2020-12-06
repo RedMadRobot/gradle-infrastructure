@@ -24,7 +24,7 @@ public class KotlinLibraryPlugin : Plugin<Project> {
             configureKotlinTest()
             configureRepositories()
             configureKotlinDependencies()
-            configureKotlinTestDependencies(redmadrobot.testOptions)
+            configureKotlinTestDependencies(redmadrobot.test)
         }
     }
 }

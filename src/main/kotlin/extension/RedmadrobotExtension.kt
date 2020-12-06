@@ -31,14 +31,14 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     public val android: AndroidOptions = AndroidOptions()
 
     /** Settings for JVM test task */
-    public val testOptions: TestOptions = TestOptions()
+    public val test: TestOptions = TestOptions()
 
     public fun android(configure: AndroidOptions.() -> Unit) {
         android.run(configure)
     }
 
     public fun testOptions(configure: TestOptions.() -> Unit) {
-        testOptions.run(configure)
+        test.run(configure)
     }
 }
 

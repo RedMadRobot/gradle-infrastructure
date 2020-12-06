@@ -17,7 +17,7 @@ internal fun Project.configureKotlin() {
 }
 
 internal fun Project.configureKotlinTest() {
-    kotlinTest { configure(redmadrobot.testOptions) }
+    kotlinTest { configure(redmadrobot.test) }
 }
 
 internal fun Project.configureKotlinDependencies(configuration: String = "api") {
