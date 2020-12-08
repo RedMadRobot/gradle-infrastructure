@@ -19,6 +19,7 @@ public abstract class BaseAndroidPlugin : Plugin<Project> {
             configureKotlin()
             configureAndroid()
             configureRepositories()
+            configureKotlinTestDependencies(redmadrobot.android.test)
         }
     }
 }
@@ -59,6 +60,10 @@ private fun Project.configureAndroid() = android<BaseExtension> {
         tasks.named("test") {
             setDependsOn(dependsOn.filter { it !is TaskProvider<*> || it.name.endsWith("ReleaseUnitTest") })
         }
+    }
+
+    testOptions {
+        unitTests.all { it.configure(redmadrobot.android.test) }
     }
 }
 
