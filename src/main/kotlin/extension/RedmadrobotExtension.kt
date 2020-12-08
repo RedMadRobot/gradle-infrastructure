@@ -37,7 +37,7 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
         android.run(configure)
     }
 
-    public fun testOptions(configure: TestOptions.() -> Unit) {
+    public fun test(configure: TestOptions.() -> Unit) {
         test.run(configure)
     }
 }
@@ -53,7 +53,7 @@ public class AndroidOptions {
     /** Settings for Android test task */
     public val test: TestOptions = TestOptions()
 
-    public fun testOptions(configure: TestOptions.() -> Unit) {
+    public fun test(configure: TestOptions.() -> Unit) {
         test.run(configure)
     }
 }
