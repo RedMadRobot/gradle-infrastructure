@@ -165,6 +165,36 @@ android {
 }
 ```
 
+### Configure junit test execution options
+
+By default, the plugin uses the JUnit Platform to run tests.
+If you want to configure it, for example include the engine, you can do it using the testOptions extension for both JVM and android.
+```kotlin
+redmadrobot {
+    testOptions {
+        useJunitPlatform {
+            includeEngines("spek2")
+        }
+    }
+    android {
+        testOptions {
+            useJunitPlatform {
+                includeEngines("spek2")
+            }
+        }
+    }
+}
+```
+
+If you want to use JUnit 4 framework to run tests, you need to specify `useJunit()` in testOptions.
+```kotlin
+redmadrobot {
+    testOptions {
+        useJunit()
+    }
+}
+```
+
 ## Troubleshooting
 
 ### Tests failed - `No value has been specified for property 'localResourcesFile'`
