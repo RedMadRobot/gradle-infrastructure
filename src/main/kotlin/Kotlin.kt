@@ -31,10 +31,13 @@ internal fun Project.configureKotlinTestDependencies(testOptions: TestOptions) {
     dependencies {
         val kotlinVersion = redmadrobot.kotlinVersion
 
-        if (testOptions.useJunitPlatform) {
-            "testImplementation"(kotlin("test-junit5", version = kotlinVersion))
+        val kotlinJunitModule = if (testOptions.useJunitPlatform) {
+            "test-junit5"
         } else {
-            "testImplementation"(kotlin("test", version = kotlinVersion))
+            "test-junit"
         }
+
+        "testImplementation"(kotlin("test", version = kotlinVersion))
+        "testImplementation"(kotlin(kotlinJunitModule, version = kotlinVersion))
     }
 }
