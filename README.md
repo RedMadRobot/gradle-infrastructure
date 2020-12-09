@@ -186,7 +186,7 @@ redmadrobot {
 }
 ```
 
-If you want to use JUnit 4 framework to run tests, you need to specify `useJunit()` in testOptions.
+If you want to use JUnit 4 framework to run tests, you need to specify `useJunit()` in test block.
 ```kotlin
 redmadrobot {
     test {
