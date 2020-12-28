@@ -1,3 +1,8 @@
+import com.redmadrobot.build.BUILD_TYPE_DEBUG
+import com.redmadrobot.build.BUILD_TYPE_STAGING
+import com.redmadrobot.build.extension.addSharedSourceSetRoot
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("redmadrobot.application") version "0.6-SNAPSHOT"
 }
@@ -13,6 +18,12 @@ android {
         // For example we need to run instrumentation tests.
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    // If we need to share sources between two build types,
+    // we can add shared source set root.
+    // In this case will be created directory "debugStaging"
+    // that will be included to debug and staging source sets.
+    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING)
 }
 
 dependencies {
