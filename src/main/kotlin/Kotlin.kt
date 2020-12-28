@@ -1,7 +1,7 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.TestOptions
-import com.redmadrobot.build.extension.redmadrobot
+import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
@@ -17,19 +17,19 @@ internal fun Project.configureKotlin() {
 }
 
 internal fun Project.configureKotlinTest() {
-    kotlinTest { configure(redmadrobot.test) }
+    kotlinTest { configure(redmadrobotExtension.test) }
 }
 
 internal fun Project.configureKotlinDependencies(configuration: String = "api") {
     dependencies {
-        val kotlinVersion = redmadrobot.kotlinVersion
+        val kotlinVersion = redmadrobotExtension.kotlinVersion
         configuration(kotlin("stdlib-jdk8", version = kotlinVersion))
     }
 }
 
 internal fun Project.configureKotlinTestDependencies(testOptions: TestOptions) {
     dependencies {
-        val kotlinVersion = redmadrobot.kotlinVersion
+        val kotlinVersion = redmadrobotExtension.kotlinVersion
 
         val kotlinJunitModule = if (testOptions.useJunitPlatform) {
             "test-junit5"

@@ -1,6 +1,6 @@
 package com.redmadrobot.build
 
-import com.redmadrobot.build.extension.redmadrobot
+import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -24,7 +24,7 @@ public class KotlinLibraryPlugin : Plugin<Project> {
             configureKotlinTest()
             configureRepositories()
             configureKotlinDependencies()
-            configureKotlinTestDependencies(redmadrobot.test)
+            configureKotlinTestDependencies(redmadrobotExtension.test)
         }
     }
 }

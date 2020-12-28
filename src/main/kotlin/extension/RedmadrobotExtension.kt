@@ -77,5 +77,5 @@ public class TestOptions {
     }
 }
 
-internal val Project.redmadrobot: RedmadrobotExtension
+internal val Project.redmadrobotExtension: RedmadrobotExtension
     get() = rootProject.extensions.getByType()

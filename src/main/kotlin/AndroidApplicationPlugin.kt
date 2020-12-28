@@ -1,6 +1,7 @@
 package com.redmadrobot.build
 
 import com.android.build.gradle.AppExtension
+import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 
@@ -57,6 +58,17 @@ private fun Project.configureApp() = android<AppExtension> {
             matchingFallbacks += BUILD_TYPE_RELEASE
             signingConfig = signingConfigs.findByName(BUILD_TYPE_DEBUG)
         }
+    }
+
+    val extension = redmadrobotExtension
+    lintOptions {
+        isCheckDependencies = true
+        isAbortOnError = true
+        isWarningsAsErrors = true
+        xmlOutput = extension.reportsDir.file("lint-results.xml").get().asFile
+        htmlOutput = extension.reportsDir.file("lint-results.html").get().asFile
+        lintConfig = extension.configsDir.file("lint/lint.xml").get().asFile
+        baselineFile = extension.configsDir.file("lint/lint-baseline.xml").get().asFile
     }
 }
 

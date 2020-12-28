@@ -1,7 +1,7 @@
 package com.redmadrobot.build
 
 import com.android.build.gradle.BaseExtension
-import com.redmadrobot.build.extension.redmadrobot
+import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -19,13 +19,13 @@ public abstract class BaseAndroidPlugin : Plugin<Project> {
             configureKotlin()
             configureAndroid()
             configureRepositories()
-            configureKotlinTestDependencies(redmadrobot.android.test)
+            configureKotlinTestDependencies(redmadrobotExtension.android.test)
         }
     }
 }
 
 private fun Project.configureAndroid() = android<BaseExtension> {
-    val androidSettings = redmadrobot.android
+    val androidSettings = redmadrobotExtension.android
     compileSdkVersion(androidSettings.targetSdk)
     defaultConfig {
         minSdkVersion(androidSettings.minSdk)
@@ -63,7 +63,7 @@ private fun Project.configureAndroid() = android<BaseExtension> {
     }
 
     testOptions {
-        unitTests.all { it.configure(redmadrobot.android.test) }
+        unitTests.all { it.configure(redmadrobotExtension.android.test) }
     }
 }
 
