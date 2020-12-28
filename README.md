@@ -3,6 +3,8 @@
 
 Small plugins to reduce boilerplate in Gradle build scripts.
 
+> It is designed to use with Gradle Kotlin DSL and can't be used from Groovy DSL.
+
 ---
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
