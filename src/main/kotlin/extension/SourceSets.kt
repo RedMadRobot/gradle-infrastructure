@@ -52,8 +52,17 @@ public fun BaseExtension.mergeSourceSets(from: String, to: String) {
 }
 
 /**
- * Adds source set root with given [name] shared between [variant1] and [variant2] source sets.
+ * Adds source set root with the given [name], shared between [variant1] and [variant2] source sets.
  * By default [name] is a combination of `variant1` and `variant2` names.
+ * ```
+ *  android {
+ *      // Here we need to share sources between debug and staging builds
+ *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING)
+ *
+ *      // We can specify name for the source set root if need
+ *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING, name = "debugPanel")
+ *  }
+ * ```
  */
 @Incubating
 public fun BaseExtension.addSharedSourceSetRoot(
