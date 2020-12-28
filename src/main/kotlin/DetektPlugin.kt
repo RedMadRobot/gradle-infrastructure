@@ -1,6 +1,6 @@
 package com.redmadrobot.build
 
-import com.redmadrobot.build.extension.redmadrobot
+import com.redmadrobot.build.extension.redmadrobotExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -47,9 +47,9 @@ public class DetektPlugin : Plugin<Project> {
         tasks.register<Detekt>(name) {
             configure()
             parallel = true
-            config.setFrom(redmadrobot.configsDir.file("detekt/detekt.yml"))
+            config.setFrom(redmadrobotExtension.configsDir.file("detekt/detekt.yml"))
             setSource(rootProject.files(rootProject.projectDir))
-            reportsDir.set(redmadrobot.reportsDir.asFile)
+            reportsDir.set(redmadrobotExtension.reportsDir.asFile)
             include("**/*.kt")
             include("**/*.kts")
             exclude("**/res/**")
