@@ -158,12 +158,16 @@ redmadrobot {
 
 ### Share sources between build types
 
-You can use sources from one build type in another build type.  
-For example, you need to use debug panel in both debug and staging builds, and don't want write similar duplicating code for each of these build types.
-You can do it with one line with [mergeSourceSets] extension-function:
+You can share sources between two build types.  
+For example, you need to use debug panel in both debug and staging builds, and don't want to write similar duplicating code for each of these build types.
+You can do it with one line with [addSharedSourceSetRoot] extension-function:
 ```kotlin
 android {
-    mergeSourceSets(BUILD_TYPE_DEBUG to BUILD_TYPE_STAGING)
+    // We need to share sources between debug and staging builds
+    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING)
+
+    // We can specify name for the source set root if need
+    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING, name = "debugPanel")
 }
 ```
 
@@ -238,7 +242,7 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [RedmadrobotExtension]: src/main/kotlin/extension/RedmadrobotExtension.kt
 [predicates]: src/main/kotlin/extension/PublishingPredicates.kt
-[mergeSourceSets]: src/main/kotlin/extension/SourceSets.kt
+[addSharedSourceSetRoot]: src/main/kotlin/extension/SourceSets.kt
 
 [bintray]: https://bintray.com/redmadrobot-opensource/android/infrastructure
 [ci]: https://github.com/RedMadRobot/gradle-infrastructure/actions
