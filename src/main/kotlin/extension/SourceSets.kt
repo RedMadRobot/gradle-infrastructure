@@ -21,6 +21,11 @@ import org.gradle.kotlin.dsl.get
  *  }
  * ```
  */
+@Suppress("DEPRECATION")
+@Deprecated(
+    message = "With mergeSourceSets you're not able to add resources with the same name to both of build types.",
+    replaceWith = ReplaceWith("addSharedSourceSetRoot(mapping.first, mapping.second)")
+)
 public fun BaseExtension.mergeSourceSets(mapping: Pair<String, String>) {
     mergeSourceSets(mapping.first, mapping.second)
 }
@@ -36,6 +41,10 @@ public fun BaseExtension.mergeSourceSets(mapping: Pair<String, String>) {
  *  }
  * ```
  */
+@Deprecated(
+    message = "With mergeSourceSets you're not able to add resources with the same name to both of build types.",
+    replaceWith = ReplaceWith("addSharedSourceSetRoot(from, to)")
+)
 public fun BaseExtension.mergeSourceSets(from: String, to: String) {
     val fromSourceSet = sourceSets[from].java
     val toSourceSet = sourceSets[to].java
