@@ -10,7 +10,7 @@ import org.gradle.kotlin.dsl.repositories
 public class KotlinLibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            rootProject.apply<RootProjectPlugin>()
+            requireRootPlugin()
             apply(plugin = "kotlin")
 
             java {
