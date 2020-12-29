@@ -3,7 +3,7 @@
 
 Small plugins to reduce boilerplate in Gradle build scripts.
 
-> It is designed to use with Gradle Kotlin DSL and can't be used from Groovy DSL.
+> :warning: It is designed to use with Gradle Kotlin DSL and can't be used from Groovy DSL.
 
 ---
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -41,40 +41,32 @@ pluginManagement {
 }
 ```
 
+Apply `redmadrobot.root-project` to your root project:
+```kotlin
+plugins {
+    id("redmadrobot.root-project") version "0.5"
+}
+```
+
 Then you can apply any of plugins where you need:
 ```kotlin
 plugins {
-    id("redmadrobot.kotlin-library") version "0.5"
-    id("redmadrobot.publish") version "0.5"
-    id("redmadrobot.detekt") version "0.5"
-}
-```
-
-<details>
-  <summary>Alternatively you can specify plugin resolution strategy and set infrastructure version there</summary>
-
-```kotlin
-// settings.gradle.kts
-pluginManagement {
-    //...
-
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.namespace == "redmadrobot") {
-                useModule("com.redmadrobot.build:infrastructure:0.5")
-            }
-        }
-    }
-}
-
-// build.gradle.kts
-plugins {
     id("redmadrobot.kotlin-library")
     id("redmadrobot.publish")
-    id("redmadrobot.detekt")
+    id("redmadrobot.android-application")
 }
 ```
-</details>
+
+> :bulb: **Hint**  
+> If you'll try to apply any of plugins to the root project, it will require 'version'.
+> You can apply it with `apply(plugin = "...")` syntax to let it use `root-project`s plugin version.
+> ```kotlin
+> plugins {
+>     id("redmadrobot.root-project") version "0.5"
+> }
+> 
+> apply(plugin = "redmadrobot.detekt")
+> ```
 
 ## Plugins
 
