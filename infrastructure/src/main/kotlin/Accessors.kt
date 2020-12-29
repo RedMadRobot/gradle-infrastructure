@@ -14,6 +14,8 @@ internal fun Project.publishing(configure: PublishingExtension.() -> Unit) {
     extensions.configure("publishing", configure)
 }
 
+internal val Project.java: JavaPluginExtension get() = extensions.getByName<JavaPluginExtension>("java")
+
 internal fun Project.java(configure: JavaPluginExtension.() -> Unit) {
     extensions.configure("java", configure)
 }

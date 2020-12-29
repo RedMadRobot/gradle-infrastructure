@@ -17,6 +17,7 @@ public class PublishPlugin : Plugin<Project> {
 
             when {
                 plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
+                plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
                 else -> configurePublication()
             }
         }
@@ -46,11 +47,14 @@ public class PublishPlugin : Plugin<Project> {
         }
     }
 
+    private fun Project.configurePluginPublication() {
+        @Suppress("UnstableApiUsage")
+        java.withSourcesJar()
+    }
+
     private fun Project.configurePublication() {
-        java {
-            @Suppress("UnstableApiUsage")
-            withSourcesJar()
-        }
+        @Suppress("UnstableApiUsage")
+        java.withSourcesJar()
 
         publishing {
             publications.create<MavenPublication>("maven") {
