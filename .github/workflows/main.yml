@@ -94,8 +94,8 @@ jobs:
       - name: Change direcotry to ${{ matrix.sample }}
         run: cd samples/${{ matrix.sample }}
 
-      - name: Check
+      - name: Run Build
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: check
+          arguments: build
           wrapper-cache-enabled: true
