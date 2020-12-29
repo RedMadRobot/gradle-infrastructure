@@ -68,6 +68,8 @@ plugins {
 > apply(plugin = "redmadrobot.detekt")
 > ```
 
+*Look at [samples] for quick start.*
+
 ## Plugins
 
 ### kotlin-library
@@ -234,6 +236,7 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [MIT][license]
 
+[samples]: samples/
 [RedmadrobotExtension]: src/main/kotlin/extension/RedmadrobotExtension.kt
 [predicates]: src/main/kotlin/extension/PublishingPredicates.kt
 [addSharedSourceSetRoot]: src/main/kotlin/extension/SourceSets.kt
