@@ -4,7 +4,7 @@ import com.redmadrobot.build.extension.addSharedSourceSetRoot
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("redmadrobot.application") version "0.6-SNAPSHOT"
+    id("redmadrobot.application")
 }
 
 // Plugin "redmadrobot.application" configures build types, SDK versions, proguard and so on.
