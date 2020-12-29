@@ -13,7 +13,7 @@ import java.io.File
 public abstract class BaseAndroidPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            rootProject.apply<RootProjectPlugin>()
+            requireRootPlugin()
             apply(plugin = "kotlin-android")
 
             configureKotlin()

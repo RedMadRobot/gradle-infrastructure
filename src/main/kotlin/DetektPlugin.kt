@@ -13,7 +13,7 @@ public class DetektPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            rootProject.apply<RootProjectPlugin>()
+            requireRootPlugin()
             apply(plugin = "io.gitlab.arturbosch.detekt")
 
             configureDependencies()
