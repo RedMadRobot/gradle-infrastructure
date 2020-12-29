@@ -52,11 +52,14 @@ jobs:
           ORG_GRADLE_PROJECT_githubPackagesUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_githubPackagesPassword: ${{ secrets.GITHUB_TOKEN }}
 
-  publish_local:
-    name: Publish to mavenLocal
+  samples:
+    name: Verify samples
     needs: check
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
+    strategy:
+      matrix:
+        sample: ['android-application', 'android-application-multi']
 
     steps:
       - name: Checkout sources
@@ -73,23 +76,6 @@ jobs:
           arguments: publishToMavenLocal
           wrapper-cache-enabled: true
           dependencies-cache-enabled: true
-
-  samples:
-    name: Verify samples
-    needs: publish_local
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        sample: ['android-application', 'android-application-multi']
-
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v2
-
-      - name: Setup Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: 8
 
       - name: Run Build
         uses: eskatos/gradle-command-action@v1
