@@ -91,11 +91,9 @@ jobs:
         with:
           java-version: 8
 
-      - name: Change direcotry to ${{ matrix.sample }}
-        run: cd samples/${{ matrix.sample }}
-
       - name: Run Build
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: build
           wrapper-cache-enabled: true
+          build-root-directory: samples/${{ matrix.sample }}
