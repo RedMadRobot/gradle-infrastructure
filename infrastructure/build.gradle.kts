@@ -2,11 +2,8 @@ import com.redmadrobot.build.extension.*
 
 plugins {
     `kotlin-dsl`
-
-    val infrastructureVersion = "0.5"
-    id("redmadrobot.publish") version infrastructureVersion
-    id("redmadrobot.kotlin-library") version infrastructureVersion
-    id("redmadrobot.detekt") version infrastructureVersion
+    id("redmadrobot.publish")
+    id("redmadrobot.kotlin-library")
 }
 
 group = "com.redmadrobot.build"
