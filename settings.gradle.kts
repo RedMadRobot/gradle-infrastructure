@@ -7,3 +7,5 @@ pluginManagement {
 }
 
 rootProject.name = "infrastructure"
+
+include(":infrastructure")
