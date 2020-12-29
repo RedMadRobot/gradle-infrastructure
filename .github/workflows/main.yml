@@ -43,3 +43,35 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_githubPackagesUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_githubPackagesPassword: ${{ secrets.GITHUB_TOKEN }}
+
+  publish_local:
+    name: Publish to mavenLocal
+    needs: check
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+
+    steps:
+      - name: Publish
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: publishToMavenLocal
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+
+  samples:
+    name: Verify samples
+    needs: publish_local
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sample: ['android-application', 'android-application-multi']
+
+    steps:
+      - name: Change direcotry to ${{ matrix.sample }}
+        run: cd samples/${{ matrix.sample }}
+
+      - name: Check
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: check
+          wrapper-cache-enabled: true
