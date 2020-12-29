@@ -1,7 +1,6 @@
 import com.redmadrobot.build.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.BUILD_TYPE_STAGING
 import com.redmadrobot.build.extension.addSharedSourceSetRoot
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("redmadrobot.application")
