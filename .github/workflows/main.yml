@@ -34,7 +34,15 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Publish
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Run Publish
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: publish
@@ -51,7 +59,15 @@ jobs:
     if: github.ref != 'refs/heads/main'
 
     steps:
-      - name: Publish
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Run Publish
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: publishToMavenLocal
@@ -67,6 +83,14 @@ jobs:
         sample: ['android-application', 'android-application-multi']
 
     steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
       - name: Change direcotry to ${{ matrix.sample }}
         run: cd samples/${{ matrix.sample }}
 
