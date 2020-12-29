@@ -10,52 +10,56 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 
 public class PublishPlugin : Plugin<Project> {
+
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "maven-publish")
 
-            if (plugins.hasPlugin("kotlin-android")) {
-                configureAndroidPublication()
-            } else {
-                configurePublication()
+            when {
+                plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
+                plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
+                else -> configurePublication()
             }
         }
     }
-}
 
-private fun Project.configureAndroidPublication() {
-    val sourcesJar = tasks.register<Jar>("sourcesJar") {
-        archiveClassifier.set("sources")
-        from(android.sourceSets["main"].java.srcDirs)
-    }
+    private fun Project.configureAndroidPublication() {
+        val sourcesJar = tasks.register<Jar>("sourcesJar") {
+            archiveClassifier.set("sources")
+            from(android.sourceSets["main"].java.srcDirs)
+        }
 
-    // Because the components are created only during the afterEvaluate phase, you must
-    // configure your publications using the afterEvaluate() lifecycle method.
-    afterEvaluate {
-        if (version == Project.DEFAULT_VERSION) {
-            version = checkNotNull(android.defaultConfig.versionName) {
-                "You should specify either project 'version' or 'android.versionName' for publication."
+        // Because the components are created only during the afterEvaluate phase, you must
+        // configure your publications using the afterEvaluate() lifecycle method.
+        afterEvaluate {
+            if (version == Project.DEFAULT_VERSION) {
+                version = checkNotNull(android.defaultConfig.versionName) {
+                    "You should specify either project 'version' or 'android.versionName' for publication."
+                }
+            }
+
+            publishing {
+                publications.create<MavenPublication>("maven") {
+                    from(components["release"])
+                    artifact(sourcesJar.get())
+                }
             }
         }
+    }
+
+    private fun Project.configurePluginPublication() {
+        @Suppress("UnstableApiUsage")
+        java.withSourcesJar()
+    }
+
+    private fun Project.configurePublication() {
+        @Suppress("UnstableApiUsage")
+        java.withSourcesJar()
 
         publishing {
             publications.create<MavenPublication>("maven") {
-                from(components["release"])
-                artifact(sourcesJar.get())
+                from(components["java"])
             }
-        }
-    }
-}
-
-private fun Project.configurePublication() {
-    java {
-        @Suppress("UnstableApiUsage")
-        withSourcesJar()
-    }
-
-    publishing {
-        publications.create<MavenPublication>("maven") {
-            from(components["java"])
         }
     }
 }
