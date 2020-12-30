@@ -20,6 +20,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
   - [Configuration](#configuration)
   - [Share sources between build types](#share-sources-between-build-types)
   - [Configure junit test execution options](#configure-junit-test-execution-options)
+- [Samples](#samples)
 - [Troubleshooting](#troubleshooting)
   - [Tests failed - `No value has been specified for property 'localResourcesFile'`](#tests-failed---no-value-has-been-specified-for-property-localresourcesfile)
   - [Build failed on CI - `No version of NDK matched the requested version`](#build-failed-on-ci---no-version-of-ndk-matched-the-requested-version)
@@ -68,7 +69,7 @@ plugins {
 > apply(plugin = "redmadrobot.detekt")
 > ```
 
-*Look at [samples] for quick start.*
+*Look at [samples](#samples) for quick start.*
 
 ## Plugins
 
@@ -197,6 +198,16 @@ redmadrobot {
 }
 ```
 
+## Samples
+
+Look for samples in [samples] package.
+
+If you need closer to life samples, check these projects:
+- [mapmemory] - Multi module, kotlin library, publication, detekt
+- [itemsadapter] - Multi module, android library, publication, detekt
+- [redmadrobot-android-ktx] - Multi module, android library, publication, detekt
+- [infrastructure] - Gradle plugin, publication
+
 ## Troubleshooting
 
 ### Tests failed - `No value has been specified for property 'localResourcesFile'`
@@ -241,6 +252,11 @@ For major changes, please open an issue first to discuss what you would like to 
 [predicates]: src/main/kotlin/extension/PublishingPredicates.kt
 [addSharedSourceSetRoot]: src/main/kotlin/extension/SourceSets.kt
 [lint-options]: https://github.com/RedMadRobot/gradle-infrastructure/blob/feba7f9998d54defc044df7ac748767641aba257/src/main/kotlin/AndroidApplicationPlugin.kt#L63-L72
+
+[infrastructure]: #
+[itemsadapter]: https://github.com/RedMadRobot/itemsadapter
+[redmadrobot-android-ktx]: https://github.com/RedMadRobot/redmadrobot-android-ktx
+[mapmemory]: https://github.com/RedMadRobot/mapmemory
 
 [bintray]: https://bintray.com/redmadrobot-opensource/android/infrastructure
 [ci]: https://github.com/RedMadRobot/gradle-infrastructure/actions
