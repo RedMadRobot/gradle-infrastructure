@@ -2,10 +2,6 @@ package com.redmadrobot.build.extension
 
 import org.gradle.api.Project
 
-/** Returns `true` if version contains `-SNAPSHOT` suffix. */
-public val Project.isSnapshotVersion: Boolean
-    get() = version.toString().endsWith("-SNAPSHOT")
-
 /** Returns `true` if build is running on CI. */
 public val isRunningOnCi: Boolean
     get() = System.getenv("CI") == "true"
