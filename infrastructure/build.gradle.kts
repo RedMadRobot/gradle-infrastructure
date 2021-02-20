@@ -48,9 +48,9 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:4.1.1")
+    implementation("com.android.tools.build:gradle:4.1.2")
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0")
-    implementation(kotlin("gradle-plugin", version = "1.4.20"))
+    implementation(kotlin("gradle-plugin", version = "1.4.30"))
 }
 
 publishing {
