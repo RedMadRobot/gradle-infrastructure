@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.7]
+
 ### JCenter dropped
 
 > **Breaking change!** Removed adding `jcenter()` repository, replaced with `mavenCentral()`.
@@ -45,5 +47,7 @@ Pull request: #35
 - Update Kotlin to 1.4.30
 - Update AGP to 4.1.2
 - Update dependencies in samples
+- Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.6...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.7...main
+[0.7]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.6...v0.7
