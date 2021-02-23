@@ -1,32 +1,46 @@
 package com.redmadrobot.build
 
+import com.redmadrobot.build.extension.isReleaseVersion
+import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.get
-import org.gradle.kotlin.dsl.register
+import org.gradle.kotlin.dsl.*
 
 public class PublishPlugin : Plugin<Project> {
+
+    public companion object {
+        private const val PUBLICATION_NAME = "maven"
+        private const val PLUGIN_PUBLICATION_NAME = "pluginMaven"
+    }
 
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = "maven-publish")
 
-            when {
+            val publicationName = when {
                 plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
                 plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
                 else -> configurePublication()
             }
+
+            val redmadrobot = redmadrobotExtension
+            if (redmadrobot.publishing.signArtifacts) {
+                configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
+            }
         }
     }
 
-    private fun Project.configureAndroidPublication() {
+    private fun Project.configureAndroidPublication(): String {
         val sourcesJar = tasks.register<Jar>("sourcesJar") {
             archiveClassifier.set("sources")
             from(android.sourceSets["main"].java.srcDirs)
+        }
+
+        // Create publication configuration to be able to use it in `configureSigning`
+        publishing {
+            publications.create<MavenPublication>(PUBLICATION_NAME)
         }
 
         // Because the components are created only during the afterEvaluate phase, you must
@@ -39,27 +53,43 @@ public class PublishPlugin : Plugin<Project> {
             }
 
             publishing {
-                publications.create<MavenPublication>("maven") {
+                publications.getByName<MavenPublication>(PUBLICATION_NAME) {
                     from(components["release"])
                     artifact(sourcesJar.get())
                 }
             }
         }
+
+        return PUBLICATION_NAME
     }
 
-    private fun Project.configurePluginPublication() {
+    private fun Project.configurePluginPublication(): String {
         @Suppress("UnstableApiUsage")
         java.withSourcesJar()
+
+        return PLUGIN_PUBLICATION_NAME
     }
 
-    private fun Project.configurePublication() {
+    private fun Project.configurePublication(): String {
         @Suppress("UnstableApiUsage")
         java.withSourcesJar()
 
         publishing {
-            publications.create<MavenPublication>("maven") {
+            publications.create<MavenPublication>(PUBLICATION_NAME) {
                 from(components["java"])
             }
+        }
+
+        return PUBLICATION_NAME
+    }
+
+    private fun Project.configureSigning(publicationName: String, useGpgAgent: Boolean) {
+        apply(plugin = "signing")
+
+        signing {
+            setRequired { isReleaseVersion }
+            if (useGpgAgent) useGpgCmd()
+            sign(publishing.publications[publicationName])
         }
     }
 }
