@@ -45,6 +45,7 @@ gradlePlugin {
 
 repositories {
     google()
+    jcenter()
 }
 
 dependencies {
@@ -56,6 +57,6 @@ dependencies {
 publishing {
     repositories {
         if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
-        if (!isSnapshotVersion && credentialsExist("bintray")) rmrBintray("infrastructure")
+        if (isReleaseVersion && credentialsExist("ossrh")) ossrh()
     }
 }
