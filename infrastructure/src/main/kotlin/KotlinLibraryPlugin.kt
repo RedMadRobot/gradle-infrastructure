@@ -31,6 +31,6 @@ public class KotlinLibraryPlugin : Plugin<Project> {
 
 private fun Project.configureRepositories() {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }

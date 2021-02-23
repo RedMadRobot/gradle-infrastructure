@@ -69,7 +69,8 @@ private fun Project.configureAndroid() = android<BaseExtension> {
 
 private fun Project.configureRepositories() {
     repositories {
-        jcenter()
+        mavenCentral()
+        jcenter() // TODO #36 Remove JCenter
         google()
     }
 }

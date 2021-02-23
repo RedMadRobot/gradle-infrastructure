@@ -1,6 +1,9 @@
 ## [Unreleased]
 
-### Publication to JCenter dropped
+### JCenter dropped
+
+> **Breaking change!** Removed adding `jcenter()` repository, replaced with `mavenCentral()`.
+> Check all your dependencies can be resolved. If you still want `jcenter`, add it manually. 
 
 Replace `rmrBintray(...)` with `ossrh()` or `ossrhSnapshots()`:
 ```diff

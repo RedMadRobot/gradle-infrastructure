@@ -23,7 +23,7 @@ public class DetektPlugin : Plugin<Project> {
 
     private fun Project.configureDependencies() {
         repositories {
-            jcenter()
+            mavenCentral()
         }
 
         dependencies {

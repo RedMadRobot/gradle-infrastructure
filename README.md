@@ -79,7 +79,7 @@ Common configurations for pure Kotlin libraries.
 
 - Applies plugin `kotlin`
 - Specifies `jvmTarget` 1.8
-- Adds repository `jcenter`
+- Adds repository `mavenCentral`
 - Adds `kotlin-stdlib-jdk8` as dependency with `api` scope
 - Adds `kotlin-test` and `junit` as test dependencies
 - Enables [explicit API mode][explicit-api]
@@ -93,7 +93,7 @@ Both:
 - Specifies default compile, min and target SDK
 - Disables `aidl`, `renderScript` and `shaders` [build-features]
 - Adds `kotlin/` dirs to source sets
-- Adds repositories `jcenter` and `google`
+- Adds repositories `mavenCentral` and `google`
 - Adds `kotlin-stdlib-jdk8` as dependency
 - Adds `kotlin-test` and `junit` as test dependency
 
@@ -143,7 +143,7 @@ Read more about singing configuration in [Signing Plugin](https://docs.gradle.or
 
 ### detekt
 
-- Adds repository `jcenter`
+- Adds repository `mavenCentral`
 - Adds `detekt` and `detekt-formatting`
 - Configures additional tasks:
   - `detektAll` - Runs over whole code base
