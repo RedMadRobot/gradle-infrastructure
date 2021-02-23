@@ -124,10 +124,22 @@ publishing {
         rmrNexus()
         // Publication with conditions
         if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
-        if (!isSnapshotVersion && credentialsExist("bintray")) rmrBintray("infrastructure")
+        if (isReleaseVersion && credentialsExist("ossrh")) ossrh()
     }
 }
 ```
+
+You can configure publication in extension `redmadrobot.publishing`:
+```kotlin
+redmadrobot {
+    publishing {
+        signArtifacts = true    // Enables artifacts signing, required for publication to OSSRH
+        useGpgAgent = true      // By default use gpg-agent for artifacts signing
+    }
+}
+```
+
+Read more about singing configuration in [Signing Plugin](https://docs.gradle.org/current/userguide/signing_plugin.html#signing_plugin) docs.
 
 ### detekt
 
@@ -248,10 +260,10 @@ For major changes, please open an issue first to discuss what you would like to 
 [MIT][license]
 
 [samples]: samples/
-[RedmadrobotExtension]: src/main/kotlin/extension/RedmadrobotExtension.kt
-[predicates]: src/main/kotlin/extension/PublishingPredicates.kt
-[addSharedSourceSetRoot]: src/main/kotlin/extension/SourceSets.kt
-[lint-options]: https://github.com/RedMadRobot/gradle-infrastructure/blob/feba7f9998d54defc044df7ac748767641aba257/src/main/kotlin/AndroidApplicationPlugin.kt#L63-L72
+[RedmadrobotExtension]: infrastructure/src/main/kotlin/extension/RedmadrobotExtension.kt
+[predicates]: infrastructure/src/main/kotlin/extension/PublishingPredicates.kt
+[addSharedSourceSetRoot]: infrastructure/src/main/kotlin/extension/SourceSets.kt
+[lint-options]: https://github.com/RedMadRobot/gradle-infrastructure/blob/2e96c04cbb9d15ca508d1d4b4a8b1e2da4bab6af/infrastructure/src/main/kotlin/AndroidApplicationPlugin.kt#L63-L72
 
 [infrastructure]: #
 [itemsadapter]: https://github.com/RedMadRobot/itemsadapter
