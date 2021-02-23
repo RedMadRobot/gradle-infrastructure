@@ -7,6 +7,7 @@ import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
+import org.gradle.plugins.signing.Sign
 
 public class PublishPlugin : Plugin<Project> {
 
@@ -87,9 +88,12 @@ public class PublishPlugin : Plugin<Project> {
         apply(plugin = "signing")
 
         signing {
-            setRequired { isReleaseVersion }
             if (useGpgAgent) useGpgCmd()
             sign(publishing.publications[publicationName])
+        }
+
+        tasks.withType<Sign>().configureEach {
+            onlyIf { isReleaseVersion }
         }
     }
 }
