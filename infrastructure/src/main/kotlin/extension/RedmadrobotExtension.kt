@@ -30,19 +30,26 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     /** Settings for android modules. */
     public val android: AndroidOptions = AndroidOptions()
 
-    /** Settings for JVM test task */
-    public val test: TestOptions = TestOptions()
-
     public fun android(configure: AndroidOptions.() -> Unit) {
-        android.run(configure)
+        android.configure()
     }
 
+    /** Settings for publishing. */
+    public val publishing: PublishingOptions = PublishingOptions()
+
+    public fun publishing(configure: PublishingOptions.() -> Unit) {
+        publishing.configure()
+    }
+
+    /** Settings for JVM test task. */
+    public val test: TestOptions = TestOptions()
+
     public fun test(configure: TestOptions.() -> Unit) {
-        test.run(configure)
+        test.configure()
     }
 }
 
-public class AndroidOptions {
+public class AndroidOptions internal constructor() {
 
     /** Minimal Android SDK that will be applied to all android modules. */
     public var minSdk: Int = 21
@@ -50,7 +57,7 @@ public class AndroidOptions {
     /** Target Android SDK that will be applied to all android modules. */
     public var targetSdk: Int = 30
 
-    /** Settings for Android test task */
+    /** Settings for Android test task. */
     public val test: TestOptions = TestOptions()
 
     public fun test(configure: TestOptions.() -> Unit) {
@@ -58,7 +65,25 @@ public class AndroidOptions {
     }
 }
 
-public class TestOptions {
+public class PublishingOptions internal constructor() {
+
+    /**
+     * Enables artifacts signing before publication.
+     *
+     * By default tries to use gpg-agent to sign artifacts, but you can disable it with setting
+     * [useGpgAgent] to false.
+     * If you don't use gpg-agent, requires signatory credentials to be configured in `gradle.properties`.
+     * Read more: [Signing Plugin](https://docs.gradle.org/current/userguide/signing_plugin.html#signing_plugin)
+     *
+     * @see useGpgAgent
+     */
+    public var signArtifacts: Boolean = false
+
+    /** Use gpg-agent to sign artifacts. Has effect only if [signArtifacts] is true. */
+    public var useGpgAgent: Boolean = true
+}
+
+public class TestOptions internal constructor() {
 
     /** Flag for using Junit Jupiter Platform */
     internal var useJunitPlatform: Boolean = true
