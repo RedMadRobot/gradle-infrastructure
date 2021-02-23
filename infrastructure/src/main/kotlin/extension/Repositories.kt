@@ -10,7 +10,8 @@ import org.gradle.kotlin.dsl.maven
  * Adds RMR Nexus repo with name "rmrNexus".
  * Credentials should be provided through project properties `rmrNexusUsername` and `rmrNexusPassword`.
  *
- * See: https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials
+ * See:
+ * [Handling Credentials](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials)
  *
  * The URL used for the repository is `https://nexus.redmadrobot.com/repository/android/`
  *
@@ -25,7 +26,7 @@ public fun RepositoryHandler.rmrNexus(configure: MavenArtifactRepository.() -> U
     return maven("https://nexus.redmadrobot.com/repository/android/") {
         name = "rmrNexus"
         credentials(PasswordCredentials::class)
-        apply(configure)
+        configure()
     }
 }
 
@@ -33,7 +34,8 @@ public fun RepositoryHandler.rmrNexus(configure: MavenArtifactRepository.() -> U
  * Adds GitHub Packages repository for the specified [repoName].
  * Credentials should be provided through project properties `githubPackagesUsername` and  `githubPackagesPassword`.
  *
- * See: https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials
+ * See:
+ * [Handling Credentials](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials)
  *
  * Example:
  * ```
@@ -49,39 +51,50 @@ public fun RepositoryHandler.githubPackages(
     return maven("https://maven.pkg.github.com/$repoName") {
         name = "githubPackages"
         credentials(PasswordCredentials::class)
-        apply(configure)
+        configure()
     }
 }
 
 /**
- * Adds RMR Bintray repository to .
+ * Adds Sonatype OSSRH repository with name "ossrh".
+ * Requires credentials to be specified in project properties `ossrhUsername` and `ossrhPassword`.
+ *
+ * See:
+ * [Handling Credentials](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials)
+ * [OSSRH Guide](https://central.sonatype.org/pages/ossrh-guide.html)
  *
  * Example:
  * ```
  * repositories {
- *     rmrBintray()
+ *     ossrh()
  * }
  * ```
+ * @see ossrhSnapshots
  */
-public fun RepositoryHandler.rmrBintray(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
-    return maven("https://dl.bintray.com/redmadrobot-opensource/android", configure)
+public fun RepositoryHandler.ossrh(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
+    return maven("https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        name = "ossrh"
+        credentials(PasswordCredentials::class)
+        configure()
+    }
 }
 
 /**
- * Adds RMR Bintray repository for the specified [packageName].
- * Credentials should be provided through project properties `bintrayUsername` and  `bintrayPassword`.
+ * Adds Sonatype OSSRH Snapshots repository with name "ossrhSnapshots".
  *
- * See: https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:handling_credentials
+ * Example:
+ * ```
+ * repositories {
+ *     ossrhSnapshots()
+ * }
+ * ```
+ * @see ossrh
  */
-public fun RepositoryHandler.rmrBintray(
-    packageName: String,
-    publish: Boolean = false,
+public fun RepositoryHandler.ossrhSnapshots(
     configure: MavenArtifactRepository.() -> Unit = {}
 ): MavenArtifactRepository {
-    val params = ";publish=${if (publish) 1 else 0}"
-    return maven("https://api.bintray.com/maven/redmadrobot-opensource/android/$packageName/$params") {
-        name = "bintray"
-        credentials(PasswordCredentials::class)
-        apply(configure)
+    return maven("https://oss.sonatype.org/content/repositories/snapshots/") {
+        name = "ossrhSnapshots"
+        configure()
     }
 }

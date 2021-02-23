@@ -7,11 +7,19 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.getByName
 import org.gradle.kotlin.dsl.withType
+import org.gradle.plugins.signing.SigningExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+internal val Project.publishing: PublishingExtension
+    get() = extensions.getByName<PublishingExtension>("publishing")
+
 internal fun Project.publishing(configure: PublishingExtension.() -> Unit) {
     extensions.configure("publishing", configure)
+}
+
+internal fun Project.signing(configure: SigningExtension.() -> Unit) {
+    extensions.configure("signing", configure)
 }
 
 internal val Project.java: JavaPluginExtension get() = extensions.getByName<JavaPluginExtension>("java")
