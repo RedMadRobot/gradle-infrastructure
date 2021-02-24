@@ -73,14 +73,20 @@ public class PublishPlugin : Plugin<Project> {
 
     private fun Project.configurePluginPublication(): String {
         @Suppress("UnstableApiUsage")
-        java.withSourcesJar()
+        java {
+            withSourcesJar()
+            withJavadocJar()
+        }
 
         return PLUGIN_PUBLICATION_NAME
     }
 
     private fun Project.configurePublication(): String {
         @Suppress("UnstableApiUsage")
-        java.withSourcesJar()
+        java {
+            withSourcesJar()
+            withJavadocJar()
+        }
 
         publishing {
             publications.create<MavenPublication>(PUBLICATION_NAME) {
