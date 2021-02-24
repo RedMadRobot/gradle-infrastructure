@@ -31,7 +31,11 @@ public class PublishPlugin : Plugin<Project> {
                 val redmadrobot = redmadrobotExtension
 
                 publishing.publications.getByName<MavenPublication>(publicationName) {
-                    redmadrobot.publishing.configurePom(pom)
+                    pom {
+                        name.convention(project.name)
+                        description.convention(project.description)
+                        redmadrobot.publishing.configurePom(this)
+                    }
                 }
 
                 if (redmadrobot.publishing.signArtifacts) {
