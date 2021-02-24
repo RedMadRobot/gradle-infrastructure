@@ -12,8 +12,8 @@ import org.gradle.plugins.signing.Sign
 public class PublishPlugin : Plugin<Project> {
 
     public companion object {
-        private const val PUBLICATION_NAME = "maven"
-        private const val PLUGIN_PUBLICATION_NAME = "pluginMaven"
+        public const val PUBLICATION_NAME: String = "maven"
+        public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
     }
 
     override fun apply(target: Project) {
@@ -51,6 +51,9 @@ public class PublishPlugin : Plugin<Project> {
             from(android.sourceSets["main"].java.srcDirs)
         }
 
+        // Pre-create publication to make it configurable
+        publishing.publications.create<MavenPublication>(PUBLICATION_NAME)
+
         // Because the components are created only during the afterEvaluate phase, you must
         // configure your publications using the afterEvaluate() lifecycle method.
         afterEvaluate {
@@ -61,7 +64,7 @@ public class PublishPlugin : Plugin<Project> {
             }
 
             publishing {
-                publications.create<MavenPublication>(PUBLICATION_NAME) {
+                publications.getByName<MavenPublication>(PUBLICATION_NAME) {
                     from(components["release"])
                     artifact(sourcesJar.get())
                 }
