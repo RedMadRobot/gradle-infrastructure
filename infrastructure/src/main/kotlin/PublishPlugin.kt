@@ -39,11 +39,6 @@ public class PublishPlugin : Plugin<Project> {
             from(android.sourceSets["main"].java.srcDirs)
         }
 
-        // Create publication configuration to be able to use it in `configureSigning`
-        publishing {
-            publications.create<MavenPublication>(PUBLICATION_NAME)
-        }
-
         // Because the components are created only during the afterEvaluate phase, you must
         // configure your publications using the afterEvaluate() lifecycle method.
         afterEvaluate {
@@ -54,7 +49,7 @@ public class PublishPlugin : Plugin<Project> {
             }
 
             publishing {
-                publications.getByName<MavenPublication>(PUBLICATION_NAME) {
+                publications.create<MavenPublication>(PUBLICATION_NAME) {
                     from(components["release"])
                     artifact(sourcesJar.get())
                 }
@@ -87,13 +82,16 @@ public class PublishPlugin : Plugin<Project> {
     private fun Project.configureSigning(publicationName: String, useGpgAgent: Boolean) {
         apply(plugin = "signing")
 
-        signing {
-            if (useGpgAgent) useGpgCmd()
-            sign(publishing.publications[publicationName])
-        }
+        // Do it after project evaluate to be able to access publications created later
+        afterEvaluate {
+            signing {
+                if (useGpgAgent) useGpgCmd()
+                sign(publishing.publications[publicationName])
+            }
 
-        tasks.withType<Sign>().configureEach {
-            onlyIf { isReleaseVersion }
+            tasks.withType<Sign>().configureEach {
+                onlyIf { isReleaseVersion }
+            }
         }
     }
 }
