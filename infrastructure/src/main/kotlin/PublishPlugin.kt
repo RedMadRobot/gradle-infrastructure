@@ -26,9 +26,17 @@ public class PublishPlugin : Plugin<Project> {
                 else -> configurePublication()
             }
 
-            val redmadrobot = redmadrobotExtension
-            if (redmadrobot.publishing.signArtifacts) {
-                configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
+            // Do it after project evaluate to be able to access publications created later
+            afterEvaluate {
+                val redmadrobot = redmadrobotExtension
+
+                publishing.publications.getByName<MavenPublication>(publicationName) {
+                    redmadrobot.publishing.configurePom(pom)
+                }
+
+                if (redmadrobot.publishing.signArtifacts) {
+                    configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
+                }
             }
         }
     }
@@ -82,16 +90,13 @@ public class PublishPlugin : Plugin<Project> {
     private fun Project.configureSigning(publicationName: String, useGpgAgent: Boolean) {
         apply(plugin = "signing")
 
-        // Do it after project evaluate to be able to access publications created later
-        afterEvaluate {
-            signing {
-                if (useGpgAgent) useGpgCmd()
-                sign(publishing.publications[publicationName])
-            }
+        signing {
+            if (useGpgAgent) useGpgCmd()
+            sign(publishing.publications[publicationName])
+        }
 
-            tasks.withType<Sign>().configureEach {
-                onlyIf { isReleaseVersion }
-            }
+        tasks.withType<Sign>().configureEach {
+            onlyIf { isReleaseVersion }
         }
     }
 }
