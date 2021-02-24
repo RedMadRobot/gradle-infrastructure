@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Fixed
+
+- Fixed gradle plugins signing
+
 ## [0.7]
 
 ### JCenter dropped
