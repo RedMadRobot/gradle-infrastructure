@@ -114,7 +114,7 @@ Application:
 Common publish configurations for both Android and Kotlin libraries.
 
 - Applies plugin `maven-publish`
-- Adds sources to publication
+- Adds sources and javadocs to publication
 
 You should specify publishing repositories manually. You can also use [predicates] for publication:
 ```kotlin
@@ -129,6 +129,8 @@ publishing {
 }
 ```
 
+#### Signing
+
 You can configure publication in extension `redmadrobot.publishing`:
 ```kotlin
 redmadrobot {
@@ -139,7 +141,55 @@ redmadrobot {
 }
 ```
 
-Read more about singing configuration in [Signing Plugin](https://docs.gradle.org/current/userguide/signing_plugin.html#signing_plugin) docs.
+Read more about singing configuration in [Signing Plugin][signing-plugin] docs.
+
+#### Customize POM
+
+You can configure POM properties common for all modules.
+
+> Note: there are extension-functions to simplify common configuration use-cases.
+> All available extensions you can find [here][MavenPom].
+
+```kotlin
+redmadrobot {
+    publishing {
+        pom {
+            // Configure <url>, <scm> and <issueManagement> tags for GitHub project by it's name
+            setGitHubProject("RedMadRobot/gradle-infrastructure")
+            
+            licenses { 
+                mit() // Add MIT license
+            }
+            
+            developers {
+                // Shorthand to add a developer
+                developer(id = "jdoe", name = "John Dow", email = "john@doe.com")
+            }
+        }
+    }
+}
+```
+
+#### Customize publication for module
+
+Use `publishing` extension in module build script to configure publication for the single module.
+Take publication name from `PUBLICATION_NAME` constant.
+Read more in [Maven Publish plugin][maven-publish] docs.
+
+```kotlin
+publishing {
+    publications {
+        getByName<MavenPublication>(PUBLICATION_NAME) {
+            // Configure publication here
+        }
+    }
+}
+
+// or even shorter
+publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
+    // Configure publication here
+}
+```
 
 ### detekt
 
@@ -261,6 +311,7 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [samples]: samples/
 [RedmadrobotExtension]: infrastructure/src/main/kotlin/extension/RedmadrobotExtension.kt
+[MavenPom]: infrastructure/src/main/kotlin/extension/MavenPom.kt
 [predicates]: infrastructure/src/main/kotlin/extension/PublishingPredicates.kt
 [addSharedSourceSetRoot]: infrastructure/src/main/kotlin/extension/SourceSets.kt
 [lint-options]: https://github.com/RedMadRobot/gradle-infrastructure/blob/2e96c04cbb9d15ca508d1d4b4a8b1e2da4bab6af/infrastructure/src/main/kotlin/AndroidApplicationPlugin.kt#L63-L72
@@ -276,3 +327,5 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [build-features]: https://developer.android.com/reference/tools/gradle-api/com/android/build/api/dsl/BuildFeatures
 [explicit-api]: https://kotlinlang.org/docs/reference/whatsnew14.html#explicit-api-mode-for-library-authors
+[signing-plugin]: https://docs.gradle.org/current/userguide/signing_plugin.html
+[maven-publish]: https://docs.gradle.org/current/userguide/publishing_maven.html
