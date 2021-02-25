@@ -12,8 +12,8 @@ import org.gradle.plugins.signing.Sign
 public class PublishPlugin : Plugin<Project> {
 
     public companion object {
-        private const val PUBLICATION_NAME = "maven"
-        private const val PLUGIN_PUBLICATION_NAME = "pluginMaven"
+        public const val PUBLICATION_NAME: String = "maven"
+        public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
     }
 
     override fun apply(target: Project) {
@@ -26,9 +26,21 @@ public class PublishPlugin : Plugin<Project> {
                 else -> configurePublication()
             }
 
-            val redmadrobot = redmadrobotExtension
-            if (redmadrobot.publishing.signArtifacts) {
-                configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
+            // Do it after project evaluate to be able to access publications created later
+            afterEvaluate {
+                val redmadrobot = redmadrobotExtension
+
+                publishing.publications.getByName<MavenPublication>(publicationName) {
+                    pom {
+                        name.convention(project.name)
+                        description.convention(project.description)
+                        redmadrobot.publishing.configurePom(this)
+                    }
+                }
+
+                if (redmadrobot.publishing.signArtifacts) {
+                    configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
+                }
             }
         }
     }
@@ -38,6 +50,9 @@ public class PublishPlugin : Plugin<Project> {
             archiveClassifier.set("sources")
             from(android.sourceSets["main"].java.srcDirs)
         }
+
+        // Pre-create publication to make it configurable
+        publishing.publications.create<MavenPublication>(PUBLICATION_NAME)
 
         // Because the components are created only during the afterEvaluate phase, you must
         // configure your publications using the afterEvaluate() lifecycle method.
@@ -49,7 +64,7 @@ public class PublishPlugin : Plugin<Project> {
             }
 
             publishing {
-                publications.create<MavenPublication>(PUBLICATION_NAME) {
+                publications.getByName<MavenPublication>(PUBLICATION_NAME) {
                     from(components["release"])
                     artifact(sourcesJar.get())
                 }
@@ -61,14 +76,20 @@ public class PublishPlugin : Plugin<Project> {
 
     private fun Project.configurePluginPublication(): String {
         @Suppress("UnstableApiUsage")
-        java.withSourcesJar()
+        java {
+            withSourcesJar()
+            withJavadocJar()
+        }
 
         return PLUGIN_PUBLICATION_NAME
     }
 
     private fun Project.configurePublication(): String {
         @Suppress("UnstableApiUsage")
-        java.withSourcesJar()
+        java {
+            withSourcesJar()
+            withJavadocJar()
+        }
 
         publishing {
             publications.create<MavenPublication>(PUBLICATION_NAME) {
@@ -82,16 +103,13 @@ public class PublishPlugin : Plugin<Project> {
     private fun Project.configureSigning(publicationName: String, useGpgAgent: Boolean) {
         apply(plugin = "signing")
 
-        // Do it after project evaluate to be able to access publications created later
-        afterEvaluate {
-            signing {
-                if (useGpgAgent) useGpgCmd()
-                sign(publishing.publications[publicationName])
-            }
+        signing {
+            if (useGpgAgent) useGpgCmd()
+            sign(publishing.publications[publicationName])
+        }
 
-            tasks.withType<Sign>().configureEach {
-                onlyIf { isReleaseVersion }
-            }
+        tasks.withType<Sign>().configureEach {
+            onlyIf { isReleaseVersion }
         }
     }
 }

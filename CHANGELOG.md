@@ -1,5 +1,56 @@
 ## [Unreleased]
 
+### POM Configuration
+
+Now you can configure common for all modules POM properties in `redmadrobot.publishing` extension.
+There are extension-functions to cover common configuration use-cases.
+
+```kotlin
+redmadrobot {
+    publishing {
+        pom {
+            // Configure <url>, <scm> and <issueManagement> tags for GitHub project by it's name
+            setGitHubProject("RedMadRobot/gradle-infrastructure")
+            
+            licenses { 
+                mit() // Add MIT license
+            }
+            
+            developers {
+                // Shorthand to add a developer
+                developer(id = "jdoe", name = "John Dow", email = "john@doe.com")
+            }
+        }
+    }
+}
+```
+
+Use `publishing` extension in module build script to configure POM for this module.
+Take publication name from `PUBLICATION_NAME` constant.
+
+```kotlin
+publishing {
+    publications {
+        getByName<MavenPublication>(PUBLICATION_NAME) {
+            pom {
+                // Configure POM here
+            }
+        }
+    }
+}
+
+// or even shorter
+publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
+    pom {
+        // Configure POM here
+    }
+}
+```
+
+### Added
+
+- Add javadoc publication for kotlin libraries and gradle plugins
+
 ### Fixed
 
 - Fixed gradle plugins signing

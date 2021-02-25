@@ -3,6 +3,7 @@ package com.redmadrobot.build.extension
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 import org.gradle.kotlin.dsl.getByType
 
@@ -81,6 +82,16 @@ public class PublishingOptions internal constructor() {
 
     /** Use gpg-agent to sign artifacts. Has effect only if [signArtifacts] is true. */
     public var useGpgAgent: Boolean = true
+
+    internal var configurePom: MavenPom.() -> Unit = {}
+
+    /**
+     * Configures POM file for all modules.
+     * Place here only common configurations.
+     */
+    public fun pom(configure: MavenPom.() -> Unit) {
+        configurePom = configure
+    }
 }
 
 public class TestOptions internal constructor() {
