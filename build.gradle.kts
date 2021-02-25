@@ -1,4 +1,5 @@
 import com.redmadrobot.build.extension.developer
+import com.redmadrobot.build.extension.isRunningOnCi
 import com.redmadrobot.build.extension.mit
 import com.redmadrobot.build.extension.setGitHubProject
 
@@ -9,9 +10,13 @@ plugins {
 
 apply(plugin = "redmadrobot.detekt")
 
+repositories {
+    jcenter() // TODO #36: Remove JCenter when detekt-formatting will be moved to Maven Central
+}
+
 redmadrobot {
     publishing {
-        signArtifacts = true
+        signArtifacts = !isRunningOnCi
 
         pom {
             setGitHubProject("RedMadRobot/gradle-infrastructure")
