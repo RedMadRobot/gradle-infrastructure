@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.8]
+
 ### POM Configuration
 
 Now you can configure common for all modules POM properties in `redmadrobot.publishing` extension.
@@ -104,5 +106,6 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.7...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8...main
+[0.8]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.7...v0.8
 [0.7]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.6...v0.7
