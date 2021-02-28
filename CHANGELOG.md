@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Fixed
+
+- Add `jcenter()` for `detekt-formatting`
+
 ## [0.8]
 
 ### POM Configuration

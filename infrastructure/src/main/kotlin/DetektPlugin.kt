@@ -23,7 +23,7 @@ public class DetektPlugin : Plugin<Project> {
 
     private fun Project.configureDependencies() {
         repositories {
-            mavenCentral()
+            jcenter() // TODO #36: Remove when detekt-formatting will be moved to Maven Central
         }
 
         dependencies {
