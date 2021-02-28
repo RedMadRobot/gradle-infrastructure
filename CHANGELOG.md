@@ -4,6 +4,10 @@
 
 - Add `jcenter()` for `detekt-formatting`
 
+### Housekeeping
+
+- Kotlin updated to 1.4.31
+
 ## [0.8]
 
 ### POM Configuration
