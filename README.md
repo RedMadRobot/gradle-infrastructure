@@ -45,7 +45,7 @@ pluginManagement {
 Apply `redmadrobot.root-project` to your root project:
 ```kotlin
 plugins {
-    id("redmadrobot.root-project") version "0.8"
+    id("redmadrobot.root-project") version "0.8.1"
 }
 ```
 
@@ -63,7 +63,7 @@ plugins {
 > You can apply it with `apply(plugin = "...")` syntax to let it use `root-project`s plugin version.
 > ```kotlin
 > plugins {
->     id("redmadrobot.root-project") version "0.8"
+>     id("redmadrobot.root-project") version "0.8.1"
 > }
 > 
 > apply(plugin = "redmadrobot.detekt")

@@ -1,14 +1,16 @@
 ## [Unreleased]
 
+## [0.8.1] (2021-02-28)
+
 ### Fixed
 
-- Add `jcenter()` for `detekt-formatting`
+- Add back `jcenter()` for `detekt-formatting`
 
 ### Housekeeping
 
 - Kotlin updated to 1.4.31
 
-## [0.8]
+## [0.8] (2021-02-25)
 
 ### POM Configuration
 
@@ -65,7 +67,7 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 
 - Fixed gradle plugins signing
 
-## [0.7]
+## [0.7] (2021-02-25)
 
 ### JCenter dropped
 
@@ -114,6 +116,7 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1...main
+[0.8.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8...v0.8.1
 [0.8]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.7...v0.8
 [0.7]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.6...v0.7
