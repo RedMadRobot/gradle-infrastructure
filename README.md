@@ -23,6 +23,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 - [Samples](#samples)
 - [Troubleshooting](#troubleshooting)
   - [Tests failed - `No value has been specified for property 'localResourcesFile'`](#tests-failed---no-value-has-been-specified-for-property-localresourcesfile)
+  - [`Android resource linking failed` or `Unresolved reference: R`](#android-resource-linking-failed-or-unresolved-reference-r)
   - [Build failed on CI - `No version of NDK matched the requested version`](#build-failed-on-ci---no-version-of-ndk-matched-the-requested-version)
 - [Contributing](#contributing)
 - [License](#license)
@@ -292,6 +293,28 @@ As workaround, you can enable this build feature for module:
 android {
     // TODO: Remove when bug in AGP will be fixed.
     //  https://issuetracker.google.com/issues/161586464
+    buildFeatures.androidResources = true
+}
+```
+
+### `Android resource linking failed` or `Unresolved reference: R`
+
+```
+Execution failed for task ':app:processDebugResources'.
+> A failure occurred while executing com.android.build.gradle.internal.tasks.Workers$ActionFacade
+   > Android resource linking failed
+     AAPT: error: resource style/TextAppearance.App.Headline4 (aka com.example.app.debug:style/TextAppearance.App.Headline4) not found.
+     error: resource style/TextAppearance.App.Body2 (aka com.example.app.debug:style/TextAppearance.App.Body2) not found.
+     error: resource style/Theme.App (aka com.example.app.debug:style/Theme.App) not found.
+     error: resource style/Theme.App (aka com.example.app.debug:style/Theme.App) not found.
+     error: failed linking references.
+```
+
+Build feature `androidResources` is disabled by default for android libraries.
+If you get these errors you should enable it:
+
+```kotlin
+android {
     buildFeatures.androidResources = true
 }
 ```
