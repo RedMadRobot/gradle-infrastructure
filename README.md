@@ -62,7 +62,7 @@ Then you can apply any of plugins where you need:
 plugins {
     id("redmadrobot.kotlin-library")
     id("redmadrobot.publish")
-    id("redmadrobot.android-application")
+    id("redmadrobot.application")
 }
 ```
 
