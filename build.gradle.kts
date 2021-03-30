@@ -4,7 +4,7 @@ import com.redmadrobot.build.extension.mit
 import com.redmadrobot.build.extension.setGitHubProject
 
 plugins {
-    id("redmadrobot.root-project") version "0.8.1"
+    id("redmadrobot.root-project") version "0.8.2"
     id("com.github.ben-manes.versions") version "0.38.0"
 }
 
