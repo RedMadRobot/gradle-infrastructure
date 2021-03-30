@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.8.2] (2021-03-30)
+
 ### JCenter only for exclusive content
 
 JCenter is at the end of life and should mot be used anymore.
@@ -151,7 +153,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.2...main
+[0.8.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1..v0.8.2
 [0.8.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8...v0.8.1
 [0.8]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.7...v0.8
 [0.7]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.6...v0.7
