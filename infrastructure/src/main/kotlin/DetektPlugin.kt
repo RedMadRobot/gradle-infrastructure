@@ -23,7 +23,14 @@ public class DetektPlugin : Plugin<Project> {
 
     private fun Project.configureDependencies() {
         repositories {
-            jcenter() // TODO #36: Remove when detekt-formatting will be moved to Maven Central
+            mavenCentral()
+            jcenter {
+                content {
+                    // TODO #36 Remove this after migration of kotlinx-html to Maven Central
+                    //  See: https://github.com/Kotlin/kotlinx.html/issues/173
+                    includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+                }
+            }
         }
 
         dependencies {
