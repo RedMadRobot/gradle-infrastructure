@@ -8,7 +8,7 @@ plugins {
 
 group = "com.redmadrobot.build"
 description = "Small plugins to reduce boilerplate in Gradle build scripts."
-version = "0.9-SNAPSHOT"
+version = "0.8.2"
 
 kotlinDslPluginOptions {
     experimentalWarning.set(false)
@@ -44,14 +44,21 @@ gradlePlugin {
 }
 
 repositories {
+    mavenCentral()
     google()
-    jcenter()
+    jcenter {
+        content {
+            // TODO #36 Remove this after update to new AGP version
+            //  See: https://youtrack.jetbrains.com/issue/IDEA-261387
+            includeModule("org.jetbrains.trove4j", "trove4j")
+        }
+    }
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:4.1.2")
-    implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.15.0")
-    implementation(kotlin("gradle-plugin", version = "1.4.31"))
+    implementation("com.android.tools.build:gradle:4.1.3")
+    implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0")
+    implementation(kotlin("gradle-plugin", version = "1.4.32"))
 }
 
 publishing {

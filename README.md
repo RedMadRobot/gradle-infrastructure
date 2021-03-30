@@ -25,6 +25,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
   - [Tests failed - `No value has been specified for property 'localResourcesFile'`](#tests-failed---no-value-has-been-specified-for-property-localresourcesfile)
   - [`Android resource linking failed` or `Unresolved reference: R`](#android-resource-linking-failed-or-unresolved-reference-r)
   - [Build failed on CI - `No version of NDK matched the requested version`](#build-failed-on-ci---no-version-of-ndk-matched-the-requested-version)
+  - [`Could not resolve` or `Could not find` dependencies](#could-not-resolve-or-could-not-find-dependencies)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -53,7 +54,7 @@ pluginManagement {
 Apply `redmadrobot.root-project` to your root project:
 ```kotlin
 plugins {
-    id("redmadrobot.root-project") version "0.8.1"
+    id("redmadrobot.root-project") version "0.8.2"
 }
 ```
 
@@ -71,7 +72,7 @@ plugins {
 > You can apply it with `apply(plugin = "...")` syntax to let it use `root-project`s plugin version.
 > ```kotlin
 > plugins {
->     id("redmadrobot.root-project") version "0.8.1"
+>     id("redmadrobot.root-project") version "0.8.2"
 > }
 > 
 > apply(plugin = "redmadrobot.detekt")
@@ -331,6 +332,34 @@ You can change requested version by setting `android.ndkVersion`.
 
 Plugins `redmadrobot.android-library` and `redmadrobot.application` by default apply NDK version from env variable `ANDROID_NDK_VERSION` if it set.
 
+### `Could not resolve` or `Could not find` dependencies
+
+```
+> Could not resolve all files for configuration ':app:debugRuntimeClasspath'.
+   > Could not find com.xwray:groupie:2.7.2
+     Searched in the following locations:
+       - ...
+     Required by:
+         project :app > com.xwray:groupie:2.7.2
+```
+
+It may be because of `gradle-infrastructure` uses `mavenCentral` instead of `jcenter` by default.
+[JCenter is at the end of life][jcenter-end] and should mot be used anymore.
+Unfortunately not all libraries migrated to Maven Central yet.
+To avoid these errors, declare `jcenter` repository in your build script and configure it to be used only for missing dependencies.
+
+```kotlin
+repositories {
+    jcenter {
+        content {
+            // It is useful to add a link to the issue about migration from JCenter
+            // https://github.com/lisawray/groupie/issues/384
+            includeModule("com.xwray", "groupie")
+        }
+    }
+}
+```
+
 ## Contributing
 Merge requests are welcome.
 For major changes, please open an issue first to discuss what you would like to change.
@@ -359,3 +388,5 @@ For major changes, please open an issue first to discuss what you would like to 
 [explicit-api]: https://kotlinlang.org/docs/reference/whatsnew14.html#explicit-api-mode-for-library-authors
 [signing-plugin]: https://docs.gradle.org/current/userguide/signing_plugin.html
 [maven-publish]: https://docs.gradle.org/current/userguide/publishing_maven.html
+
+[jcenter-end]: https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/

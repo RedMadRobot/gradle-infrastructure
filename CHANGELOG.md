@@ -1,5 +1,42 @@
 ## [Unreleased]
 
+## [0.8.2] (2021-03-30)
+
+### JCenter only for exclusive content
+
+JCenter is at the end of life and should mot be used anymore.
+Now `jcenter()` used in `gradle-infrastructure` only for exclusive content that not migrated to Maven Central yet.
+You can get errors like this:
+
+```
+> Could not resolve all files for configuration ':app:debugRuntimeClasspath'.
+   > Could not find com.xwray:groupie:2.7.2
+     Searched in the following locations:
+       - ...
+     Required by:
+         project :app > com.xwray:groupie:2.7.2
+```
+
+To avoid these errors, declare `jcenter` repository in your build script and configure it to be used only for missing dependencies.
+
+```kotlin
+repositories {
+    jcenter {
+        content {
+            // It is useful to add a link to the issue about migration from JCenter
+            // https://github.com/lisawray/groupie/issues/384
+            includeModule("com.xwray", "groupie")
+        }
+    }
+}
+```
+
+### Housekeeping
+
+- Detekt 1.15.0 -> 1.16.0
+- Kotlin 1.4.31 -> 1.4.32
+- AGP 4.1.2 -> 4.1.3
+
 ## [0.8.1] (2021-02-28)
 
 ### Fixed
@@ -116,7 +153,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.2...main
+[0.8.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1..v0.8.2
 [0.8.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8...v0.8.1
 [0.8]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.7...v0.8
 [0.7]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.6...v0.7
