@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+### Housekeeping
+
+- Detekt 1.15.0 -> 1.16.0
+- Kotlin 1.4.31 -> 1.4.32
+- AGP 4.1.2 -> 4.1.3
+
 ## [0.8.1] (2021-02-28)
 
 ### Fixed
