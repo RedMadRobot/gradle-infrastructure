@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Fixed
+
+- Flag `warningsAsErrors` now should work.
+  It is enabled by default on CI.
+
 ## [0.8.2] (2021-03-30)
 
 ### JCenter only for exclusive content
