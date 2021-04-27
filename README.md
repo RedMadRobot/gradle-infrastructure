@@ -224,6 +224,13 @@ redmadrobot {
 }
 ```
 
+### Warnings as errors
+
+By default, infrastructure plugins enable Kotlin compiler's option `allWarningsAsErrors` (`-Werror`) on CI.
+You can change it by defining the `warningsAsErrors` project property.
+
+[Read more about Gradle project properties][project-properties]
+
 ### Share sources between build types
 
 You can share sources between two build types.  
@@ -388,5 +395,6 @@ For major changes, please open an issue first to discuss what you would like to 
 [explicit-api]: https://kotlinlang.org/docs/reference/whatsnew14.html#explicit-api-mode-for-library-authors
 [signing-plugin]: https://docs.gradle.org/current/userguide/signing_plugin.html
 [maven-publish]: https://docs.gradle.org/current/userguide/publishing_maven.html
+[project-properties]: https://docs.gradle.org/current/userguide/build_environment.html#sec:project_properties
 
 [jcenter-end]: https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/
