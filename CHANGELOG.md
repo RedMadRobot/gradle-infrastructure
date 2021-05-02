@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Changes
+
+- Updated Gradle 6.8.3 -> 7.0
+- Completely removed `jcenter` from repositories (#36)
+
 ### Fixed
 
 - Flag `warningsAsErrors` now should work.
