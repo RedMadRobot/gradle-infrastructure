@@ -70,13 +70,6 @@ private fun Project.configureAndroid() = android<BaseExtension> {
 private fun Project.configureRepositories() {
     repositories {
         mavenCentral()
-        jcenter {
-            content {
-                // TODO #36 Remove this after update to new AGP version
-                //  See: https://youtrack.jetbrains.com/issue/IDEA-261387
-                includeModule("org.jetbrains.trove4j", "trove4j")
-            }
-        }
         google()
     }
 }

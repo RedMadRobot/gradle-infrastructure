@@ -22,15 +22,21 @@ public class DetektPlugin : Plugin<Project> {
     }
 
     private fun Project.configureDependencies() {
-        repositories {
-            mavenCentral()
-            jcenter {
-                content {
-                    // TODO #36 Remove this after migration of kotlinx-html to Maven Central
-                    //  See: https://github.com/Kotlin/kotlinx.html/issues/173
-                    includeModule("org.jetbrains.kotlinx", "kotlinx-html-jvm")
+        // TODO: Remove after update to Detekt 1.17.0
+        configurations.all {
+            resolutionStrategy.eachDependency {
+                if (requested.group == "org.jetbrains.kotlinx" &&
+                    requested.name == "kotlinx-html-jvm" &&
+                    requested.version == "0.7.2"
+                ) {
+                    useVersion("0.7.3")
+                    because("This version is published to Maven Central")
                 }
             }
+        }
+
+        repositories {
+            mavenCentral()
         }
 
         dependencies {
