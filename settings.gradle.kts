@@ -15,4 +15,7 @@ pluginManagement {
 
 rootProject.name = "infrastructure"
 
-include(":infrastructure")
+include(
+    ":infrastructure",
+    ":infrastructure-android",
+)
