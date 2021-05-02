@@ -10,10 +10,6 @@ group = "com.redmadrobot.build"
 description = "Small plugins to reduce boilerplate in Gradle build scripts."
 version = "0.9-SNAPSHOT"
 
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
-}
-
 gradlePlugin {
     plugins {
         register("root-project") {
