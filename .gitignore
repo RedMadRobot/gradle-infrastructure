@@ -4,6 +4,9 @@
 /.idea/**
 *.iml
 
+!/.idea/detekt.xml
+!/.idea/externalDependencies.xml
+
 ## Gradle
 # Ignore Gradle project-specific cache directory
 .gradle
