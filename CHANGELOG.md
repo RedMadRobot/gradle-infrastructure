@@ -1,5 +1,30 @@
 ## [Unreleased]
 
+### infrastructure-android
+
+Module `infrastructure` no more depends on AGP and doesn't require the `google()` repository to be applied.
+
+Plugins `redmadrobot.application` and `redmadrobot.android-library` was moved to `infrastructure-android` module. 
+You should specify it in settings.gradle.kts to be able to use it:
+
+```diff
+resolutionStrategy {
+    eachPlugin {
+        if (requested.id.namespace == "redmadrobot") {
+-            useModule("com.redmadrobot.build:infrastructure:${requested.version}")
++            useModule("com.redmadrobot.build:infrastructure-android:${requested.version}")
+        }
+    }
+}
+```
+
+> **Breaking change!**
+> If you use `redmadrobot.android` in the root project, you should add the following import:
+>
+> ```kotlin
+> import com.redmadrobot.build.extension.android
+> ```
+
 ### Changes
 
 - Updated Gradle 6.8.3 -> 7.0
