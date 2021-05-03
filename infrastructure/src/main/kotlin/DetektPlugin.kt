@@ -1,78 +1,79 @@
 package com.redmadrobot.build
 
-import com.redmadrobot.build.extension.redmadrobotExtension
+import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.detektPlugins
 import io.gitlab.arturbosch.detekt.Detekt
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.repositories
 
-public class DetektPlugin : Plugin<Project> {
+public class DetektPlugin : InfrastructurePlugin() {
 
-    override fun apply(target: Project) {
-        with(target) {
-            requireRootPlugin()
-            apply(plugin = "io.gitlab.arturbosch.detekt")
+    override fun Project.configure() {
+        apply(plugin = "io.gitlab.arturbosch.detekt")
 
-            configureDependencies()
-            configureDetektTasks()
-        }
+        configureDependencies()
+        configureDetektTasks(redmadrobotExtension)
     }
+}
 
-    private fun Project.configureDependencies() {
-        // TODO: Remove after update to Detekt 1.17.0
-        configurations.all {
-            resolutionStrategy.eachDependency {
-                if (requested.group == "org.jetbrains.kotlinx" &&
-                    requested.name == "kotlinx-html-jvm" &&
-                    requested.version == "0.7.2"
-                ) {
-                    useVersion("0.7.3")
-                    because("This version is published to Maven Central")
-                }
+private fun Project.configureDependencies() {
+    // TODO: Remove after update to Detekt 1.17.0
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "org.jetbrains.kotlinx" &&
+                requested.name == "kotlinx-html-jvm" &&
+                requested.version == "0.7.2"
+            ) {
+                useVersion("0.7.3")
+                because("This version is published to Maven Central")
             }
         }
-
-        repositories {
-            mavenCentral()
-        }
-
-        dependencies {
-            "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
-        }
     }
 
-    private fun Project.configureDetektTasks() {
-        detektTask("detektFormat") {
-            description = "Reformats whole code base."
-            disableDefaultRuleSets = true
-            autoCorrect = true
-        }
-
-        detektTask("detektAll") {
-            description = "Runs over whole code base without the starting overhead for each module."
-        }
+    repositories {
+        mavenCentral()
     }
 
-    private inline fun Project.detektTask(name: String, crossinline configure: Detekt.() -> Unit) {
-        tasks.register<Detekt>(name) {
-            configure()
-            parallel = true
-            config.setFrom(redmadrobotExtension.configsDir.file("detekt/detekt.yml"))
-            setSource(rootProject.files(rootProject.projectDir))
-            reportsDir.set(redmadrobotExtension.reportsDir.asFile)
-            include("**/*.kt")
-            include("**/*.kts")
-            exclude("**/res/**")
-            exclude("**/build/**")
-            exclude("**/.*/**")
-            reports {
-                xml.enabled = true
-                txt.enabled = false
-                html.enabled = false
-            }
+    dependencies {
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
+    }
+}
+
+private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
+    detektTask(extension, "detektFormat") {
+        description = "Reformats whole code base."
+        disableDefaultRuleSets = true
+        autoCorrect = true
+    }
+
+    detektTask(extension, "detektAll") {
+        description = "Runs over whole code base without the starting overhead for each module."
+    }
+}
+
+private inline fun Project.detektTask(
+    extension: RedmadrobotExtension,
+    name: String,
+    crossinline configure: Detekt.() -> Unit,
+) {
+    tasks.register<Detekt>(name) {
+        configure()
+        parallel = true
+        config.setFrom(extension.configsDir.file("detekt/detekt.yml"))
+        setSource(rootProject.files(rootProject.projectDir))
+        reportsDir.set(extension.reportsDir.asFile)
+        include("**/*.kt")
+        include("**/*.kts")
+        exclude("**/res/**")
+        exclude("**/build/**")
+        exclude("**/.*/**")
+        reports {
+            xml.enabled = true
+            txt.enabled = false
+            html.enabled = false
         }
     }
 }

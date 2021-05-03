@@ -1,24 +1,22 @@
 package com.redmadrobot.build
 
 import com.android.build.gradle.AppExtension
-import com.redmadrobot.build.extension.redmadrobotExtension
+import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.internal.configureKotlinDependencies
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
 
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
-    override fun apply(target: Project) {
-        with(target) {
-            apply(plugin = "com.android.application")
-            super.apply(target)
+    override fun Project.configure() {
+        applyBaseAndroidPlugin("com.android.application")
 
-            configureKotlinDependencies("implementation")
-            configureApp()
-        }
+        configureKotlinDependencies(redmadrobotExtension.kotlinVersion, "implementation")
+        configureApp(redmadrobotExtension)
     }
 }
 
-private fun Project.configureApp() = android<AppExtension> {
+private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppExtension> {
     defaultConfig {
         // Keep only 'ru' resources
         resConfig("ru")
@@ -26,7 +24,7 @@ private fun Project.configureApp() = android<AppExtension> {
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(
             rootProject.fileTree("proguard").files +
-                getDefaultProguardFile("proguard-android-optimize.txt")
+                getDefaultProguardFile("proguard-android-optimize.txt"),
         )
 
         buildConfigField("boolean", VAR_LOCK_ORIENTATION, "true")
@@ -60,7 +58,6 @@ private fun Project.configureApp() = android<AppExtension> {
         }
     }
 
-    val extension = redmadrobotExtension
     lintOptions {
         isCheckDependencies = true
         isAbortOnError = true

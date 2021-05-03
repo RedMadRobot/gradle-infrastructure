@@ -1,35 +1,43 @@
 package com.redmadrobot.build
 
 import com.android.build.gradle.BaseExtension
-import com.redmadrobot.build.extension.redmadrobotExtension
+import com.redmadrobot.build.extension.AndroidOptions
+import com.redmadrobot.build.extension.android
+import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.internal.configureKotlin
+import com.redmadrobot.build.internal.configureKotlinTestDependencies
+import com.redmadrobot.build.internal.setTestOptions
 import org.gradle.api.JavaVersion
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
-public abstract class BaseAndroidPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
-            requireRootPlugin()
-            apply(plugin = "kotlin-android")
+public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 
-            configureKotlin()
-            configureAndroid()
-            configureRepositories()
-            configureKotlinTestDependencies(redmadrobotExtension.android.test)
+    /** Should be called from [configure] in implementation. */
+    protected fun Project.applyBaseAndroidPlugin(pluginId: String) {
+        apply {
+            plugin(pluginId)
+            plugin("kotlin-android")
+
+            // Apply fix for Android caching problems
+            // See https://github.com/gradle/android-cache-fix-gradle-plugin
+            plugin("org.gradle.android.cache-fix")
         }
+
+        configureKotlin()
+        configureAndroid(redmadrobotExtension.android)
+        configureRepositories()
+        configureKotlinTestDependencies(redmadrobotExtension.kotlinVersion, redmadrobotExtension.android.test)
     }
 }
 
-private fun Project.configureAndroid() = android<BaseExtension> {
-    val androidSettings = redmadrobotExtension.android
-    compileSdkVersion(androidSettings.targetSdk)
+private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExtension> {
+    compileSdkVersion(options.targetSdk)
     defaultConfig {
-        minSdkVersion(androidSettings.minSdk)
-        targetSdkVersion(androidSettings.targetSdk)
+        minSdkVersion(options.minSdk)
+        targetSdkVersion(options.targetSdk)
     }
 
     // Set NDK version from env variable if exists
@@ -63,7 +71,7 @@ private fun Project.configureAndroid() = android<BaseExtension> {
     }
 
     testOptions {
-        unitTests.all { it.configure(redmadrobotExtension.android.test) }
+        unitTests.all { it.setTestOptions(options.test) }
     }
 }
 

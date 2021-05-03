@@ -1,15 +1,16 @@
 package com.redmadrobot.build.extension
 
-import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
-import org.gradle.kotlin.dsl.getByType
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 public open class RedmadrobotExtension(objects: ObjectFactory) {
 
     public companion object {
+        /** Extension name. */
         public const val NAME: String = "redmadrobot"
 
         // Relative to root project directory.
@@ -17,6 +18,27 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
 
         // Relative to root project build directory.
         internal const val DEFAULT_REPORTS_DIR = "reports/"
+
+        /**
+         * Provides delegate to add an extra field to [RedmadrobotExtension].
+         * ```
+         * val RedmadrobotExtension.extra: ExtraOptions by RedmadrobotExtension.field { ExtraOptions() }
+         * ```
+         */
+        public fun <V : Any> field(
+            defaultValue: RedmadrobotExtension.() -> V,
+        ): ReadWriteProperty<RedmadrobotExtension, V> {
+            return object : ReadWriteProperty<RedmadrobotExtension, V> {
+                override fun getValue(thisRef: RedmadrobotExtension, property: KProperty<*>): V {
+                    @Suppress("UNCHECKED_CAST")
+                    return thisRef.extraFields.getOrPut(property.name) { defaultValue(thisRef) } as V
+                }
+
+                override fun setValue(thisRef: RedmadrobotExtension, property: KProperty<*>, value: V) {
+                    thisRef.extraFields[property.name] = value
+                }
+            }
+        }
     }
 
     /** Kotlin version that should be used for all projects. */
@@ -28,16 +50,10 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     /** Directory where will be stored static analyzers reports. */
     public val reportsDir: DirectoryProperty = objects.directoryProperty()
 
-    /** Settings for android modules. */
-    public val android: AndroidOptions = AndroidOptions()
-
-    public fun android(configure: AndroidOptions.() -> Unit) {
-        android.configure()
-    }
-
     /** Settings for publishing. */
     public val publishing: PublishingOptions = PublishingOptions()
 
+    /** Settings for publishing. */
     public fun publishing(configure: PublishingOptions.() -> Unit) {
         publishing.configure()
     }
@@ -45,25 +61,16 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     /** Settings for JVM test task. */
     public val test: TestOptions = TestOptions()
 
+    /** Settings for JVM test task. */
     public fun test(configure: TestOptions.() -> Unit) {
         test.configure()
     }
-}
 
-public class AndroidOptions internal constructor() {
-
-    /** Minimal Android SDK that will be applied to all android modules. */
-    public var minSdk: Int = 21
-
-    /** Target Android SDK that will be applied to all android modules. */
-    public var targetSdk: Int = 30
-
-    /** Settings for Android test task. */
-    public val test: TestOptions = TestOptions()
-
-    public fun test(configure: TestOptions.() -> Unit) {
-        test.run(configure)
-    }
+    /**
+     * Provides storage for additional extension fields.
+     * @see field
+     */
+    private val extraFields = mutableMapOf<String, Any?>()
 }
 
 public class PublishingOptions internal constructor() {
@@ -94,7 +101,7 @@ public class PublishingOptions internal constructor() {
     }
 }
 
-public class TestOptions internal constructor() {
+public class TestOptions {
 
     /** Flag for using Junit Jupiter Platform */
     internal var useJunitPlatform: Boolean = true
@@ -112,6 +119,3 @@ public class TestOptions internal constructor() {
         useJunitPlatform = false
     }
 }
-
-internal val Project.redmadrobotExtension: RedmadrobotExtension
-    get() = rootProject.extensions.getByType()

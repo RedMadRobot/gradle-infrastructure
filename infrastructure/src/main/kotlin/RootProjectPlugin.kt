@@ -19,15 +19,3 @@ public class RootProjectPlugin : Plugin<Project> {
         rmr.reportsDir.convention(layout.buildDirectory.dir(RedmadrobotExtension.DEFAULT_REPORTS_DIR))
     }
 }
-
-internal fun Project.requireRootPlugin() {
-    check(rootProject.plugins.hasPlugin("redmadrobot.root-project")) {
-        """
-        Plugin 'redmadrobot.root-project' not found. You should apply it to your root project:
-
-        plugins {
-            id("redmadrobot.root-project") version "[LATEST_VERSION_HERE]"
-        }
-        """.trimIndent()
-    }
-}
