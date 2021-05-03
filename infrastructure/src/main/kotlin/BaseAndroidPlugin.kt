@@ -3,6 +3,9 @@ package com.redmadrobot.build
 import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.extension.AndroidOptions
 import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.internal.configureKotlin
+import com.redmadrobot.build.internal.configureKotlinTestDependencies
+import com.redmadrobot.build.internal.setTestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider

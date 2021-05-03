@@ -1,6 +1,8 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.isReleaseVersion
+import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.internal.java
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication

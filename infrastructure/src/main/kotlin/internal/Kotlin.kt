@@ -1,8 +1,8 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.internal
 
 import com.redmadrobot.build.extension.TestOptions
 import com.redmadrobot.build.extension.isRunningOnCi
-import com.redmadrobot.build.internal.findBooleanProperty
+import com.redmadrobot.build.kotlinCompile
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin

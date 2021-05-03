@@ -3,6 +3,7 @@ package com.redmadrobot.build
 import com.android.build.gradle.AppExtension
 import com.redmadrobot.build.extension.RedmadrobotExtension
 import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.internal.configureKotlinDependencies
 import org.gradle.api.Project
 
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {

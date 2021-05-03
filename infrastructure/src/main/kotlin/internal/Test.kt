@@ -1,4 +1,4 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.internal
 
 import com.redmadrobot.build.extension.TestOptions
 import org.gradle.api.tasks.testing.Test

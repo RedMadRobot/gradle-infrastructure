@@ -2,6 +2,8 @@ package com.redmadrobot.build
 
 import com.android.build.gradle.LibraryExtension
 import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.internal.configureKotlinDependencies
+import com.redmadrobot.build.internal.kotlin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
