@@ -58,9 +58,10 @@ public open class PublishPlugin : InfrastructurePlugin() {
         error(
             """
             The project was recognized as Android-related because the plugin 'kotlin-android' was found.
-            If you want to publish android artifacts, you should use 'infrastructure-android' instead of 'infrastructure'.
+            If you want to publish android artifacts, you should use 'infrastructure-android'
+            instead of 'infrastructure'.
             You can change it in gradle.settings.kts
-            """.trimIndent()
+            """.trimIndent(),
         )
     }
 
