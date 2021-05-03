@@ -13,11 +13,13 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 - [Installation](#installation)
 - [Plugins](#plugins)
   - [kotlin-library](#kotlin-library)
-  - [application and android-library](#application-and-android-library)
   - [publish](#publish)
   - [detekt](#detekt)
+- [Android Plugins](#android-plugins)
+  - [application and android-library](#application-and-android-library)
 - [Usage](#usage)
   - [Configuration](#configuration)
+  - [Warnings as errors](#warnings-as-errors)
   - [Share sources between build types](#share-sources-between-build-types)
   - [Configure junit test execution options](#configure-junit-test-execution-options)
 - [Samples](#samples)
@@ -37,14 +39,17 @@ Add resolution strategy to `settings.gradle.kts`:
 ```kotlin
 pluginManagement {
     repositories {
-        google()
+        google() // Required if you use infrastructure-android
         gradlePluginPortal()
     }
 
     resolutionStrategy {
         eachPlugin {
             if (requested.id.namespace == "redmadrobot") {
+                // For pure Kotlin projects
                 useModule("com.redmadrobot.build:infrastructure:${requested.version}")
+                // For Android projects
+                useModule("com.redmadrobot.build:infrastructure-android:${requested.version}")
             }
         }
     }
@@ -92,31 +97,6 @@ Common configurations for pure Kotlin libraries.
 - Adds `kotlin-stdlib-jdk8` as dependency with `api` scope
 - Adds `kotlin-test` and `junit` as test dependencies
 - Enables [explicit API mode][explicit-api]
-
-### application and android-library
-
-Common configurations for Android libraries and application.
-
-Both:
-- Specifies `jvmTarget` and `compatibility` 1.8
-- Specifies default compile, min and target SDK
-- Disables `aidl`, `renderScript` and `shaders` [build-features]
-- Adds `kotlin/` dirs to source sets
-- Adds repositories `mavenCentral` and `google`
-- Adds `kotlin-stdlib-jdk8` as dependency
-- Adds `kotlin-test` and `junit` as test dependency
-
-Library:
-- Applies plugin `com.android.library`
-- Disables `buildConfig` and `resValues` [build-features] 
-- Enables [explicit API mode][explicit-api]
-
-Application:
-- Applies plugin `com.android.application`
-- Adds all proguard files from `proguard` folder
-- Configures `debug`, `staging` and `release` build types
-- Adds `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` BuildConfig variables which `false` only for `debug` build type
-- Configures Android Lint [default options][lint-options] 
 
 ### publish
 
@@ -203,10 +183,39 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 ### detekt
 
 - Adds repository `mavenCentral`
-- Adds `detekt` and `detekt-formatting`
+- Applies `detekt` plugin with `detekt-formatting`
 - Configures additional tasks:
-  - `detektAll` - Runs over whole code base
-  - `detektFormat` - Reformats whole code base
+    - `detektAll` - Runs Detekt over the whole codebase
+    - `detektFormat` - Reformats the whole codebase with Detekt
+
+## Android Plugins
+
+> These plugins require `infrastructure-android` to use instead of `infrastructure`.
+
+### application and android-library
+
+Common configurations for Android libraries and application.
+
+Both:
+- Specifies `jvmTarget` and `compatibility` 1.8
+- Specifies default compile, min and target SDK
+- Disables `aidl`, `renderScript` and `shaders` [build-features]
+- Adds `kotlin/` dirs to source sets
+- Adds repositories `mavenCentral` and `google`
+- Adds `kotlin-stdlib-jdk8` as dependency
+- Adds `kotlin-test` and `junit` as test dependency
+
+Library:
+- Applies plugin `com.android.library`
+- Disables `buildConfig` and `resValues` [build-features]
+- Enables [explicit API mode][explicit-api]
+
+Application:
+- Applies plugin `com.android.application`
+- Adds all proguard files from `proguard` folder
+- Configures `debug`, `staging` and `release` build types
+- Adds `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` BuildConfig variables which `false` only for `debug` build type
+- Configures Android Lint [default options][lint-options]
 
 ## Usage
 
