@@ -33,7 +33,7 @@ private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppE
 
     buildTypes {
         getByName(BUILD_TYPE_DEBUG) {
-            applicationIdSuffix = ".debug"
+            applicationIdSuffix = ".$BUILD_TYPE_DEBUG"
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
@@ -49,9 +49,9 @@ private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppE
             isShrinkResources = true
         }
 
-        register(BUILD_TYPE_STAGING) {
+        register(BUILD_TYPE_QA) {
             initWith(release)
-            applicationIdSuffix = ".staging"
+            applicationIdSuffix = ".$BUILD_TYPE_QA"
             isDebuggable = true
             matchingFallbacks += BUILD_TYPE_RELEASE
             signingConfig = signingConfigs.findByName(BUILD_TYPE_DEBUG)
@@ -70,10 +70,6 @@ private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppE
 }
 
 // Constants
-
-public const val BUILD_TYPE_DEBUG: String = "debug"
-public const val BUILD_TYPE_STAGING: String = "staging"
-public const val BUILD_TYPE_RELEASE: String = "release"
 
 private const val VAR_LOCK_ORIENTATION = "LOCK_ORIENTATION"
 private const val VAR_CRASH_REPORTS_ENABLED = "CRASH_REPORTS_ENABLED"

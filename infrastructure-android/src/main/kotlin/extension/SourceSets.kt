@@ -4,14 +4,14 @@ import com.android.SdkConstants.*
 import com.android.build.api.dsl.AndroidSourceSet
 import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.BUILD_TYPE_DEBUG
+import com.redmadrobot.build.BUILD_TYPE_QA
 import com.redmadrobot.build.BUILD_TYPE_RELEASE
-import com.redmadrobot.build.BUILD_TYPE_STAGING
 import org.gradle.api.Incubating
 import org.gradle.kotlin.dsl.get
 
 /**
  * Adds sources from one build type to another build type with syntax `<from> to <to>`.
- * You can use constants [BUILD_TYPE_DEBUG], [BUILD_TYPE_RELEASE] and [BUILD_TYPE_STAGING]
+ * You can use constants [BUILD_TYPE_DEBUG], [BUILD_TYPE_RELEASE] and [BUILD_TYPE_QA]
  * for predefined build types.
  *
  * ```
