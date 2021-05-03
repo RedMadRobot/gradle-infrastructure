@@ -1,17 +1,15 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.isReleaseVersion
-import com.redmadrobot.build.internal.android
 import com.redmadrobot.build.internal.java
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 
-public class PublishPlugin : InfrastructurePlugin() {
+public open class PublishPlugin : InfrastructurePlugin() {
 
     public companion object {
         public const val PUBLICATION_NAME: String = "maven"
@@ -56,33 +54,14 @@ public class PublishPlugin : InfrastructurePlugin() {
         }
     }
 
-    private fun Project.configureAndroidPublication(): String {
-        val sourcesJar = tasks.register<Jar>("sourcesJar") {
-            archiveClassifier.set("sources")
-            from(android.sourceSets["main"].java.srcDirs)
-        }
-
-        // Pre-create publication to make it configurable
-        publishing.publications.create<MavenPublication>(PUBLICATION_NAME)
-
-        // Because the components are created only during the afterEvaluate phase, you must
-        // configure your publications using the afterEvaluate() lifecycle method.
-        afterEvaluate {
-            if (version == Project.DEFAULT_VERSION) {
-                version = checkNotNull(android.defaultConfig.versionName) {
-                    "You should specify either project 'version' or 'android.versionName' for publication."
-                }
-            }
-
-            publishing {
-                publications.getByName<MavenPublication>(PUBLICATION_NAME) {
-                    from(components["release"])
-                    artifact(sourcesJar.get())
-                }
-            }
-        }
-
-        return PUBLICATION_NAME
+    protected open fun Project.configureAndroidPublication(): String {
+        error(
+            """
+            The project was recognized as Android-related because the plugin 'kotlin-android' was found.
+            If you want to publish android artifacts, you should use 'infrastructure-android' instead of 'infrastructure'.
+            You can change it in gradle.settings.kts
+            """.trimIndent()
+        )
     }
 
     private fun Project.configurePluginPublication(): String {

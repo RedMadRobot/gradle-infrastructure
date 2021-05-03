@@ -27,11 +27,9 @@ gradlePlugin {
 
 repositories {
     mavenCentral()
-    google()
 }
 
 dependencies {
     api(kotlin("gradle-plugin", version = "1.4.32"))
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.16.0")
-    implementation("com.android.tools.build:gradle:4.1.3")
 }

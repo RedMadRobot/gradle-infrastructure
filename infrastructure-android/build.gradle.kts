@@ -14,6 +14,10 @@ gradlePlugin {
             id = "redmadrobot.android-library"
             implementationClass = "com.redmadrobot.build.AndroidLibraryPlugin"
         }
+        register("publish") {
+            id = "redmadrobot.publish"
+            implementationClass = "com.redmadrobot.build.AndroidPublishPlugin"
+        }
     }
 }
 
