@@ -5,8 +5,10 @@ import com.redmadrobot.build.extension.isRunningOnCi
 import com.redmadrobot.build.extension.redmadrobotExtension
 import com.redmadrobot.build.internal.findBooleanProperty
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.withType
 
 internal fun Project.configureKotlin() {
     val warningsAsErrors = getWarningsAsErrorsProperty()
@@ -25,7 +27,9 @@ private fun Project.getWarningsAsErrorsProperty(): Boolean {
 }
 
 internal fun Project.configureKotlinTest() {
-    kotlinTest { configure(redmadrobotExtension.test) }
+    tasks.withType<Test>().configureEach {
+        setTestOptions(redmadrobotExtension.test)
+    }
 }
 
 internal fun Project.configureKotlinDependencies(configuration: String = "api") {

@@ -3,24 +3,24 @@ package com.redmadrobot.build
 import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.JavaVersion
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
-public abstract class BaseAndroidPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
-            requireRootPlugin()
-            apply(plugin = "kotlin-android")
+public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 
-            configureKotlin()
-            configureAndroid()
-            configureRepositories()
-            configureKotlinTestDependencies(redmadrobotExtension.android.test)
-        }
+    /** Should be called from [configure] in implementation. */
+    protected fun Project.applyBaseAndroidPlugin(plugin: String) {
+        requireRootPlugin()
+        apply(plugin = plugin)
+        apply(plugin = "kotlin-android")
+
+        configureKotlin()
+        configureAndroid()
+        configureRepositories()
+        configureKotlinTestDependencies(redmadrobotExtension.android.test)
     }
 }
 

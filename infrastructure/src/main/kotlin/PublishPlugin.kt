@@ -2,45 +2,55 @@ package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.isReleaseVersion
 import com.redmadrobot.build.extension.redmadrobotExtension
-import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.plugins.signing.Sign
+import org.gradle.plugins.signing.SigningExtension
 
-public class PublishPlugin : Plugin<Project> {
+public class PublishPlugin : InfrastructurePlugin() {
 
     public companion object {
         public const val PUBLICATION_NAME: String = "maven"
         public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
     }
 
-    override fun apply(target: Project) {
-        with(target) {
-            apply(plugin = "maven-publish")
+    protected val publishing: PublishingExtension
+        get() = project.extensions.getByName<PublishingExtension>("publishing")
 
-            val publicationName = when {
-                plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
-                plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
-                else -> configurePublication()
+    protected fun publishing(configure: PublishingExtension.() -> Unit) {
+        project.extensions.configure("publishing", configure)
+    }
+
+    private fun signing(configure: SigningExtension.() -> Unit) {
+        project.extensions.configure("signing", configure)
+    }
+
+    override fun Project.configure() {
+        apply(plugin = "maven-publish")
+
+        val publicationName = when {
+            plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
+            plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
+            else -> configurePublication()
+        }
+
+        // Do it after project evaluate to be able to access publications created later
+        afterEvaluate {
+            val redmadrobot = redmadrobotExtension
+
+            publishing.publications.getByName<MavenPublication>(publicationName) {
+                pom {
+                    name.convention(project.name)
+                    description.convention(project.description)
+                    redmadrobot.publishing.configurePom(this)
+                }
             }
 
-            // Do it after project evaluate to be able to access publications created later
-            afterEvaluate {
-                val redmadrobot = redmadrobotExtension
-
-                publishing.publications.getByName<MavenPublication>(publicationName) {
-                    pom {
-                        name.convention(project.name)
-                        description.convention(project.description)
-                        redmadrobot.publishing.configurePom(this)
-                    }
-                }
-
-                if (redmadrobot.publishing.signArtifacts) {
-                    configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
-                }
+            if (redmadrobot.publishing.signArtifacts) {
+                configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
             }
         }
     }

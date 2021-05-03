@@ -3,18 +3,14 @@ package com.redmadrobot.build
 import com.android.build.gradle.AppExtension
 import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
 
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
-    override fun apply(target: Project) {
-        with(target) {
-            apply(plugin = "com.android.application")
-            super.apply(target)
+    override fun Project.configure() {
+        applyBaseAndroidPlugin("com.android.application")
 
-            configureKotlinDependencies("implementation")
-            configureApp()
-        }
+        configureKotlinDependencies("implementation")
+        configureApp()
     }
 }
 
