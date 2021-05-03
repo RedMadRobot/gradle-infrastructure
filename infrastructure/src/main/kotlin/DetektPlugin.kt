@@ -1,6 +1,7 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.detektPlugins
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -37,7 +38,7 @@ private fun Project.configureDependencies() {
     }
 
     dependencies {
-        "detektPlugins"("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
     }
 }
 

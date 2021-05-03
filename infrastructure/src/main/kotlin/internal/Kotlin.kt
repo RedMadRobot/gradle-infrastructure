@@ -1,6 +1,5 @@
 package com.redmadrobot.build.internal
 
-import com.redmadrobot.build.extension.TestOptions
 import com.redmadrobot.build.extension.isRunningOnCi
 import com.redmadrobot.build.kotlinCompile
 import org.gradle.api.Project
@@ -23,21 +22,8 @@ private fun Project.getWarningsAsErrorsProperty(): Boolean {
     return findBooleanProperty("warningsAsErrors") ?: isRunningOnCi
 }
 
-internal fun Project.configureKotlinDependencies(kotlinVersion: String, configuration: String = "api") {
+internal fun Project.configureKotlinDependencies(kotlinVersion: String, configuration: String = api) {
     dependencies {
         configuration(kotlin("stdlib-jdk8", version = kotlinVersion))
-    }
-}
-
-internal fun Project.configureKotlinTestDependencies(kotlinVersion: String, testOptions: TestOptions) {
-    dependencies {
-        val kotlinJunitModule = if (testOptions.useJunitPlatform) {
-            "test-junit5"
-        } else {
-            "test-junit"
-        }
-
-        "testImplementation"(kotlin("test", version = kotlinVersion))
-        "testImplementation"(kotlin(kotlinJunitModule, version = kotlinVersion))
     }
 }
