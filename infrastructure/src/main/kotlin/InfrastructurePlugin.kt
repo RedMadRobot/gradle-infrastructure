@@ -12,6 +12,7 @@ import org.gradle.kotlin.dsl.getByType
 public abstract class InfrastructurePlugin : Plugin<Project> {
 
     public lateinit var project: Project
+        private set
 
     protected val redmadrobotExtension: RedmadrobotExtension
         get() = project.rootProject.extensions.getByType()
