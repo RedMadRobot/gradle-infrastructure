@@ -1,14 +1,15 @@
 package com.redmadrobot.build.internal
 
+import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.extension.isRunningOnCi
 import com.redmadrobot.build.kotlinCompile
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 
-internal fun Project.configureKotlin() {
-    val warningsAsErrors = getWarningsAsErrorsProperty()
-    kotlinCompile {
+public fun InfrastructurePlugin.configureKotlin() {
+    val warningsAsErrors = project.getWarningsAsErrorsProperty()
+    project.kotlinCompile {
         kotlinOptions {
             jvmTarget = "1.8"
             allWarningsAsErrors = warningsAsErrors
@@ -22,8 +23,8 @@ private fun Project.getWarningsAsErrorsProperty(): Boolean {
     return findBooleanProperty("warningsAsErrors") ?: isRunningOnCi
 }
 
-internal fun Project.configureKotlinDependencies(kotlinVersion: String, configuration: String = api) {
-    dependencies {
+public fun InfrastructurePlugin.configureKotlinDependencies(kotlinVersion: String, configuration: String = api) {
+    project.dependencies {
         configuration(kotlin("stdlib-jdk8", version = kotlinVersion))
     }
 }

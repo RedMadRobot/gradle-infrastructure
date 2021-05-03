@@ -1,13 +1,13 @@
 package com.redmadrobot.build.internal
 
+import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.extension.TestOptions
-import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
 
-internal fun Project.configureKotlinTestDependencies(kotlinVersion: String, testOptions: TestOptions) {
-    dependencies {
+public fun InfrastructurePlugin.configureKotlinTestDependencies(kotlinVersion: String, testOptions: TestOptions) {
+    project.dependencies {
         val kotlinJunitModule = if (testOptions.useJunitPlatform) {
             "test-junit5"
         } else {
@@ -19,7 +19,7 @@ internal fun Project.configureKotlinTestDependencies(kotlinVersion: String, test
     }
 }
 
-internal fun Test.setTestOptions(testOptions: TestOptions) {
+public fun Test.setTestOptions(testOptions: TestOptions) {
     if (testOptions.useJunitPlatform) {
         useJUnitPlatform {
             excludeEngines = testOptions.jUnitPlatformOptions.excludeEngines
