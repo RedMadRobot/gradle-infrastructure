@@ -25,6 +25,15 @@ resolutionStrategy {
 > import com.redmadrobot.build.extension.android
 > ```
 
+### QA build type name
+
+`BUILD_TYPE_STAGING` superseded with `BUILD_TYPE_QA`.
+To keep backward compatibility you can configure QA build type name using project property in `gradle.properties`:
+
+```properties
+redmadrobot.android.build.type.qa=staging
+```
+
 ### Added
 
 - Apply [android-cache-fix plugin](https://github.com/gradle/android-cache-fix-gradle-plugin) to android projects (#44)

@@ -214,9 +214,18 @@ Library:
 Application:
 - Applies plugin `com.android.application`
 - Adds all proguard files from `proguard` folder
-- Configures `debug`, `staging` and `release` build types
+- Configures `debug`, `qa` and `release` build types
 - Adds `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` BuildConfig variables which `false` only for `debug` build type
 - Configures Android Lint [default options][lint-options]
+
+#### QA build type name confguration
+
+By default, for QA builds used name "qa", but you can configure `BUILD_TYPE_QA` via `gradle.properties`:
+
+```properties
+# Override QA build type name
+redmadrobot.android.build.type.qa=staging
+```
 
 ## Usage
 
@@ -256,10 +265,11 @@ android {
 }
 ```
 
-### Configure junit test execution options
+### Configure JUnit test execution options
 
 By default, the plugin uses the JUnit Platform to run tests.
 If you want to configure it, for example include an engine, you can do it using the `test` extension for both JVM and android.
+
 ```kotlin
 redmadrobot {
     test {
@@ -278,6 +288,7 @@ redmadrobot {
 ```
 
 If you want to use JUnit 4 framework to run tests, you need to specify `useJunit()` in test block.
+
 ```kotlin
 redmadrobot {
     test {
