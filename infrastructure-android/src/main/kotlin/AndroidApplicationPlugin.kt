@@ -31,6 +31,7 @@ private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppE
         buildConfigField("boolean", VAR_CRASH_REPORTS_ENABLED, "true")
     }
 
+    finalizeQaBuildType()
     buildTypes {
         getByName(BUILD_TYPE_DEBUG) {
             applicationIdSuffix = ".$BUILD_TYPE_DEBUG"
