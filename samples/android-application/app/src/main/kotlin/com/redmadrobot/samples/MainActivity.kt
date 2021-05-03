@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // This method is implemented only for debug and staging build types.
+        // This method is implemented only for debug and QA build types.
         DebugPanelInitializer.init()
     }
 }
