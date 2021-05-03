@@ -9,7 +9,6 @@ import org.gradle.kotlin.dsl.repositories
 public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
     override fun Project.configure() {
-        requireRootPlugin()
         apply(plugin = "kotlin")
 
         java {

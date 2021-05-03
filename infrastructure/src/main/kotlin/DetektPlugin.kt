@@ -11,7 +11,6 @@ import org.gradle.kotlin.dsl.repositories
 public class DetektPlugin : InfrastructurePlugin() {
 
     override fun Project.configure() {
-        requireRootPlugin()
         apply(plugin = "io.gitlab.arturbosch.detekt")
 
         configureDependencies()
