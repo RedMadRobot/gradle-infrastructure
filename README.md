@@ -253,15 +253,15 @@ You can change it by defining the `warningsAsErrors` project property.
 ### Share sources between build types
 
 You can share sources between two build types.  
-For example, you need to use debug panel in both debug and staging builds, and don't want to write similar duplicating code for each of these build types.
+For example, you need to use debug panel in both debug and QA builds, and don't want to write similar duplicating code for each of these build types.
 You can do it with one line with [addSharedSourceSetRoot] extension-function:
 ```kotlin
 android {
-    // We need to share sources between debug and staging builds
-    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING)
+    // We need to share sources between debug and QA builds
+    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
 
     // We can specify name for the source set root if need
-    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING, name = "debugPanel")
+    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
 }
 ```
 
