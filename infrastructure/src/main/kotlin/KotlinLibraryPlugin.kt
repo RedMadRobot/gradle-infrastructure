@@ -1,10 +1,12 @@
 package com.redmadrobot.build
 
-import com.redmadrobot.build.extension.redmadrobotExtension
+import com.redmadrobot.build.extension.TestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.repositories
+import org.gradle.kotlin.dsl.withType
 
 public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
@@ -18,12 +20,17 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
         kotlin.explicitApi()
 
+        val extension = redmadrobotExtension
         configureKotlin()
-        configureKotlinTest()
+        configureKotlinDependencies(extension.kotlinVersion)
+        configureKotlinTest(extension.test)
+        configureKotlinTestDependencies(extension.kotlinVersion, extension.test)
         configureRepositories()
-        configureKotlinDependencies()
-        configureKotlinTestDependencies(redmadrobotExtension.test)
     }
+}
+
+private fun Project.configureKotlinTest(options: TestOptions) {
+    tasks.withType<Test>().configureEach { setTestOptions(options) }
 }
 
 private fun Project.configureRepositories() {

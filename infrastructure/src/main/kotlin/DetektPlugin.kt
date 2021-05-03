@@ -1,6 +1,6 @@
 package com.redmadrobot.build
 
-import com.redmadrobot.build.extension.redmadrobotExtension
+import com.redmadrobot.build.extension.RedmadrobotExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -14,7 +14,7 @@ public class DetektPlugin : InfrastructurePlugin() {
         apply(plugin = "io.gitlab.arturbosch.detekt")
 
         configureDependencies()
-        configureDetektTasks()
+        configureDetektTasks(redmadrobotExtension)
     }
 }
 
@@ -41,25 +41,29 @@ private fun Project.configureDependencies() {
     }
 }
 
-private fun Project.configureDetektTasks() {
-    detektTask("detektFormat") {
+private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
+    detektTask(extension, "detektFormat") {
         description = "Reformats whole code base."
         disableDefaultRuleSets = true
         autoCorrect = true
     }
 
-    detektTask("detektAll") {
+    detektTask(extension, "detektAll") {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 }
 
-private inline fun Project.detektTask(name: String, crossinline configure: Detekt.() -> Unit) {
+private inline fun Project.detektTask(
+    extension: RedmadrobotExtension,
+    name: String,
+    crossinline configure: Detekt.() -> Unit,
+) {
     tasks.register<Detekt>(name) {
         configure()
         parallel = true
-        config.setFrom(redmadrobotExtension.configsDir.file("detekt/detekt.yml"))
+        config.setFrom(extension.configsDir.file("detekt/detekt.yml"))
         setSource(rootProject.files(rootProject.projectDir))
-        reportsDir.set(redmadrobotExtension.reportsDir.asFile)
+        reportsDir.set(extension.reportsDir.asFile)
         include("**/*.kt")
         include("**/*.kts")
         exclude("**/res/**")

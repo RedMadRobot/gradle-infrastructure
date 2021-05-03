@@ -3,7 +3,7 @@ package com.redmadrobot.build
 import com.redmadrobot.build.extension.TestOptions
 import org.gradle.api.tasks.testing.Test
 
-internal fun Test.configure(testOptions: TestOptions) {
+internal fun Test.setTestOptions(testOptions: TestOptions) {
     if (testOptions.useJunitPlatform) {
         useJUnitPlatform {
             excludeEngines = testOptions.jUnitPlatformOptions.excludeEngines

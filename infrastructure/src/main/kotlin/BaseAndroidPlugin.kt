@@ -1,7 +1,8 @@
 package com.redmadrobot.build
 
 import com.android.build.gradle.BaseExtension
-import com.redmadrobot.build.extension.redmadrobotExtension
+import com.redmadrobot.build.extension.AndroidOptions
+import com.redmadrobot.build.internal.android
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
@@ -18,18 +19,17 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
         }
 
         configureKotlin()
-        configureAndroid()
+        configureAndroid(redmadrobotExtension.android)
         configureRepositories()
-        configureKotlinTestDependencies(redmadrobotExtension.android.test)
+        configureKotlinTestDependencies(redmadrobotExtension.kotlinVersion, redmadrobotExtension.android.test)
     }
 }
 
-private fun Project.configureAndroid() = android<BaseExtension> {
-    val androidSettings = redmadrobotExtension.android
-    compileSdkVersion(androidSettings.targetSdk)
+private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExtension> {
+    compileSdkVersion(options.targetSdk)
     defaultConfig {
-        minSdkVersion(androidSettings.minSdk)
-        targetSdkVersion(androidSettings.targetSdk)
+        minSdkVersion(options.minSdk)
+        targetSdkVersion(options.targetSdk)
     }
 
     // Set NDK version from env variable if exists
@@ -63,7 +63,7 @@ private fun Project.configureAndroid() = android<BaseExtension> {
     }
 
     testOptions {
-        unitTests.all { it.configure(redmadrobotExtension.android.test) }
+        unitTests.all { it.setTestOptions(options.test) }
     }
 }
 

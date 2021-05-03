@@ -1,7 +1,6 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.isReleaseVersion
-import com.redmadrobot.build.extension.redmadrobotExtension
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -39,18 +38,18 @@ public class PublishPlugin : InfrastructurePlugin() {
 
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
-            val redmadrobot = redmadrobotExtension
+            val options = redmadrobotExtension.publishing
 
             publishing.publications.getByName<MavenPublication>(publicationName) {
                 pom {
                     name.convention(project.name)
                     description.convention(project.description)
-                    redmadrobot.publishing.configurePom(this)
+                    options.configurePom(this)
                 }
             }
 
-            if (redmadrobot.publishing.signArtifacts) {
-                configureSigning(publicationName, redmadrobot.publishing.useGpgAgent)
+            if (options.signArtifacts) {
+                configureSigning(publicationName, options.useGpgAgent)
             }
         }
     }

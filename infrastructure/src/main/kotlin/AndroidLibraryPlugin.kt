@@ -1,6 +1,7 @@
 package com.redmadrobot.build
 
 import com.android.build.gradle.LibraryExtension
+import com.redmadrobot.build.internal.android
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -20,7 +21,7 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
             }
         }
 
-        configureKotlinDependencies()
+        configureKotlinDependencies(redmadrobotExtension.kotlinVersion)
 
         // Enable Explicit API by default
         if (kotlin.explicitApi == null) kotlin.explicitApi()

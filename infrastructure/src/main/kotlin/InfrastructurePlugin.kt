@@ -1,7 +1,9 @@
 package com.redmadrobot.build
 
+import com.redmadrobot.build.extension.RedmadrobotExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.getByType
 
 /**
  * Base plugin class.
@@ -10,6 +12,9 @@ import org.gradle.api.Project
 public abstract class InfrastructurePlugin : Plugin<Project> {
 
     public lateinit var project: Project
+
+    protected val redmadrobotExtension: RedmadrobotExtension
+        get() = project.rootProject.extensions.getByType()
 
     /** @see configure */
     final override fun apply(target: Project) {

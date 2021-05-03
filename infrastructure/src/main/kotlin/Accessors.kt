@@ -16,10 +16,6 @@ internal val Project.kotlin: KotlinProjectExtension get() = extensions.getByName
 
 internal val Project.android: BaseExtension get() = extensions.getByName<BaseExtension>("android")
 
-internal fun <T : BaseExtension> Project.android(configure: T.() -> Unit) {
-    extensions.configure("android", configure)
-}
-
 public inline fun Project.kotlinCompile(crossinline configure: KotlinCompile.() -> Unit) {
     tasks.withType<KotlinCompile> { configure() }
 }

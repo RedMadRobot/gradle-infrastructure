@@ -1,11 +1,9 @@
 package com.redmadrobot.build.extension
 
-import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
-import org.gradle.kotlin.dsl.getByType
 
 public open class RedmadrobotExtension(objects: ObjectFactory) {
 
@@ -112,6 +110,3 @@ public class TestOptions internal constructor() {
         useJunitPlatform = false
     }
 }
-
-internal val Project.redmadrobotExtension: RedmadrobotExtension
-    get() = rootProject.extensions.getByType()
