@@ -24,9 +24,11 @@ gradlePlugin {
 repositories {
     mavenCentral()
     google()
+    gradlePluginPortal()
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:4.1.3")
     api(project(":infrastructure"))
+    implementation("com.android.tools.build:gradle:4.1.3")
+    implementation("gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.3.0")
 }

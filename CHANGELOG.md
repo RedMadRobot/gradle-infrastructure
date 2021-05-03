@@ -25,7 +25,11 @@ resolutionStrategy {
 > import com.redmadrobot.build.extension.android
 > ```
 
-### Changes
+### Added
+
+- Apply [android-cache-fix plugin](https://github.com/gradle/android-cache-fix-gradle-plugin) to android projects (#44)
+
+### Changed
 
 - Updated Gradle 6.8.3 -> 7.0
 - Completely removed `jcenter` from repositories (#36)

@@ -204,6 +204,7 @@ Both:
 - Adds repositories `mavenCentral` and `google`
 - Adds `kotlin-stdlib-jdk8` as dependency
 - Adds `kotlin-test` and `junit` as test dependency
+- Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)
 
 Library:
 - Applies plugin `com.android.library`

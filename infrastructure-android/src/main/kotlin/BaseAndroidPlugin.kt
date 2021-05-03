@@ -20,6 +20,10 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
         apply {
             plugin(pluginId)
             plugin("kotlin-android")
+
+            // Apply fix for Android caching problems
+            // See https://github.com/gradle/android-cache-fix-gradle-plugin
+            plugin("org.gradle.android.cache-fix")
         }
 
         configureKotlin()
