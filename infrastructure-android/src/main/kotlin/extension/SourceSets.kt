@@ -4,20 +4,20 @@ import com.android.SdkConstants.*
 import com.android.build.api.dsl.AndroidSourceSet
 import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.BUILD_TYPE_DEBUG
+import com.redmadrobot.build.BUILD_TYPE_QA
 import com.redmadrobot.build.BUILD_TYPE_RELEASE
-import com.redmadrobot.build.BUILD_TYPE_STAGING
 import org.gradle.api.Incubating
 import org.gradle.kotlin.dsl.get
 
 /**
  * Adds sources from one build type to another build type with syntax `<from> to <to>`.
- * You can use constants [BUILD_TYPE_DEBUG], [BUILD_TYPE_RELEASE] and [BUILD_TYPE_STAGING]
+ * You can use constants [BUILD_TYPE_DEBUG], [BUILD_TYPE_RELEASE] and [BUILD_TYPE_QA]
  * for predefined build types.
  *
  * ```
  *  android {
- *      // Here we need to use debug sources in staging builds
- *      mergeSourceSets(BUILD_TYPE_DEBUG to BUILD_TYPE_STAGING)
+ *      // Here we need to use debug sources in QA builds
+ *      mergeSourceSets(BUILD_TYPE_DEBUG to BUILD_TYPE_QA)
  *  }
  * ```
  */
@@ -32,12 +32,12 @@ public fun BaseExtension.mergeSourceSets(mapping: Pair<String, String>) {
 
 /**
  * Adds sources from build type with name [from] to build type with name [to].
- * You can use constants [BUILD_TYPE_DEBUG], [BUILD_TYPE_RELEASE] and [BUILD_TYPE_STAGING]
+ * You can use constants [BUILD_TYPE_DEBUG], [BUILD_TYPE_RELEASE] and [BUILD_TYPE_QA]
  * for predefined build types.
  * ```
  *  android {
- *      // Here we need to use debug sources in staging builds
- *      mergeSourceSets(from = BUILD_TYPE_DEBUG, to = BUILD_TYPE_STAGING)
+ *      // Here we need to use debug sources in QA builds
+ *      mergeSourceSets(from = BUILD_TYPE_DEBUG, to = BUILD_TYPE_QA)
  *  }
  * ```
  */
@@ -56,11 +56,11 @@ public fun BaseExtension.mergeSourceSets(from: String, to: String) {
  * By default [name] is a combination of `variant1` and `variant2` names.
  * ```
  *  android {
- *      // Here we need to share sources between debug and staging builds
- *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING)
+ *      // Here we need to share sources between debug and QA builds
+ *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
  *
  *      // We can specify name for the source set root if need
- *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING, name = "debugPanel")
+ *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
  *  }
  * ```
  */

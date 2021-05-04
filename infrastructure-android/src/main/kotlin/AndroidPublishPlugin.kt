@@ -31,7 +31,7 @@ public class AndroidPublishPlugin : PublishPlugin() {
 
             publishing {
                 publications.getByName<MavenPublication>(PUBLICATION_NAME) {
-                    from(components["release"])
+                    from(components[BUILD_TYPE_RELEASE])
                     artifact(sourcesJar.get())
                 }
             }

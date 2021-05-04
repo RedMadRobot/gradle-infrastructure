@@ -1,5 +1,5 @@
 import com.redmadrobot.build.BUILD_TYPE_DEBUG
-import com.redmadrobot.build.BUILD_TYPE_STAGING
+import com.redmadrobot.build.BUILD_TYPE_QA
 import com.redmadrobot.build.extension.addSharedSourceSetRoot
 
 plugins {
@@ -20,9 +20,9 @@ android {
 
     // If we need to share sources between two build types,
     // we can add shared source set root.
-    // In this case will be created directory "debugStaging"
-    // that will be included to debug and staging source sets.
-    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_STAGING)
+    // In this case will be created directory "debugQa"
+    // that will be included to debug and QA source sets.
+    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
 }
 
 dependencies {
