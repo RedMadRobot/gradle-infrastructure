@@ -1,7 +1,3 @@
-plugins {
-    `kotlin-dsl`
-}
-
 description = "Small plugins to reduce boilerplate in Android projects' Gradle build scripts."
 
 gradlePlugin {

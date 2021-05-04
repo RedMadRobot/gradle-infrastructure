@@ -4,12 +4,14 @@ plugins {
     id("redmadrobot.root-project") version "0.8.2"
     id("com.github.ben-manes.versions") version "0.38.0"
     `maven-publish`
+    `kotlin-dsl` apply false
 }
 
 apply(plugin = "redmadrobot.detekt")
 
 subprojects {
     apply {
+        plugin("org.gradle.kotlin.kotlin-dsl")
         plugin("redmadrobot.kotlin-library")
         plugin("redmadrobot.publish")
     }
