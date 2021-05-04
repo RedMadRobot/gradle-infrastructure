@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.9] (2021-05-04)
+
 ### infrastructure-android
 
 Module `infrastructure` no more depends on AGP and doesn't require the `google()` repository to be applied.
@@ -201,7 +203,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.2...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.9...main
+[0.9]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.2...v0.9
 [0.8.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1..v0.8.2
 [0.8.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8...v0.8.1
 [0.8]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.7...v0.8

@@ -1,7 +1,7 @@
 import com.redmadrobot.build.extension.android
 
 plugins {
-    id("redmadrobot.root-project") version "0.9-SNAPSHOT"
+    id("redmadrobot.root-project") version "0.9"
 }
 
 // Common configurations for all modules
