@@ -66,6 +66,14 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
         test.configure()
     }
 
+    /** Settings for detekt task. */
+    public val detekt: DetektOptions = DetektOptions()
+
+    /** Settings for detekt task. */
+    public fun detekt(configure: DetektOptions.() -> Unit) {
+        detekt.configure()
+    }
+
     /**
      * Provides storage for additional extension fields.
      * @see field
@@ -117,5 +125,19 @@ public class TestOptions {
 
     public fun useJunit() {
         useJunitPlatform = false
+    }
+}
+
+public class DetektOptions {
+
+    /** Option for turn on check only changed files */
+    internal var checkDiffOnly: Boolean = false
+
+    /** Target branch to compare changes */
+    internal var targetDiffBranch: String = ""
+
+    public fun checkOnlyDiffOnBranch(branch: String) {
+        checkDiffOnly = true
+        targetDiffBranch = branch
     }
 }
