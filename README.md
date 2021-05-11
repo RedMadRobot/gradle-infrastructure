@@ -187,6 +187,7 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 - Configures additional tasks:
     - `detektAll` - Runs Detekt over the whole codebase
     - `detektFormat` - Reformats the whole codebase with Detekt
+    - `detektDiff` - Runs Detekt only on changed files if it enables
 
 ## Android Plugins
 
@@ -264,6 +265,18 @@ android {
     addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
 }
 ```
+
+### Enable Detekt checks only on changed files
+The plugin provides the ability to check only changed files. You can enable this:
+```kotlin
+redmadrobot {
+    detekt {
+        checkOnlyDiffOnBranch("develop")
+    }
+}
+```
+The plugin then adds a `detektDiff` task that allows you to check only changed files versus the target branch. The modified files are provided by Git.
+> Task `detektDiff` work with rules without **type resolutions**. About **type resolution** you can read [here](https://detekt.github.io/detekt/type-resolution.html).
 
 ### Configure JUnit test execution options
 
