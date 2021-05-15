@@ -49,7 +49,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
             }
 
             if (options.signArtifacts) {
-                configureSigning(publicationName, options.useGpgAgent)
+                configureSigning(options.useGpgAgent)
             }
         }
     }
@@ -91,12 +91,12 @@ public open class PublishPlugin : InfrastructurePlugin() {
         return PUBLICATION_NAME
     }
 
-    private fun Project.configureSigning(publicationName: String, useGpgAgent: Boolean) {
+    private fun Project.configureSigning(useGpgAgent: Boolean) {
         apply(plugin = "signing")
 
         signing {
             if (useGpgAgent) useGpgCmd()
-            sign(publishing.publications[publicationName])
+            sign(publishing.publications)
         }
 
         tasks.withType<Sign>().configureEach {

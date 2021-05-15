@@ -42,6 +42,7 @@ dependencies {
 ### Changed
 
 - Update Gradle 7.0 -> 7.0.2
+- Flag `publishing.signArtifacts` now affects all artifacts not only the main one
 
 ### Dependencies
 
