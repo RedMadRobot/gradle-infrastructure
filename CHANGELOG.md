@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Changed
+
+- Update Gradle 7.0 -> 7.0.2
+
 ## [0.9] (2021-05-04)
 
 ### infrastructure-android
