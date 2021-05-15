@@ -1,8 +1,16 @@
 ## [Unreleased]
 
+### Added
+
+- Memory leak fix for Kotlin 1.5.0 until 1.5.10 released ([KT-46368](https://youtrack.jetbrains.com/issue/KT-46368))
+
 ### Changed
 
 - Update Gradle 7.0 -> 7.0.2
+
+### Dependencies
+
+- Update Kotlin 1.4.32 -> 1.5.0
 
 ## [0.9] (2021-05-04)
 

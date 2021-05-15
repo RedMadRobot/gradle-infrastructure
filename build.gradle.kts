@@ -28,6 +28,8 @@ subprojects {
 }
 
 redmadrobot {
+    kotlinVersion = "1.5.0"
+
     publishing {
         signArtifacts = !isRunningOnCi
 
