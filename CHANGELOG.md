@@ -11,6 +11,7 @@
 ### Dependencies
 
 - Update Kotlin 1.4.32 -> 1.5.0
+- Update AGP 4.1.3 -> 4.2.1
 
 ## [0.9] (2021-05-04)
 
