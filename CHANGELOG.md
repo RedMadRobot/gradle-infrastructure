@@ -47,6 +47,7 @@ dependencies {
 ### Fixed
 
 - Publication not configured when `redmadrobot.publish` applied before other plugins
+- Look at flag `gradlePlugin.isAutomatedPublishing` when configuring gradle plugin publication
 
 ### Dependencies
 

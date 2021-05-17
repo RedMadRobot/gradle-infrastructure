@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.*
+import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 
@@ -23,7 +24,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
         afterEvaluate {
             val publicationName = when {
                 plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
-                plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
+                plugins.hasPlugin("java-gradle-plugin") && isPluginAutomatedPublishing -> configurePluginPublication()
                 else -> configurePublication()
             }
 
@@ -97,6 +98,9 @@ public open class PublishPlugin : InfrastructurePlugin() {
 
     protected val publishing: PublishingExtension
         get() = project.extensions.getByName<PublishingExtension>("publishing")
+
+    private val isPluginAutomatedPublishing: Boolean
+        get() = project.extensions.getByType<GradlePluginDevelopmentExtension>().isAutomatedPublishing
 
     protected fun publishing(configure: PublishingExtension.() -> Unit) {
         project.extensions.configure("publishing", configure)
