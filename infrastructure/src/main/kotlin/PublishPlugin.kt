@@ -16,28 +16,17 @@ public open class PublishPlugin : InfrastructurePlugin() {
         public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
     }
 
-    protected val publishing: PublishingExtension
-        get() = project.extensions.getByName<PublishingExtension>("publishing")
-
-    protected fun publishing(configure: PublishingExtension.() -> Unit) {
-        project.extensions.configure("publishing", configure)
-    }
-
-    private fun signing(configure: SigningExtension.() -> Unit) {
-        project.extensions.configure("signing", configure)
-    }
-
     override fun Project.configure() {
         apply(plugin = "maven-publish")
 
-        val publicationName = when {
-            plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
-            plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
-            else -> configurePublication()
-        }
-
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
+            val publicationName = when {
+                plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
+                plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
+                else -> configurePublication()
+            }
+
             val options = redmadrobotExtension.publishing
 
             publishing.publications.getByName<MavenPublication>(publicationName) {
@@ -102,5 +91,18 @@ public open class PublishPlugin : InfrastructurePlugin() {
         tasks.withType<Sign>().configureEach {
             onlyIf { isReleaseVersion }
         }
+    }
+
+    // Accessors
+
+    protected val publishing: PublishingExtension
+        get() = project.extensions.getByName<PublishingExtension>("publishing")
+
+    protected fun publishing(configure: PublishingExtension.() -> Unit) {
+        project.extensions.configure("publishing", configure)
+    }
+
+    private fun signing(configure: SigningExtension.() -> Unit) {
+        project.extensions.configure("signing", configure)
     }
 }

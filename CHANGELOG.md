@@ -44,6 +44,10 @@ dependencies {
 - Update Gradle 7.0 -> 7.0.2
 - Flag `publishing.signArtifacts` now affects all artifacts not only the main one
 
+### Fixed
+
+- Publication not configured when `redmadrobot.publish` applied before other plugins
+
 ### Dependencies
 
 - Update Kotlin 1.4.32 -> 1.5.10
