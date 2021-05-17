@@ -20,25 +20,12 @@ public class DetektPlugin : InfrastructurePlugin() {
 }
 
 private fun Project.configureDependencies() {
-    // TODO: Remove after update to Detekt 1.17.0
-    configurations.all {
-        resolutionStrategy.eachDependency {
-            if (requested.group == "org.jetbrains.kotlinx" &&
-                requested.name == "kotlinx-html-jvm" &&
-                requested.version == "0.7.2"
-            ) {
-                useVersion("0.7.3")
-                because("This version is published to Maven Central")
-            }
-        }
-    }
-
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.17.1")
     }
 }
 
@@ -63,6 +50,7 @@ private inline fun Project.detektTask(
         configure()
         parallel = true
         config.setFrom(extension.configsDir.file("detekt/detekt.yml"))
+        baseline.set(extension.configsDir.file("detekt/baseline.xml"))
         setSource(rootProject.files(rootProject.projectDir))
         reportsDir.set(extension.reportsDir.asFile)
         include("**/*.kt")
