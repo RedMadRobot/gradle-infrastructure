@@ -1,8 +1,8 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.RedmadrobotExtension
-import com.redmadrobot.build.internal.detekt.GitFilesFinder
-import com.redmadrobot.build.internal.detekt.GitFilesFinder.ChangeType
+import com.redmadrobot.build.internal.detekt.FindChangedFilesTask
+import com.redmadrobot.build.internal.detekt.FindChangedFilesTask.*
 import com.redmadrobot.build.internal.detektPlugins
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
@@ -43,16 +43,22 @@ private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
     }
 
     if (extension.detekt.checkDiffOnly && extension.detekt.targetDiffBranch.isNotEmpty()) {
-        val changedFilesFilter = GitFilesFinder.FilterParams(
+        val changedFilesFilter = FilterParams(
             changeTypes = listOf(ChangeType.ADD, ChangeType.MODIFY),
             fileExtensions = listOf(".kt")
         )
-        val changedFiles = GitFilesFinder.create(project)
-            .findChangedFilesOnBranch(extension.detekt.targetDiffBranch, changedFilesFilter)
+
+        val findChangedFiles = tasks.register<FindChangedFilesTask>(
+            name = "findChangedFiles",
+            extension.detekt.targetDiffBranch,
+            changedFilesFilter
+        ).apply {
+            configure { projectDirProperty.set(layout.projectDirectory) }
+        }
 
         detektTask(extension, "detektDiff") {
             description = "Check out only changed files versus the ${extension.detekt.targetDiffBranch} branch"
-            setSource(rootProject.files(changedFiles))
+            setSource(rootProject.files(findChangedFiles.map { it.outputFiles.from }))
         }
     }
 }
