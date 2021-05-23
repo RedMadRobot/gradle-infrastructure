@@ -130,14 +130,13 @@ public class TestOptions {
 
 public class DetektOptions {
 
-    /** Option for turn on check only changed files */
-    internal var checkDiffOnly: Boolean = false
+    /** Base branch to compare changes */
+    internal var baseBranch: String = ""
+        private set
 
-    /** Target branch to compare changes */
-    internal var targetDiffBranch: String = ""
-
-    public fun checkOnlyDiffOnBranch(branch: String) {
-        checkDiffOnly = true
-        targetDiffBranch = branch
+    /** Enable Detekt checks only for modified files provided by git (compare with [branch]) */
+    public fun checkOnlyDiffWithBranch(branch: String) {
+        require(branch.isNotBlank()) { "Base branch not provided" }
+        baseBranch = branch
     }
 }

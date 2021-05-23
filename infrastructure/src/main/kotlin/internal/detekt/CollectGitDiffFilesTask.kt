@@ -9,31 +9,38 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.Serializable
-import javax.inject.Inject
 
-internal abstract class CollectGitDiffFilesTask @Inject constructor(
-    private val branch: String,
-    private val filterParams: FilterParams,
-) : DefaultTask() {
+internal abstract class CollectGitDiffFilesTask : DefaultTask() {
+
+    @get:Input
+    abstract val branch: Property<String>
+
+    @get:Input
+    abstract val filterParams: Property<FilterParams>
 
     @get:InputDirectory
-    abstract val projectDirProperty: DirectoryProperty
+    abstract val projectDir: DirectoryProperty
 
     @get:Internal
     abstract val outputFiles: ConfigurableFileCollection
 
     @TaskAction
     fun find() {
-        val projectDir = projectDirProperty.get().asFile
+        val projectDir = projectDir.get().asFile
 
         val repository = FileRepositoryBuilder()
             .findGitDir(projectDir)
             .build()
+
+        val branch = branch.get()
+        val filterParams = filterParams.get()
 
         val changedFilesPaths = repository.findAllChangedFiles(branch)
             .filter { entry ->
@@ -52,11 +59,11 @@ internal abstract class CollectGitDiffFilesTask @Inject constructor(
 
     private fun Repository.findAllChangedFiles(target: String): List<DiffEntry> {
         return Git(this).diff()
-            .setOldTree(findTargetBranchTree(target))
+            .setOldTree(findBaseBranchTree(target))
             .call()
     }
 
-    private fun Repository.findTargetBranchTree(branch: String): AbstractTreeIterator {
+    private fun Repository.findBaseBranchTree(branch: String): AbstractTreeIterator {
         val branchCommit = resolve("$branch^{tree}")
         val reader = newObjectReader()
 

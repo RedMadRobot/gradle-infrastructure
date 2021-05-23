@@ -42,22 +42,21 @@ private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    if (extension.detekt.checkDiffOnly && extension.detekt.targetDiffBranch.isNotEmpty()) {
+    if (extension.detekt.baseBranch.isNotEmpty()) {
         val changedFilesFilter = FilterParams(
             changeTypes = listOf(ChangeType.ADD, ChangeType.MODIFY),
-            fileExtensions = listOf(".kt")
+            fileExtensions = listOf(".kt"),
         )
 
-        val findChangedFiles = tasks.register<CollectGitDiffFilesTask>(
-            name = "findChangedFiles",
-            extension.detekt.targetDiffBranch,
-            changedFilesFilter
-        ).apply {
-            configure { projectDirProperty.set(layout.projectDirectory) }
+        val findChangedFiles = tasks.register<CollectGitDiffFilesTask>("findChangedFiles") {
+            projectDir.set(layout.projectDirectory)
+
+            branch.set(extension.detekt.baseBranch)
+            filterParams.set(changedFilesFilter)
         }
 
         detektTask(extension, "detektDiff") {
-            description = "Check out only changed files versus the ${extension.detekt.targetDiffBranch} branch"
+            description = "Check out only changed files versus the ${extension.detekt.baseBranch} branch"
             setSource(rootProject.files(findChangedFiles.map { it.outputFiles.from }))
         }
     }
