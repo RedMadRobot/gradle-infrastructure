@@ -9,24 +9,6 @@ plugins {
 
 apply(plugin = "redmadrobot.detekt")
 
-subprojects {
-    apply {
-        plugin("org.gradle.kotlin.kotlin-dsl")
-        plugin("redmadrobot.kotlin-library")
-        plugin("redmadrobot.publish")
-    }
-
-    group = "com.redmadrobot.build"
-    version = "0.10-SNAPSHOT"
-
-    publishing {
-        repositories {
-            if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
-            if (isReleaseVersion && credentialsExist("ossrh")) ossrh()
-        }
-    }
-}
-
 redmadrobot {
     kotlinVersion = "1.5.0"
 
@@ -43,6 +25,24 @@ redmadrobot {
             developers {
                 developer(id = "osipxd", name = "Osip Fatkullin", email = "o.fatkullin@redmadrobot.com")
             }
+        }
+    }
+}
+
+subprojects {
+    apply {
+        plugin("org.gradle.kotlin.kotlin-dsl")
+        plugin("redmadrobot.kotlin-library")
+        plugin("redmadrobot.publish")
+    }
+
+    group = "com.redmadrobot.build"
+    version = "0.10-SNAPSHOT"
+
+    publishing {
+        repositories {
+            if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
+            if (isReleaseVersion && credentialsExist("ossrh")) ossrh()
         }
     }
 }
