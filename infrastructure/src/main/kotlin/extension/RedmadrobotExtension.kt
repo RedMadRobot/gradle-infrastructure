@@ -139,7 +139,7 @@ public class DetektOptions {
         branch: String,
         configure: DetektDiffOptions.() -> Unit = {},
     ) {
-        require(branch.isNotBlank()) { "Base branch not provided" }
+        require(branch.isNotBlank()) { "Base branch should not be blank." }
 
         detektDiffOptions = DetektDiffOptions().apply {
             configure()
