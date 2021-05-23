@@ -10,10 +10,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
-import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import java.io.File
 import java.io.Serializable
 
@@ -23,6 +20,7 @@ internal abstract class CollectGitDiffFilesTask : DefaultTask() {
     abstract val branch: Property<String>
 
     @get:Input
+    @get:Optional
     abstract val filterParams: Property<FilterParams>
 
     @get:InputDirectory
@@ -40,7 +38,7 @@ internal abstract class CollectGitDiffFilesTask : DefaultTask() {
             .build()
 
         val branch = branch.get()
-        val filterParams = filterParams.get()
+        val filterParams = filterParams.getOrElse(FilterParams())
 
         val changedFilesPaths = repository.findAllChangedFiles(branch)
             .filter { entry ->
