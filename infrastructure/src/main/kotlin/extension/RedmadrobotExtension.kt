@@ -154,5 +154,5 @@ public class DetektDiffOptions {
     internal var baseBranch: String = ""
 
     /** List of file extensions to check. */
-    public var fileExtensions: Set<String> = setOf(".kt")
+    public var fileExtensions: Set<String> = setOf(".kt", ".kts")
 }
