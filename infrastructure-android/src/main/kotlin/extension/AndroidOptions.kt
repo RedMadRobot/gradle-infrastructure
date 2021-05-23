@@ -1,11 +1,18 @@
 package com.redmadrobot.build.extension
 
-/** Settings for android modules. */
-public val RedmadrobotExtension.android: AndroidOptions by RedmadrobotExtension.extensionProperty()
+import org.gradle.kotlin.dsl.android as _android
 
 /** Settings for android modules. */
+@Suppress("DeprecatedCallableAddReplaceWith")
+@Deprecated("Property `android` can be used without import. Please remove import manually")
+public val RedmadrobotExtension.android: AndroidOptions
+    get() = _android
+
+/** Settings for android modules. */
+@Suppress("DeprecatedCallableAddReplaceWith")
+@Deprecated("Function `android { }` can be used without import. Please remove import manually")
 public fun RedmadrobotExtension.android(configure: AndroidOptions.() -> Unit) {
-    android.configure()
+    _android(configure)
 }
 
 public open class AndroidOptions internal constructor() {

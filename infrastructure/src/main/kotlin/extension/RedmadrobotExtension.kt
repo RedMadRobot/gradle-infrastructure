@@ -23,8 +23,15 @@ public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFa
         internal const val DEFAULT_REPORTS_DIR = "reports/"
 
         /**
-         * Provides delegate to add an extra field to [RedmadrobotExtension].
+         * Provides delegate to add an extra property to [RedmadrobotExtension].
+         *
+         * It may be useful to use package `org.gradle.kotlin.dsl` for delegated properties because
+         * members from this package are imported by default and declared property can be used without import.
+         * This package is used by Gradle for generated accessors.
+         *
          * ```
+         * package org.gradle.kotlin.dsl
+         *
          * val RedmadrobotExtension.android: AndroidOptions by RedmadrobotExtension.extensionProperty()
          * ```
          */
