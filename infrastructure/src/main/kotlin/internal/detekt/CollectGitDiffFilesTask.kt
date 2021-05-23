@@ -78,7 +78,7 @@ internal abstract class CollectGitDiffFilesTask : DefaultTask() {
 
     data class FilterParams(
         val changeTypes: List<ChangeType> = emptyList(),
-        val fileExtensions: List<String> = emptyList(),
+        val fileExtensions: Set<String> = emptySet(),
     ) : Serializable {
 
         companion object {

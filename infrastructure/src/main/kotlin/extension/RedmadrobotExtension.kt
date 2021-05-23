@@ -130,13 +130,29 @@ public class TestOptions {
 
 public class DetektOptions {
 
-    /** Base branch to compare changes */
-    internal var baseBranch: String = ""
+    /** Options for detektDiff task */
+    internal var detektDiffOptions: DetektDiffOptions? = null
         private set
 
     /** Enable Detekt checks only for modified files provided by git (compare with [branch]) */
-    public fun checkOnlyDiffWithBranch(branch: String) {
+    public fun checkOnlyDiffWithBranch(
+        branch: String,
+        configure: DetektDiffOptions.() -> Unit = {},
+    ) {
         require(branch.isNotBlank()) { "Base branch not provided" }
-        baseBranch = branch
+
+        detektDiffOptions = DetektDiffOptions().apply {
+            configure()
+            baseBranch = branch
+        }
     }
+}
+
+public class DetektDiffOptions {
+
+    /** Base branch to compare changes */
+    internal var baseBranch: String = ""
+
+    /** List of file extensions to check */
+    public var fileExtensions: Set<String> = setOf(".kt")
 }
