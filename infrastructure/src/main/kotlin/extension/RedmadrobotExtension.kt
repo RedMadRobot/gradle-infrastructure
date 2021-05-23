@@ -111,11 +111,11 @@ public class PublishingOptions internal constructor() {
 
 public class TestOptions {
 
-    /** Flag for using Junit Jupiter Platform */
+    /** Flag for using Junit Jupiter Platform. */
     internal var useJunitPlatform: Boolean = true
         private set
 
-    /** Options for JUnit Platform */
+    /** Options for JUnit Platform. */
     internal val jUnitPlatformOptions by lazy { JUnitPlatformOptions() }
 
     public fun useJunitPlatform(testFrameworkConfigure: JUnitPlatformOptions.() -> Unit = {}) {
@@ -130,11 +130,11 @@ public class TestOptions {
 
 public class DetektOptions {
 
-    /** Options for detektDiff task */
+    /** Options for detektDiff task. */
     internal var detektDiffOptions: DetektDiffOptions? = null
         private set
 
-    /** Enable Detekt checks only for modified files provided by git (compare with [branch]) */
+    /** Enable Detekt checks only for modified files provided by git (compare with [branch]). */
     public fun checkOnlyDiffWithBranch(
         branch: String,
         configure: DetektDiffOptions.() -> Unit = {},
@@ -150,9 +150,9 @@ public class DetektOptions {
 
 public class DetektDiffOptions {
 
-    /** Base branch to compare changes */
+    /** Base branch to compare changes. */
     internal var baseBranch: String = ""
 
-    /** List of file extensions to check */
+    /** List of file extensions to check. */
     public var fileExtensions: Set<String> = setOf(".kt")
 }
