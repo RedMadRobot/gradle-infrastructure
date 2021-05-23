@@ -1,14 +1,14 @@
 package com.redmadrobot.build.extension
 
 /** Settings for android modules. */
-public val RedmadrobotExtension.android: AndroidOptions by RedmadrobotExtension.field { AndroidOptions() }
+public val RedmadrobotExtension.android: AndroidOptions by RedmadrobotExtension.extensionProperty()
 
 /** Settings for android modules. */
 public fun RedmadrobotExtension.android(configure: AndroidOptions.() -> Unit) {
     android.configure()
 }
 
-public class AndroidOptions internal constructor() {
+public open class AndroidOptions internal constructor() {
 
     /** Minimal Android SDK that will be applied to all android modules. */
     public var minSdk: Int = 21

@@ -1,13 +1,16 @@
 package com.redmadrobot.build.extension
 
+import com.redmadrobot.build.internal.findByName
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+import org.gradle.kotlin.dsl.create
+import javax.inject.Inject
+import kotlin.properties.ReadOnlyProperty
 
-public open class RedmadrobotExtension(objects: ObjectFactory) {
+public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFactory) : ExtensionAware {
 
     public companion object {
         /** Extension name. */
@@ -22,21 +25,13 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
         /**
          * Provides delegate to add an extra field to [RedmadrobotExtension].
          * ```
-         * val RedmadrobotExtension.extra: ExtraOptions by RedmadrobotExtension.field { ExtraOptions() }
+         * val RedmadrobotExtension.android: AndroidOptions by RedmadrobotExtension.extensionProperty()
          * ```
          */
-        public fun <V : Any> field(
-            defaultValue: RedmadrobotExtension.() -> V,
-        ): ReadWriteProperty<RedmadrobotExtension, V> {
-            return object : ReadWriteProperty<RedmadrobotExtension, V> {
-                override fun getValue(thisRef: RedmadrobotExtension, property: KProperty<*>): V {
-                    @Suppress("UNCHECKED_CAST")
-                    return thisRef.extraFields.getOrPut(property.name) { defaultValue(thisRef) } as V
-                }
-
-                override fun setValue(thisRef: RedmadrobotExtension, property: KProperty<*>, value: V) {
-                    thisRef.extraFields[property.name] = value
-                }
+        public inline fun <reified V : Any> extensionProperty(): ReadOnlyProperty<RedmadrobotExtension, V> {
+            return ReadOnlyProperty { thisRef, property ->
+                thisRef.extensions.findByName<V>(property.name)
+                    ?: thisRef.extensions.create(property.name)
             }
         }
     }
@@ -81,12 +76,6 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     public fun detekt(configure: DetektOptions.() -> Unit) {
         detekt.configure()
     }
-
-    /**
-     * Provides storage for additional extension fields.
-     * @see field
-     */
-    private val extraFields = mutableMapOf<String, Any?>()
 }
 
 public class PublishingOptions internal constructor() {
