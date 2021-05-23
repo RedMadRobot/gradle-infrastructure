@@ -16,7 +16,7 @@ import java.io.File
 import java.io.Serializable
 import javax.inject.Inject
 
-internal abstract class FindChangedFilesTask @Inject constructor(
+internal abstract class CollectGitDiffFilesTask @Inject constructor(
     private val branch: String,
     private val filterParams: FilterParams,
 ) : DefaultTask() {

@@ -1,8 +1,8 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.RedmadrobotExtension
-import com.redmadrobot.build.internal.detekt.FindChangedFilesTask
-import com.redmadrobot.build.internal.detekt.FindChangedFilesTask.*
+import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask
+import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.*
 import com.redmadrobot.build.internal.detektPlugins
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
@@ -48,7 +48,7 @@ private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
             fileExtensions = listOf(".kt")
         )
 
-        val findChangedFiles = tasks.register<FindChangedFilesTask>(
+        val findChangedFiles = tasks.register<CollectGitDiffFilesTask>(
             name = "findChangedFiles",
             extension.detekt.targetDiffBranch,
             changedFilesFilter
