@@ -4,9 +4,11 @@ import com.redmadrobot.build.internal.findByName
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.newInstance
 import javax.inject.Inject
 import kotlin.properties.ReadOnlyProperty
 
@@ -55,13 +57,13 @@ public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFa
         get() = error("You should not use this.")
 
     /** Directory where stored configs for static analyzers. */
-    public val configsDir: DirectoryProperty = objects.directoryProperty()
+    public abstract val configsDir: DirectoryProperty
 
     /** Directory where will be stored static analyzers reports. */
-    public val reportsDir: DirectoryProperty = objects.directoryProperty()
+    public abstract val reportsDir: DirectoryProperty
 
     /** Settings for publishing. */
-    public val publishing: PublishingOptions = PublishingOptions()
+    public val publishing: PublishingOptions = objects.newInstance()
 
     /** Settings for publishing. */
     public fun publishing(configure: PublishingOptions.() -> Unit) {
@@ -69,7 +71,7 @@ public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFa
     }
 
     /** Settings for JVM test task. */
-    public val test: TestOptions = TestOptions()
+    public val test: TestOptions = objects.newInstance()
 
     /** Settings for JVM test task. */
     public fun test(configure: TestOptions.() -> Unit) {
@@ -77,7 +79,7 @@ public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFa
     }
 
     /** Settings for detekt task. */
-    public val detekt: DetektOptions = DetektOptions()
+    public val detekt: DetektOptions = objects.newInstance()
 
     /** Settings for detekt task. */
     public fun detekt(configure: DetektOptions.() -> Unit) {
@@ -85,7 +87,7 @@ public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFa
     }
 }
 
-public class PublishingOptions internal constructor() {
+public open class PublishingOptions internal constructor() {
 
     /**
      * Enables artifacts signing before publication.
@@ -113,7 +115,7 @@ public class PublishingOptions internal constructor() {
     }
 }
 
-public class TestOptions {
+public open class TestOptions {
 
     /** Flag for using Junit Jupiter Platform. */
     internal var useJunitPlatform: Boolean = true
@@ -132,7 +134,7 @@ public class TestOptions {
     }
 }
 
-public class DetektOptions {
+public open class DetektOptions {
 
     /** Options for detektDiff task. */
     internal var detektDiffOptions: DetektDiffOptions? = null

@@ -14,8 +14,9 @@ public class RootProjectPlugin : Plugin<Project> {
     }
 
     private fun Project.configureExtension() {
-        val rmr = extensions.create<RedmadrobotExtension>(RedmadrobotExtension.NAME, objects)
-        rmr.configsDir.convention(layout.projectDirectory.dir(RedmadrobotExtension.DEFAULT_CONFIGS_DIR))
-        rmr.reportsDir.convention(layout.buildDirectory.dir(RedmadrobotExtension.DEFAULT_REPORTS_DIR))
+        extensions.create<RedmadrobotExtension>(RedmadrobotExtension.NAME).apply {
+            configsDir.convention(layout.projectDirectory.dir(RedmadrobotExtension.DEFAULT_CONFIGS_DIR))
+            reportsDir.convention(layout.buildDirectory.dir(RedmadrobotExtension.DEFAULT_REPORTS_DIR))
+        }
     }
 }
