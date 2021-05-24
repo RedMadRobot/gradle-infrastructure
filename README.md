@@ -190,9 +190,8 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
     - `detektDiff` - Runs Detekt only on changed files (see [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files))
 
 > :warning: `detekt*` tasks are incompatible with [**type resolution**](https://detekt.github.io/detekt/type-resolution.html).
-> Some configured tasks will **not** work. Please check the rules that use 
-> [**type resolution**](https://detekt.github.io/detekt/type-resolution.html) on the
-> [detekt page](https://detekt.github.io/detekt/) under *Rule Sets*.
+> Some configured tasks will **not** work. 
+> Please check the rules that use [**type resolution**](https://detekt.github.io/detekt/type-resolution.html) on the [detekt page](https://detekt.github.io/detekt/) under *Rule Sets*.
 
 ## Android Plugins
 
