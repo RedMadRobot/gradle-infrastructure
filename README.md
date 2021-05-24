@@ -187,7 +187,12 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 - Configures additional tasks:
     - `detektAll` - Runs Detekt over the whole codebase
     - `detektFormat` - Reformats the whole codebase with Detekt
-    - `detektDiff` - Runs Detekt only on changed files if it enables
+    - `detektDiff` - Runs Detekt only on changed files (see [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files))
+
+> :warning: `detekt*` tasks are incompatible with [**type resolution**](https://detekt.github.io/detekt/type-resolution.html).
+> Some configured tasks will **not** work. Please check the rules that use 
+> [**type resolution**](https://detekt.github.io/detekt/type-resolution.html) on the
+> [detekt page](https://detekt.github.io/detekt/) under *Rule Sets*.
 
 ## Android Plugins
 
@@ -267,7 +272,9 @@ android {
 ```
 
 ### Enable Detekt checks only on changed files
-The plugin provides the ability to check only changed files. You can enable this:
+Plugin `redmadrobot.detekt` adds task `detektDiff` to check the only files changed comparing to the base branch.
+To enable this feature, you should specify base branch name:
+
 ```kotlin
 redmadrobot {
     detekt {
@@ -275,8 +282,25 @@ redmadrobot {
     }
 }
 ```
-The plugin then adds a `detektDiff` task that allows you to check only changed files versus the base branch. The modified files are provided by Git.
-> Task `detektDiff` work with rules without **type resolutions**. About **type resolution** you can read [here](https://detekt.github.io/detekt/type-resolution.html).
+
+The plugin then adds a `detektDiff` task that allows you to check only changed files versus the specified base branch.
+The modified files are provided by Git.
+
+> Task `detektDiff` is incompatible with [**type resolution**](https://detekt.github.io/detekt/type-resolution.html).
+> It means some configured rules will not work.
+ 
+The `detektDiff` task includes the '.kt' and '.kts' files. You can change it by
+providing a set of extensions in the configuration block to `checkOnlyDiffWithBranch`:
+
+```kotlin
+redmadrobot {
+    detekt {
+        checkOnlyDiffWithBranch("develop") {
+            fileExtensions = setOf(".kt")
+        }
+    }
+}
+```
 
 ### Configure JUnit test execution options
 
