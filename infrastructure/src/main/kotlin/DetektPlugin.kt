@@ -6,10 +6,12 @@ import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.*
 import com.redmadrobot.build.internal.detektPlugins
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.repositories
+import java.io.File
 
 public class DetektPlugin : InfrastructurePlugin() {
 
@@ -70,7 +72,7 @@ private inline fun Project.detektTask(
     tasks.register<Detekt>(name) {
         parallel = true
         config.setFrom(extension.configsDir.file("detekt/detekt.yml"))
-        baseline.set(extension.configsDir.file("detekt/baseline.xml"))
+        baseline.set(extension.configsDir.getFileIfExists("detekt/baseline.xml"))
         setSource(rootProject.files(rootProject.projectDir))
         reportsDir.set(extension.reportsDir.asFile)
         include("**/*.kt")
@@ -85,4 +87,8 @@ private inline fun Project.detektTask(
         }
         configure()
     }
+}
+
+private fun DirectoryProperty.getFileIfExists(path: String): File? {
+    return file(path).get().asFile.takeIf { it.exists() }
 }
