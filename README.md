@@ -187,6 +187,11 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 - Configures additional tasks:
     - `detektAll` - Runs Detekt over the whole codebase
     - `detektFormat` - Reformats the whole codebase with Detekt
+    - `detektDiff` - Runs Detekt only on changed files (see [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files))
+
+> :warning: `detekt*` tasks are incompatible with [**type resolution**][type-resolution].
+> Some configured rules will not work 
+> Please check the rules that use type resolution on the [detekt page](https://detekt.github.io/detekt/) under *Rule Sets*.
 
 ## Android Plugins
 
@@ -262,6 +267,37 @@ android {
 
     // We can specify name for the source set root if need
     addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
+}
+```
+
+### Enable Detekt checks only on changed files
+Plugin `redmadrobot.detekt` adds task `detektDiff` to check the only files changed comparing to the base branch.
+To enable this feature, you should specify base branch name:
+
+```kotlin
+redmadrobot {
+    detekt {
+        checkOnlyDiffWithBranch("develop")
+    }
+}
+```
+
+The plugin then adds a `detektDiff` task that allows you to check only changed files comparing to the specified base branch.
+The modified files are provided by Git.
+
+> Task `detektDiff` is incompatible with [**type resolution**][type-resolution].
+> It means some configured rules will not work.
+ 
+The `detektDiff` task includes the '.kt' and '.kts' files. 
+You can change it by providing a set of extensions in the configuration block to `checkOnlyDiffWithBranch`:
+
+```kotlin
+redmadrobot {
+    detekt {
+        checkOnlyDiffWithBranch("develop") {
+            fileExtensions = setOf(".kt")
+        }
+    }
 }
 ```
 
@@ -419,3 +455,5 @@ For major changes, please open an issue first to discuss what you would like to 
 [project-properties]: https://docs.gradle.org/current/userguide/build_environment.html#sec:project_properties
 
 [jcenter-end]: https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/
+
+[type-resolution]: https://detekt.github.io/detekt/type-resolution.html

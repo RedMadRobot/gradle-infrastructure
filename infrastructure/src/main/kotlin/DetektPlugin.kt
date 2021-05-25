@@ -1,6 +1,8 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask
+import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.*
 import com.redmadrobot.build.internal.detektPlugins
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
@@ -39,6 +41,25 @@ private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
     detektTask(extension, "detektAll") {
         description = "Runs over whole code base without the starting overhead for each module."
     }
+
+    val detektDiffOptions = extension.detekt.detektDiffOptions
+    if (detektDiffOptions != null && detektDiffOptions.baseBranch.isNotEmpty()) {
+        val changedFilesFilter = FilterParams(
+            changeTypes = listOf(ChangeType.ADD, ChangeType.MODIFY),
+            fileExtensions = detektDiffOptions.fileExtensions,
+        )
+
+        val findChangedFiles = tasks.register<CollectGitDiffFilesTask>("findChangedFiles") {
+            projectDir.set(layout.projectDirectory)
+            filterParams.set(changedFilesFilter)
+            branch.set(detektDiffOptions.baseBranch)
+        }
+
+        detektTask(extension, "detektDiff") {
+            description = "Check out only changed files versus the ${detektDiffOptions.baseBranch} branch"
+            setSource(rootProject.files(findChangedFiles.map { it.outputFiles.from }))
+        }
+    }
 }
 
 private inline fun Project.detektTask(
@@ -47,7 +68,6 @@ private inline fun Project.detektTask(
     crossinline configure: Detekt.() -> Unit,
 ) {
     tasks.register<Detekt>(name) {
-        configure()
         parallel = true
         config.setFrom(extension.configsDir.file("detekt/detekt.yml"))
         baseline.set(extension.configsDir.file("detekt/baseline.xml"))
@@ -63,5 +83,6 @@ private inline fun Project.detektTask(
             txt.enabled = false
             html.enabled = false
         }
+        configure()
     }
 }

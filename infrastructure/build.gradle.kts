@@ -31,4 +31,5 @@ dependencies {
     // TODO: Remove after Kotlin 1.5.10 release
     //  https://youtrack.jetbrains.com/issue/KT-46368
     implementation("dev.zacsweers:kgp-150-leak-patcher:1.1.0")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.11.0.202103091610-r")
 }

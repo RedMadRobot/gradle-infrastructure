@@ -66,6 +66,14 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
         test.configure()
     }
 
+    /** Settings for detekt task. */
+    public val detekt: DetektOptions = DetektOptions()
+
+    /** Settings for detekt task. */
+    public fun detekt(configure: DetektOptions.() -> Unit) {
+        detekt.configure()
+    }
+
     /**
      * Provides storage for additional extension fields.
      * @see field
@@ -103,11 +111,11 @@ public class PublishingOptions internal constructor() {
 
 public class TestOptions {
 
-    /** Flag for using Junit Jupiter Platform */
+    /** Flag for using Junit Jupiter Platform. */
     internal var useJunitPlatform: Boolean = true
         private set
 
-    /** Options for JUnit Platform */
+    /** Options for JUnit Platform. */
     internal val jUnitPlatformOptions by lazy { JUnitPlatformOptions() }
 
     public fun useJunitPlatform(testFrameworkConfigure: JUnitPlatformOptions.() -> Unit = {}) {
@@ -118,4 +126,33 @@ public class TestOptions {
     public fun useJunit() {
         useJunitPlatform = false
     }
+}
+
+public class DetektOptions {
+
+    /** Options for detektDiff task. */
+    internal var detektDiffOptions: DetektDiffOptions? = null
+        private set
+
+    /** Enable Detekt checks only for modified files provided by git (compare with [branch]). */
+    public fun checkOnlyDiffWithBranch(
+        branch: String,
+        configure: DetektDiffOptions.() -> Unit = {},
+    ) {
+        require(branch.isNotBlank()) { "Base branch should not be blank." }
+
+        detektDiffOptions = DetektDiffOptions().apply {
+            configure()
+            baseBranch = branch
+        }
+    }
+}
+
+public class DetektDiffOptions {
+
+    /** Base branch to compare changes. */
+    internal var baseBranch: String = ""
+
+    /** List of file extensions to check. */
+    public var fileExtensions: Set<String> = setOf(".kt", ".kts")
 }
