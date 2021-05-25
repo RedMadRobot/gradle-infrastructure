@@ -24,6 +24,7 @@ redmadrobot {
 
             developers {
                 developer(id = "osipxd", name = "Osip Fatkullin", email = "o.fatkullin@redmadrobot.com")
+                developer(id = "rwqwr", name = "Roman Ivanov", email = "r.ivanov@redmadrobot.com")
             }
         }
     }
