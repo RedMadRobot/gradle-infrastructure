@@ -10,7 +10,7 @@ plugins {
 apply(plugin = "redmadrobot.detekt")
 
 redmadrobot {
-    kotlinVersion = "1.5.0"
+    kotlinVersion = "1.5.10"
 
     publishing {
         signArtifacts = !isRunningOnCi

@@ -2,7 +2,6 @@
 
 ### Added
 
-- Memory leak fix for Kotlin 1.5.0 until 1.5.10 released ([KT-46368](https://youtrack.jetbrains.com/issue/KT-46368))
 - Specified location for Detekt baseline: `$configsDir/detekt/baseline.xml`
 - Added the ability to check the Detekt only on changed files ([#40](https://github.com/RedMadRobot/gradle-infrastructure/issues/40)).
 
@@ -12,7 +11,7 @@
 
 ### Dependencies
 
-- Update Kotlin 1.4.32 -> 1.5.0
+- Update Kotlin 1.4.32 -> 1.5.10
 - Update AGP 4.1.3 -> 4.2.1
 - Update Detekt 1.16.0 -> 1.17.1
 
