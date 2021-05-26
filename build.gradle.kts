@@ -1,4 +1,5 @@
 import com.redmadrobot.build.extension.*
+import com.redmadrobot.build.kotlinCompile
 
 plugins {
     id("redmadrobot.root-project") version "0.9"
@@ -10,8 +11,6 @@ plugins {
 apply(plugin = "redmadrobot.detekt")
 
 redmadrobot {
-    kotlinVersion = "1.5.10"
-
     publishing {
         signArtifacts = !isRunningOnCi
 
@@ -39,6 +38,14 @@ subprojects {
 
     group = "com.redmadrobot.build"
     version = "0.10-SNAPSHOT"
+
+    // Keep gradle-infrastructure compatible with older versions of Gradle.
+    kotlinCompile {
+        kotlinOptions {
+            apiVersion = "1.3"
+            languageVersion = "1.3"
+        }
+    }
 
     publishing {
         repositories {
