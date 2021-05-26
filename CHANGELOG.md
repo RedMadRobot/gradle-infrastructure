@@ -1,8 +1,42 @@
 ## [Unreleased]
 
+### Plugins no more add Kotlin dependencies
+
+> **Breaking change!**
+
+Previously plugins `kotlin-library`, `android-library` and `application` used to add `kotlin-stdlib-jdk8` and `kotlin-test` dependencies by default.
+It was a problem because:
+
+1. Sometimes you don't want to add these dependencies
+2. Or want to add it with different configuration (for example `compileOnly` instead of `implementation`)
+
+**gradle-infrastructure** should add only options valid for all our projects or default options that can be changed if needed.
+Default applied dependencies can't be removed if needed, so they should not be applied by default.
+
+#### Another problem is `redmadrobot.kotlinVersion`.
+
+> Option `redmadrobot.kotlinVersion` is deprecated since this version and will not take any effect.
+
+We've introduced this option to make it possible to change version of default kotlin dependencies.
+This option affects only dependencies added by gradle-infrastructure, not all Kotlin dependencies, and it is confusing.
+Moreover, this version does not affect Kotlin Gradle Plugin because it uses version specified in gradle-infrastructure at compilation time.
+
+A more convenient way to align the Kotlin version for all dependencies including transitive ones is to use `kotlin-bom`:
+
+```kotlin
+dependencies {
+    // Align versions of all Kotlin components 
+    implementation(platform(kotlin("bom", version = "1.5.10")))
+
+    // Now you can add Kotlin components without version
+    implementation(kotlin("stdlib-jdk8"))
+    testImplementation(kotlin("test-junit5"))
+}
+```
+
 ### Added
 
-- Specified location for Detekt baseline: `$configsDir/detekt/baseline.xml`
+- Specified default location for Detekt baseline: `$configsDir/detekt/baseline.xml`
 - Added the ability to check the Detekt only on changed files ([#40](https://github.com/RedMadRobot/gradle-infrastructure/issues/40)).
 
 ### Changed

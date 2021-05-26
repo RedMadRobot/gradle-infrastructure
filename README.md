@@ -248,6 +248,23 @@ redmadrobot {
 }
 ```
 
+### Align version of all Kotlin libraries
+
+> It is not a part of **gradle-infrastructure** but it is important to know.
+
+To align the Kotlin version for all dependencies including transitive ones, use `kotlin-bom`:
+
+```kotlin
+dependencies {
+    // Align versions of all Kotlin components 
+    implementation(platform(kotlin("bom", version = "1.5.10")))
+
+    // Now you can add Kotlin components without version
+    implementation(kotlin("stdlib-jdk8"))
+    testImplementation(kotlin("test-junit5"))
+}
+```
+
 ### Warnings as errors
 
 By default, infrastructure plugins enable Kotlin compiler's option `allWarningsAsErrors` (`-Werror`) on CI.

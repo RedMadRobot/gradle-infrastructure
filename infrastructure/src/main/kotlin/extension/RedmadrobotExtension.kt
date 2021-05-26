@@ -42,7 +42,15 @@ public open class RedmadrobotExtension(objects: ObjectFactory) {
     }
 
     /** Kotlin version that should be used for all projects. */
-    public var kotlinVersion: String = "1.5.10"
+    @Deprecated(
+        level = DeprecationLevel.ERROR,
+        message = "This option have not effect anymore. " +
+            "Remove it and use `kotlin-bom` to align Kotlin version across all dependencies.",
+    )
+    @Suppress("unused_parameter")
+    public var kotlinVersion: String
+        set(value) = error("You should not use this.")
+        get() = error("You should not use this.")
 
     /** Directory where stored configs for static analyzers. */
     public val configsDir: DirectoryProperty = objects.directoryProperty()

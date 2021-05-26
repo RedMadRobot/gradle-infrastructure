@@ -5,7 +5,6 @@ import com.redmadrobot.build.extension.AndroidOptions
 import com.redmadrobot.build.extension.android
 import com.redmadrobot.build.internal.android
 import com.redmadrobot.build.internal.configureKotlin
-import com.redmadrobot.build.internal.configureKotlinTestDependencies
 import com.redmadrobot.build.internal.setTestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -29,7 +28,6 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
         configureKotlin()
         configureAndroid(redmadrobotExtension.android)
         configureRepositories()
-        configureKotlinTestDependencies(redmadrobotExtension.kotlinVersion, redmadrobotExtension.android.test)
     }
 }
 

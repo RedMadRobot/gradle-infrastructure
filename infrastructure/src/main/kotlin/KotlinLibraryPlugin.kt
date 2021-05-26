@@ -19,13 +19,12 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
             sourceCompatibility = JavaVersion.VERSION_1_8
         }
 
+        // Enable Explicit API mode for libraries by default
         kotlin.explicitApi()
 
         val extension = redmadrobotExtension
         configureKotlin()
-        configureKotlinDependencies(extension.kotlinVersion)
         configureKotlinTest(extension.test)
-        configureKotlinTestDependencies(extension.kotlinVersion, extension.test)
         configureRepositories()
     }
 }
