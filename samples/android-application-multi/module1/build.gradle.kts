@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    // Kotlin already added as dependency to the project
+    implementation(kotlin("stdlib-jdk8"))
     // ...
     // Dependencies for the module here
     // ...
