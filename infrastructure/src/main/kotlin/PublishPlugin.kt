@@ -34,12 +34,12 @@ public open class PublishPlugin : InfrastructurePlugin() {
                 pom {
                     name.convention(project.name)
                     description.convention(project.description)
-                    options.configurePom(this)
+                    options.configurePom.get().invoke(this)
                 }
             }
 
-            if (options.signArtifacts) {
-                configureSigning(options.useGpgAgent)
+            if (options.signArtifacts.get()) {
+                configureSigning(options.useGpgAgent.get())
             }
         }
     }

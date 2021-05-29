@@ -32,10 +32,10 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 }
 
 private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExtension> {
-    compileSdkVersion(options.targetSdk)
+    compileSdkVersion(options.targetSdk.get())
     defaultConfig {
-        minSdkVersion(options.minSdk)
-        targetSdkVersion(options.targetSdk)
+        minSdkVersion(options.minSdk.get())
+        targetSdkVersion(options.targetSdk.get())
     }
 
     // Set NDK version from env variable if exists

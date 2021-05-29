@@ -89,7 +89,7 @@ public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFa
     }
 }
 
-public open class PublishingOptions internal constructor() {
+public abstract class PublishingOptions {
 
     /**
      * Enables artifacts signing before publication.
@@ -101,19 +101,34 @@ public open class PublishingOptions internal constructor() {
      *
      * @see useGpgAgent
      */
-    public var signArtifacts: Boolean = false
+    public abstract var signArtifacts: Property<Boolean>
 
-    /** Use gpg-agent to sign artifacts. Has effect only if [signArtifacts] is true. */
-    public var useGpgAgent: Boolean = true
+    /**
+     * Use gpg-agent to sign artifacts. Has effect only if [signArtifacts] is `true`.
+     * By default is `true`.
+     */
+    public abstract val useGpgAgent: Property<Boolean>
 
-    internal var configurePom: MavenPom.() -> Unit = {}
+    internal abstract val configurePom: Property<MavenPom.() -> Unit>
 
     /**
      * Configures POM file for all modules.
      * Place here only common configurations.
      */
     public fun pom(configure: MavenPom.() -> Unit) {
-        configurePom = configure
+        configurePom.set(configure)
+    }
+
+    init {
+        signArtifacts
+            .convention(false)
+            .finalizeValueOnRead()
+        useGpgAgent
+            .convention(true)
+            .finalizeValueOnRead()
+        configurePom
+            .convention { /* no-op */ }
+            .finalizeValueOnRead()
     }
 }
 
@@ -147,11 +162,10 @@ public abstract class TestOptions {
     }
 }
 
-public open class DetektOptions {
+public abstract class DetektOptions {
 
     /** Options for detektDiff task. */
-    internal var detektDiffOptions: DetektDiffOptions? = null
-        private set
+    internal abstract val detektDiffOptions: Property<DetektDiffOptions>
 
     /** Enable Detekt checks only for modified files provided by git (compare with [branch]). */
     public fun checkOnlyDiffWithBranch(
@@ -160,10 +174,16 @@ public open class DetektOptions {
     ) {
         require(branch.isNotBlank()) { "Base branch should not be blank." }
 
-        detektDiffOptions = DetektDiffOptions().apply {
-            configure()
-            baseBranch = branch
-        }
+        detektDiffOptions.set(
+            DetektDiffOptions().apply {
+                configure()
+                baseBranch = branch
+            },
+        )
+    }
+
+    init {
+        detektDiffOptions.finalizeValueOnRead()
     }
 }
 

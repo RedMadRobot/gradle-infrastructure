@@ -22,10 +22,10 @@ public fun RedmadrobotExtension.android(configure: AndroidOptions.() -> Unit) {
 public abstract class AndroidOptions @Inject constructor(objects: ObjectFactory) {
 
     /** Minimal Android SDK that will be applied to all android modules. */
-    public var minSdk: Int = 21
+    public abstract val minSdk: Property<Int>
 
     /** Target Android SDK that will be applied to all android modules. Also determines compile SDK. */
-    public var targetSdk: Int = 30
+    public abstract val targetSdk: Property<Int>
 
     /** Settings for Android test task. */
     public val test: TestOptions = objects.newInstance()
@@ -33,5 +33,19 @@ public abstract class AndroidOptions @Inject constructor(objects: ObjectFactory)
     /** Settings for Android test task. */
     public fun test(configure: TestOptions.() -> Unit) {
         test.run(configure)
+    }
+
+    init {
+        minSdk
+            .convention(DEFAULT_MIN_API)
+            .finalizeValueOnRead()
+        targetSdk
+            .convention(DEFAULT_TARGET_API)
+            .finalizeValueOnRead()
+    }
+
+    private companion object {
+        const val DEFAULT_MIN_API = 21
+        const val DEFAULT_TARGET_API = 30
     }
 }
