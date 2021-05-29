@@ -6,6 +6,8 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom
+import org.gradle.api.tasks.testing.TestFrameworkOptions
+import org.gradle.api.tasks.testing.junit.JUnitOptions
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.newInstance
@@ -115,22 +117,33 @@ public open class PublishingOptions internal constructor() {
     }
 }
 
-public open class TestOptions {
+public abstract class TestOptions {
 
     /** Flag for using Junit Jupiter Platform. */
-    internal var useJunitPlatform: Boolean = true
-        private set
+    internal abstract val useJunitPlatform: Property<Boolean>
 
-    /** Options for JUnit Platform. */
-    internal val jUnitPlatformOptions by lazy { JUnitPlatformOptions() }
+    /** Configurator for Test Framework. */
+    internal abstract val configuration: Property<TestFrameworkOptions.() -> Unit>
 
-    public fun useJunitPlatform(testFrameworkConfigure: JUnitPlatformOptions.() -> Unit = {}) {
-        useJunitPlatform = true
-        testFrameworkConfigure.invoke(jUnitPlatformOptions)
+    /** Specifies that JUnit Platform (JUnit 5) should be used to execute the tests. */
+    public fun useJunitPlatform(configure: JUnitPlatformOptions.() -> Unit = {}) {
+        useJunitPlatform.set(true)
+        configuration.set { (this as JUnitPlatformOptions).configure() }
     }
 
-    public fun useJunit() {
-        useJunitPlatform = false
+    /** Specifies that JUnit should be used to execute the tests. */
+    public fun useJunit(configure: JUnitOptions.() -> Unit = {}) {
+        useJunitPlatform.set(false)
+        configuration.set { (this as JUnitOptions).configure() }
+    }
+
+    init {
+        useJunitPlatform
+            .convention(true)
+            .finalizeValueOnRead()
+        configuration
+            .convention { /* no-op */ }
+            .finalizeValueOnRead()
     }
 }
 

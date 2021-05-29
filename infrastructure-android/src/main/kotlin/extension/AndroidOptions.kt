@@ -1,5 +1,9 @@
 package com.redmadrobot.build.extension
 
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.Property
+import org.gradle.kotlin.dsl.newInstance
+import javax.inject.Inject
 import org.gradle.kotlin.dsl.android as _android
 
 /** Settings for android modules. */
@@ -15,7 +19,7 @@ public fun RedmadrobotExtension.android(configure: AndroidOptions.() -> Unit) {
     _android(configure)
 }
 
-public open class AndroidOptions internal constructor() {
+public abstract class AndroidOptions @Inject constructor(objects: ObjectFactory) {
 
     /** Minimal Android SDK that will be applied to all android modules. */
     public var minSdk: Int = 21
@@ -24,7 +28,7 @@ public open class AndroidOptions internal constructor() {
     public var targetSdk: Int = 30
 
     /** Settings for Android test task. */
-    public val test: TestOptions = TestOptions()
+    public val test: TestOptions = objects.newInstance()
 
     /** Settings for Android test task. */
     public fun test(configure: TestOptions.() -> Unit) {
