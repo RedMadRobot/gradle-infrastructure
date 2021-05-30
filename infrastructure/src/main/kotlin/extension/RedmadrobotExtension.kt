@@ -2,7 +2,6 @@ package com.redmadrobot.build.extension
 
 import com.redmadrobot.build.internal.findByName
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.model.ObjectFactory
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom
@@ -10,24 +9,31 @@ import org.gradle.api.tasks.testing.TestFrameworkOptions
 import org.gradle.api.tasks.testing.junit.JUnitOptions
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.newInstance
-import javax.inject.Inject
 import kotlin.properties.ReadOnlyProperty
 
-public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFactory) : ExtensionAware {
+public interface RedmadrobotExtension :
+    TestOptionsSpec,
+    PublishingOptionsSpec,
+    StaticAnalyzersSpec,
+    ExtensionAware {
+
+    /** Kotlin version that should be used for all projects. */
+    @Deprecated(
+        level = DeprecationLevel.ERROR,
+        message = "This option have not effect anymore. " +
+            "Remove it and use `kotlin-bom` to align Kotlin version across all dependencies.",
+    )
+    @Suppress("unused_parameter")
+    public var kotlinVersion: String
+        set(value) = error("You should not use this.")
+        get() = error("You should not use this.")
 
     public companion object {
         /** Extension name. */
         public const val NAME: String = "redmadrobot"
 
-        // Relative to root project directory.
-        internal const val DEFAULT_CONFIGS_DIR = "config/"
-
-        // Relative to root project build directory.
-        internal const val DEFAULT_REPORTS_DIR = "reports/"
-
         /**
-         * Provides delegate to add an extra property to [RedmadrobotExtension].
+         * Provides delegate to add an extra property to [RedmadrobotExtensionImpl].
          *
          * It may be useful to use package `org.gradle.kotlin.dsl` for delegated properties because
          * members from this package are imported by default and declared property can be used without import.
@@ -46,47 +52,50 @@ public abstract class RedmadrobotExtension @Inject constructor(objects: ObjectFa
             }
         }
     }
+}
 
-    /** Kotlin version that should be used for all projects. */
-    @Deprecated(
-        level = DeprecationLevel.ERROR,
-        message = "This option have not effect anymore. " +
-            "Remove it and use `kotlin-bom` to align Kotlin version across all dependencies.",
-    )
-    @Suppress("unused_parameter")
-    public var kotlinVersion: String
-        set(value) = error("You should not use this.")
-        get() = error("You should not use this.")
+public interface TestOptionsSpec {
+
+    /** Settings for JVM test task. */
+    public val test: TestOptions
+
+    /** Settings for JVM test task. */
+    public fun test(configure: TestOptions.() -> Unit)
+}
+
+public interface StaticAnalyzersSpec : DetektOptionsSpec {
 
     /** Directory where stored configs for static analyzers. */
-    public abstract val configsDir: DirectoryProperty
+    public val configsDir: DirectoryProperty
 
     /** Directory where will be stored static analyzers reports. */
-    public abstract val reportsDir: DirectoryProperty
+    public val reportsDir: DirectoryProperty
 
-    /** Settings for publishing. */
-    public val publishing: PublishingOptions = objects.newInstance()
+    public companion object {
+        // Relative to root project directory.
+        internal const val DEFAULT_CONFIGS_DIR = "config/"
 
-    /** Settings for publishing. */
-    public fun publishing(configure: PublishingOptions.() -> Unit) {
-        publishing.configure()
+        // Relative to root project build directory.
+        internal const val DEFAULT_REPORTS_DIR = "reports/"
     }
+}
 
-    /** Settings for JVM test task. */
-    public val test: TestOptions = objects.newInstance()
-
-    /** Settings for JVM test task. */
-    public fun test(configure: TestOptions.() -> Unit) {
-        test.configure()
-    }
+public interface DetektOptionsSpec {
 
     /** Settings for detekt task. */
-    public val detekt: DetektOptions = objects.newInstance()
+    public val detekt: DetektOptions
 
     /** Settings for detekt task. */
-    public fun detekt(configure: DetektOptions.() -> Unit) {
-        detekt.configure()
-    }
+    public fun detekt(configure: DetektOptions.() -> Unit)
+}
+
+public interface PublishingOptionsSpec {
+
+    /** Settings for publishing. */
+    public val publishing: PublishingOptions
+
+    /** Settings for publishing. */
+    public fun publishing(configure: PublishingOptions.() -> Unit)
 }
 
 public abstract class PublishingOptions {
