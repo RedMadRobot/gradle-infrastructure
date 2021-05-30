@@ -12,7 +12,7 @@ public interface PublishingOptionsSpec {
     public fun publishing(configure: PublishingOptions.() -> Unit)
 }
 
-public abstract class PublishingOptions {
+public interface PublishingOptions {
 
     /**
      * Enables artifacts signing before publication.
@@ -24,33 +24,17 @@ public abstract class PublishingOptions {
      *
      * @see useGpgAgent
      */
-    public abstract val signArtifacts: Property<Boolean>
+    public val signArtifacts: Property<Boolean>
 
     /**
      * Use gpg-agent to sign artifacts. Has effect only if [signArtifacts] is `true`.
      * By default is `true`.
      */
-    public abstract val useGpgAgent: Property<Boolean>
-
-    internal abstract val configurePom: Property<MavenPom.() -> Unit>
+    public val useGpgAgent: Property<Boolean>
 
     /**
      * Configures POM file for all modules.
      * Place here only common configurations.
      */
-    public fun pom(configure: MavenPom.() -> Unit) {
-        configurePom.set(configure)
-    }
-
-    init {
-        signArtifacts
-            .convention(false)
-            .finalizeValueOnRead()
-        useGpgAgent
-            .convention(true)
-            .finalizeValueOnRead()
-        configurePom
-            .convention { /* no-op */ }
-            .finalizeValueOnRead()
-    }
+    public fun pom(configure: MavenPom.() -> Unit)
 }

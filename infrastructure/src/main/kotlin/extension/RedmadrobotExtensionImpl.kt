@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 internal abstract class RedmadrobotExtensionImpl @Inject constructor(objects: ObjectFactory) : RedmadrobotExtension {
 
-    override val publishing: PublishingOptions = objects.newInstance()
+    override val publishing: PublishingOptions = objects.newInstance<PublishingOptionsImpl>()
 
     override fun publishing(configure: PublishingOptions.() -> Unit) {
         publishing.configure()

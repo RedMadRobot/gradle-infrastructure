@@ -1,5 +1,6 @@
 package com.redmadrobot.build
 
+import com.redmadrobot.build.extension.PublishingOptionsImpl
 import com.redmadrobot.build.extension.isReleaseVersion
 import com.redmadrobot.build.internal.java
 import org.gradle.api.Project
@@ -34,7 +35,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
                 pom {
                     name.convention(project.name)
                     description.convention(project.description)
-                    options.configurePom.get().invoke(this)
+                    (options as PublishingOptionsImpl).configurePom.get().invoke(this)
                 }
             }
 
