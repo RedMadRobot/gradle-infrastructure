@@ -1,4 +1,4 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.dsl
 
 import com.redmadrobot.build.internal.findStringProperty
 import org.gradle.api.Project
@@ -23,10 +23,3 @@ internal fun Project.finalizeQaBuildType() {
     BUILD_TYPE_QA = findStringProperty("redmadrobot.android.build.type.qa") ?: BUILD_TYPE_QA
     qaBuildTypeFinalized = true
 }
-
-/** Superseded with [BUILD_TYPE_QA]. */
-@Deprecated(
-    message = "Use BUILD_TYPE_QA instead. You can configure QA build type name to keep backward compatibility.",
-    replaceWith = ReplaceWith("BUILD_TYPE_QA"),
-)
-public val BUILD_TYPE_STAGING: String get() = BUILD_TYPE_QA
