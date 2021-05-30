@@ -1,5 +1,6 @@
 package com.redmadrobot.build.extension
 
+import com.redmadrobot.build.internal.setFinalValue
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.testing.TestFrameworkOptions
 import org.gradle.api.tasks.testing.junit.JUnitOptions
@@ -14,12 +15,12 @@ public abstract class TestOptionsImpl : TestOptions {
     internal abstract val configuration: Property<TestFrameworkOptions.() -> Unit>
 
     override fun useJunitPlatform(configure: JUnitPlatformOptions.() -> Unit) {
-        useJunitPlatform.set(true)
+        useJunitPlatform.setFinalValue(true)
         configuration.set { (this as JUnitPlatformOptions).configure() }
     }
 
     override fun useJunit(configure: JUnitOptions.() -> Unit) {
-        useJunitPlatform.set(false)
+        useJunitPlatform.setFinalValue(false)
         configuration.set { (this as JUnitOptions).configure() }
     }
 
