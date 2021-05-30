@@ -5,13 +5,14 @@
 package org.gradle.kotlin.dsl
 
 import com.redmadrobot.build.extension.AndroidOptions
+import com.redmadrobot.build.extension.AndroidOptionsImpl
 import com.redmadrobot.build.extension.RedmadrobotExtension
 
 /**
  * Settings for android modules.
  * @see AndroidOptions
  */
-public val RedmadrobotExtension.android: AndroidOptions by RedmadrobotExtension.extensionProperty()
+public val RedmadrobotExtension.android: AndroidOptions by RedmadrobotExtension.extensionProperty<AndroidOptionsImpl>()
 
 /**
  * Settings for android modules.
