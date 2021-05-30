@@ -19,9 +19,11 @@ Small plugins to reduce boilerplate in Gradle build scripts.
   - [application and android-library](#application-and-android-library)
 - [Usage](#usage)
   - [Configuration](#configuration)
+  - [Align version of all Kotlin libraries](#align-version-of-all-kotlin-libraries)
   - [Warnings as errors](#warnings-as-errors)
   - [Share sources between build types](#share-sources-between-build-types)
-  - [Configure junit test execution options](#configure-junit-test-execution-options)
+  - [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files)
+  - [Configure JUnit test execution options](#configure-junit-test-execution-options)
 - [Samples](#samples)
 - [Troubleshooting](#troubleshooting)
   - [Tests failed - `No value has been specified for property 'localResourcesFile'`](#tests-failed---no-value-has-been-specified-for-property-localresourcesfile)
@@ -94,8 +96,6 @@ Common configurations for pure Kotlin libraries.
 - Applies plugin `kotlin`
 - Specifies `jvmTarget` 1.8
 - Adds repository `mavenCentral`
-- Adds `kotlin-stdlib-jdk8` as dependency with `api` scope
-- Adds `kotlin-test` and `junit` as test dependencies
 - Enables [explicit API mode][explicit-api]
 
 ### publish
@@ -106,6 +106,7 @@ Common publish configurations for both Android and Kotlin libraries.
 - Adds sources and javadocs to publication
 
 You should specify publishing repositories manually. You can also use [predicates] for publication:
+
 ```kotlin
 publishing {
     repositories {
@@ -121,11 +122,12 @@ publishing {
 #### Signing
 
 You can configure publication in extension `redmadrobot.publishing`:
+
 ```kotlin
 redmadrobot {
     publishing {
-        signArtifacts = true    // Enables artifacts signing, required for publication to OSSRH
-        useGpgAgent = true      // By default use gpg-agent for artifacts signing
+        signArtifacts.set(true) // Enables artifacts signing, required for publication to OSSRH
+        useGpgAgent.set(true)   // By default use gpg-agent for artifacts signing
     }
 }
 ```
@@ -190,8 +192,8 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
     - `detektDiff` - Runs Detekt only on changed files (see [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files))
 
 > :warning: `detekt*` tasks are incompatible with [**type resolution**][type-resolution].
-> Some configured rules will not work 
-> Please check the rules that use type resolution on the [detekt page](https://detekt.github.io/detekt/) under *Rule Sets*.
+> This means some configured rules will not work.
+> Please check the rules that use type resolution on the [detekt page][detekt] under *Rule Sets* section.
 
 ## Android Plugins
 
@@ -207,8 +209,6 @@ Both:
 - Disables `aidl`, `renderScript` and `shaders` [build-features]
 - Adds `kotlin/` dirs to source sets
 - Adds repositories `mavenCentral` and `google`
-- Adds `kotlin-stdlib-jdk8` as dependency
-- Adds `kotlin-test` and `junit` as test dependency
 - Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)
 
 Library:
@@ -288,6 +288,7 @@ android {
 ```
 
 ### Enable Detekt checks only on changed files
+
 Plugin `redmadrobot.detekt` adds task `detektDiff` to check the only files changed comparing to the base branch.
 To enable this feature, you should specify base branch name:
 
@@ -425,7 +426,7 @@ Plugins `redmadrobot.android-library` and `redmadrobot.application` by default a
 ```
 
 It may be because of `gradle-infrastructure` uses `mavenCentral` instead of `jcenter` by default.
-[JCenter is at the end of life][jcenter-end] and should mot be used anymore.
+[JCenter is at the end of life][jcenter-end] and should not be used anymore.
 Unfortunately not all libraries migrated to Maven Central yet.
 To avoid these errors, declare `jcenter` repository in your build script and configure it to be used only for missing dependencies.
 
@@ -442,6 +443,7 @@ repositories {
 ```
 
 ## Contributing
+
 Merge requests are welcome.
 For major changes, please open an issue first to discuss what you would like to change.
 
@@ -473,4 +475,5 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [jcenter-end]: https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/
 
+[detekt]: https://detekt.github.io/detekt/
 [type-resolution]: https://detekt.github.io/detekt/type-resolution.html
