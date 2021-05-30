@@ -1,7 +1,6 @@
 package com.redmadrobot.build.extension
 
 import com.redmadrobot.build.internal.findByName
-import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.create
 import kotlin.properties.ReadOnlyProperty
@@ -9,7 +8,7 @@ import kotlin.properties.ReadOnlyProperty
 public interface RedmadrobotExtension :
     TestOptionsSpec,
     PublishingOptionsSpec,
-    StaticAnalyzersSpec,
+    DetektOptionsSpec,
     ExtensionAware {
 
     /** Kotlin version that should be used for all projects. */
@@ -46,22 +45,5 @@ public interface RedmadrobotExtension :
                     ?: thisRef.extensions.create(property.name)
             }
         }
-    }
-}
-
-public interface StaticAnalyzersSpec : DetektOptionsSpec {
-
-    /** Directory where stored configs for static analyzers. */
-    public val configsDir: DirectoryProperty
-
-    /** Directory where will be stored static analyzers reports. */
-    public val reportsDir: DirectoryProperty
-
-    public companion object {
-        // Relative to root project directory.
-        internal const val DEFAULT_CONFIGS_DIR = "config/"
-
-        // Relative to root project build directory.
-        internal const val DEFAULT_REPORTS_DIR = "reports/"
     }
 }
