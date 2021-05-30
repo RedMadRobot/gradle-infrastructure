@@ -12,7 +12,7 @@ internal abstract class RedmadrobotExtensionImpl @Inject constructor(objects: Ob
         publishing.configure()
     }
 
-    override val test: TestOptions = objects.newInstance()
+    override val test: TestOptions = objects.newInstance<TestOptionsImpl>()
 
     override fun test(configure: TestOptions.() -> Unit) {
         test.configure()
