@@ -1,7 +1,7 @@
 package com.redmadrobot.build
 
+import com.redmadrobot.build.dsl.isReleaseVersion
 import com.redmadrobot.build.extension.PublishingOptionsImpl
-import com.redmadrobot.build.extension.isReleaseVersion
 import com.redmadrobot.build.internal.java
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
