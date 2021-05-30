@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.*
+import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 
@@ -16,28 +17,17 @@ public open class PublishPlugin : InfrastructurePlugin() {
         public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
     }
 
-    protected val publishing: PublishingExtension
-        get() = project.extensions.getByName<PublishingExtension>("publishing")
-
-    protected fun publishing(configure: PublishingExtension.() -> Unit) {
-        project.extensions.configure("publishing", configure)
-    }
-
-    private fun signing(configure: SigningExtension.() -> Unit) {
-        project.extensions.configure("signing", configure)
-    }
-
     override fun Project.configure() {
         apply(plugin = "maven-publish")
 
-        val publicationName = when {
-            plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
-            plugins.hasPlugin("java-gradle-plugin") -> configurePluginPublication()
-            else -> configurePublication()
-        }
-
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
+            val publicationName = when {
+                plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
+                plugins.hasPlugin("java-gradle-plugin") && isPluginAutomatedPublishing -> configurePluginPublication()
+                else -> configurePublication()
+            }
+
             val options = redmadrobotExtension.publishing
 
             publishing.publications.getByName<MavenPublication>(publicationName) {
@@ -49,7 +39,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
             }
 
             if (options.signArtifacts) {
-                configureSigning(publicationName, options.useGpgAgent)
+                configureSigning(options.useGpgAgent)
             }
         }
     }
@@ -91,16 +81,32 @@ public open class PublishPlugin : InfrastructurePlugin() {
         return PUBLICATION_NAME
     }
 
-    private fun Project.configureSigning(publicationName: String, useGpgAgent: Boolean) {
+    private fun Project.configureSigning(useGpgAgent: Boolean) {
         apply(plugin = "signing")
 
         signing {
             if (useGpgAgent) useGpgCmd()
-            sign(publishing.publications[publicationName])
+            sign(publishing.publications)
         }
 
         tasks.withType<Sign>().configureEach {
             onlyIf { isReleaseVersion }
         }
+    }
+
+    // Accessors
+
+    protected val publishing: PublishingExtension
+        get() = project.extensions.getByName<PublishingExtension>("publishing")
+
+    private val isPluginAutomatedPublishing: Boolean
+        get() = project.extensions.getByType<GradlePluginDevelopmentExtension>().isAutomatedPublishing
+
+    protected fun publishing(configure: PublishingExtension.() -> Unit) {
+        project.extensions.configure("publishing", configure)
+    }
+
+    private fun signing(configure: SigningExtension.() -> Unit) {
+        project.extensions.configure("signing", configure)
     }
 }

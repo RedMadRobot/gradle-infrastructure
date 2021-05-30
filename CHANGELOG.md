@@ -42,6 +42,12 @@ dependencies {
 ### Changed
 
 - Update Gradle 7.0 -> 7.0.2
+- Flag `publishing.signArtifacts` now affects all artifacts not only the main one
+
+### Fixed
+
+- Publication not configured when `redmadrobot.publish` applied before other plugins
+- Look at flag `gradlePlugin.isAutomatedPublishing` when configuring gradle plugin publication
 
 ### Dependencies
 
