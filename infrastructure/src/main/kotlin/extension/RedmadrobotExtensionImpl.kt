@@ -18,7 +18,7 @@ internal abstract class RedmadrobotExtensionImpl @Inject constructor(objects: Ob
         test.configure()
     }
 
-    override val detekt: DetektOptions = objects.newInstance()
+    override val detekt: DetektOptions = objects.newInstance<DetektOptionsImpl>()
 
     override fun detekt(configure: DetektOptions.() -> Unit) {
         detekt.configure()

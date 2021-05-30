@@ -1,6 +1,6 @@
 package com.redmadrobot.build.extension
 
-import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 
 public interface DetektOptionsSpec {
 
@@ -11,29 +11,16 @@ public interface DetektOptionsSpec {
     public fun detekt(configure: DetektOptions.() -> Unit)
 }
 
-public abstract class DetektOptions {
+public interface DetektOptions {
 
     /** Options for detektDiff task. */
-    internal abstract val detektDiffOptions: Property<DetektDiffOptions>
+    public val detektDiffOptions: Provider<DetektDiffOptions>
 
     /** Enable Detekt checks only for modified files provided by git (compare with [branch]). */
     public fun checkOnlyDiffWithBranch(
         branch: String,
         configure: DetektDiffOptions.() -> Unit = {},
-    ) {
-        require(branch.isNotBlank()) { "Base branch should not be blank." }
-
-        detektDiffOptions.set(
-            DetektDiffOptions().apply {
-                configure()
-                baseBranch = branch
-            },
-        )
-    }
-
-    init {
-        detektDiffOptions.finalizeValueOnRead()
-    }
+    )
 }
 
 public class DetektDiffOptions {
