@@ -453,9 +453,9 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [samples]: samples/
 [RedmadrobotExtension]: infrastructure/src/main/kotlin/extension/RedmadrobotExtension.kt
-[MavenPom]: infrastructure/src/main/kotlin/extension/MavenPom.kt
-[predicates]: infrastructure/src/main/kotlin/extension/PublishingPredicates.kt
-[addSharedSourceSetRoot]: infrastructure/src/main/kotlin/extension/SourceSets.kt
+[MavenPom]: infrastructure/src/main/kotlin/dsl/MavenPom.kt
+[predicates]: infrastructure/src/main/kotlin/dsl/PublishingPredicates.kt
+[addSharedSourceSetRoot]: infrastructure-android/src/main/kotlin/dsl/SourceSets.kt
 [lint-options]: https://github.com/RedMadRobot/gradle-infrastructure/blob/2e96c04cbb9d15ca508d1d4b4a8b1e2da4bab6af/infrastructure/src/main/kotlin/AndroidApplicationPlugin.kt#L63-L72
 
 [infrastructure]: #
