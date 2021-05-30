@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.dsl
 
 import org.gradle.api.publish.maven.*
 
@@ -42,7 +42,7 @@ public fun MavenPomDeveloperSpec.developer(
     id: String,
     name: String,
     email: String,
-    action: MavenPomDeveloper.() -> Unit = {}
+    action: MavenPomDeveloper.() -> Unit = {},
 ) {
     developer {
         this.id.set(id)
@@ -56,7 +56,7 @@ public fun MavenPomDeveloperSpec.developer(
 public fun MavenPomContributorSpec.contributor(
     name: String,
     email: String,
-    action: MavenPomContributor.() -> Unit = {}
+    action: MavenPomContributor.() -> Unit = {},
 ) {
     contributor {
         this.name.set(name)

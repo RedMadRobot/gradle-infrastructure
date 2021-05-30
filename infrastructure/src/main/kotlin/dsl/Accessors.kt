@@ -1,4 +1,4 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.dsl
 
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType

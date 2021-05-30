@@ -1,8 +1,8 @@
 package com.redmadrobot.build.internal
 
 import com.redmadrobot.build.InfrastructurePlugin
-import com.redmadrobot.build.extension.isRunningOnCi
-import com.redmadrobot.build.kotlinCompile
+import com.redmadrobot.build.dsl.isRunningOnCi
+import com.redmadrobot.build.dsl.kotlinCompile
 import org.gradle.api.Project
 
 public fun InfrastructurePlugin.configureKotlin() {
