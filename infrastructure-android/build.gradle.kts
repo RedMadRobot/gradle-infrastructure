@@ -2,6 +2,7 @@ description = "Small plugins to reduce boilerplate in Android projects' Gradle b
 
 gradlePlugin {
     plugins {
+        isAutomatedPublishing = false
         register("application") {
             id = "redmadrobot.application"
             implementationClass = "com.redmadrobot.build.AndroidApplicationPlugin"

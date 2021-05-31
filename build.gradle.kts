@@ -1,8 +1,7 @@
-import com.redmadrobot.build.extension.*
-import com.redmadrobot.build.kotlinCompile
+import com.redmadrobot.build.dsl.*
 
 plugins {
-    id("redmadrobot.root-project") version "0.9"
+    id("redmadrobot.root-project") version "0.10"
     id("com.github.ben-manes.versions") version "0.38.0"
     `maven-publish`
     `kotlin-dsl` apply false
@@ -12,7 +11,7 @@ apply(plugin = "redmadrobot.detekt")
 
 redmadrobot {
     publishing {
-        signArtifacts = !isRunningOnCi
+        signArtifacts.set(!isRunningOnCi)
 
         pom {
             setGitHubProject("RedMadRobot/gradle-infrastructure")
