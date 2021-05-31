@@ -1,5 +1,24 @@
 ## [Unreleased]
 
+### Lazy Configuration
+
+> **Breaking change!**
+
+`RedmadrobotExtension` migrated to [lazy properties API](https://docs.gradle.org/current/userguide/lazy_configuration.html#lazy_properties).
+Now all extension fields are properties.
+You should use method `.set(value)` instead of assignment operator `=` to assign value.
+
+```diff
+redmadrobot {
+    android {
+-       minApi = 26
++       minApi.set(26)
+    }
+}
+```
+
+This change helps us to check the Redmadrobot extension not used before it was configured.
+
 ### Plugins no more add Kotlin dependencies
 
 > **Breaking change!**
@@ -42,7 +61,10 @@ dependencies {
 ### Changed
 
 - Update Gradle 7.0 -> 7.0.2
-- Flag `publishing.signArtifacts` now affects all artifacts not only the main one
+- Flag `publishing.signArtifacts` affects all artifacts not only the main one
+- Method `test.useJunit()` can take lambda to configure JUnit framework
+- Accessor `redmadrobot.android` can be used without imports
+- `RedmadrobotExtension` is [extension-aware](https://docs.gradle.org/current/dsl/org.gradle.api.plugins.ExtensionAware.html) since now
 
 ### Fixed
 

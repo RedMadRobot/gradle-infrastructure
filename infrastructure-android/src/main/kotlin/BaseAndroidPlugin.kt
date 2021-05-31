@@ -2,13 +2,13 @@ package com.redmadrobot.build
 
 import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.extension.AndroidOptions
-import com.redmadrobot.build.extension.android
 import com.redmadrobot.build.internal.android
 import com.redmadrobot.build.internal.configureKotlin
 import com.redmadrobot.build.internal.setTestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.kotlin.dsl.android
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
@@ -32,10 +32,10 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 }
 
 private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExtension> {
-    compileSdkVersion(options.targetSdk)
+    compileSdkVersion(options.targetSdk.get())
     defaultConfig {
-        minSdkVersion(options.minSdk)
-        targetSdkVersion(options.targetSdk)
+        minSdkVersion(options.minSdk.get())
+        targetSdkVersion(options.targetSdk.get())
     }
 
     // Set NDK version from env variable if exists

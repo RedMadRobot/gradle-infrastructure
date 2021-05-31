@@ -7,7 +7,7 @@ plugins {
 // Common configurations for all modules
 redmadrobot {
     android {
-        minSdk = 24
-        targetSdk = 30
+        minSdk.set(24)
+        targetSdk.set(30)
     }
 }

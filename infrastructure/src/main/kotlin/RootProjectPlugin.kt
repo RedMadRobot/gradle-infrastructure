@@ -1,6 +1,8 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.extension.RedmadrobotExtensionImpl
+import com.redmadrobot.build.extension.StaticAnalyzerSpec
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
@@ -14,8 +16,9 @@ public class RootProjectPlugin : Plugin<Project> {
     }
 
     private fun Project.configureExtension() {
-        val rmr = extensions.create<RedmadrobotExtension>(RedmadrobotExtension.NAME, objects)
-        rmr.configsDir.convention(layout.projectDirectory.dir(RedmadrobotExtension.DEFAULT_CONFIGS_DIR))
-        rmr.reportsDir.convention(layout.buildDirectory.dir(RedmadrobotExtension.DEFAULT_REPORTS_DIR))
+        extensions.create<RedmadrobotExtensionImpl>(RedmadrobotExtension.NAME).apply {
+            configsDir.convention(layout.projectDirectory.dir(StaticAnalyzerSpec.DEFAULT_CONFIGS_DIR))
+            reportsDir.convention(layout.buildDirectory.dir(StaticAnalyzerSpec.DEFAULT_REPORTS_DIR))
+        }
     }
 }

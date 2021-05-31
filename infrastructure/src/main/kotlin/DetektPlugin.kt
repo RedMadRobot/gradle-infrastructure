@@ -44,7 +44,7 @@ private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    val detektDiffOptions = extension.detekt.detektDiffOptions
+    val detektDiffOptions = extension.detekt.detektDiffOptions.orNull
     if (detektDiffOptions != null && detektDiffOptions.baseBranch.isNotEmpty()) {
         val changedFilesFilter = FilterParams(
             changeTypes = listOf(ChangeType.ADD, ChangeType.MODIFY),
