@@ -1,5 +1,5 @@
 plugins {
-    id("redmadrobot.root-project") version "0.10-SNAPSHOT"
+    id("redmadrobot.root-project") version "0.10"
 }
 
 // Common configurations for all modules

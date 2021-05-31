@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.10] (2021-05-31)
+
 ### Lazy Configuration
 
 > **Breaking change!**
@@ -281,7 +283,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.9...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.10...main
+[0.10]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.9...v0.10
 [0.9]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.2...v0.9
 [0.8.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1..v0.8.2
 [0.8.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8...v0.8.1
