@@ -1,11 +1,8 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.dsl
 
 import com.android.SdkConstants.*
 import com.android.build.api.dsl.AndroidSourceSet
 import com.android.build.gradle.BaseExtension
-import com.redmadrobot.build.BUILD_TYPE_DEBUG
-import com.redmadrobot.build.BUILD_TYPE_QA
-import com.redmadrobot.build.BUILD_TYPE_RELEASE
 import org.gradle.api.Incubating
 import org.gradle.kotlin.dsl.get
 

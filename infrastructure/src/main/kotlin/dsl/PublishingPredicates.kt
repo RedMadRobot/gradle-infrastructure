@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.dsl
 
 import org.gradle.api.Project
 

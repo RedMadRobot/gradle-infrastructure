@@ -65,6 +65,7 @@ dependencies {
 - Method `test.useJunit()` can take lambda to configure JUnit framework
 - Accessor `redmadrobot.android` can be used without imports
 - `RedmadrobotExtension` is [extension-aware](https://docs.gradle.org/current/dsl/org.gradle.api.plugins.ExtensionAware.html) since now
+- **Breaking change!** All extensions and constants moved to package `com.redmadrobot.build.dsl` to make it possible to import all extensions via single import
 
 ### Fixed
 

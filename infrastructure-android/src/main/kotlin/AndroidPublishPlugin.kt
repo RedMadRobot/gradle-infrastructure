@@ -1,5 +1,6 @@
 package com.redmadrobot.build
 
+import com.redmadrobot.build.dsl.BUILD_TYPE_RELEASE
 import com.redmadrobot.build.internal.android
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication

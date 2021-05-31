@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.dsl
 
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
@@ -46,7 +46,7 @@ public fun RepositoryHandler.rmrNexus(configure: MavenArtifactRepository.() -> U
  */
 public fun RepositoryHandler.githubPackages(
     repoName: String,
-    configure: MavenArtifactRepository.() -> Unit = {}
+    configure: MavenArtifactRepository.() -> Unit = {},
 ): MavenArtifactRepository {
     return maven("https://maven.pkg.github.com/$repoName") {
         name = "githubPackages"
@@ -91,7 +91,7 @@ public fun RepositoryHandler.ossrh(configure: MavenArtifactRepository.() -> Unit
  * @see ossrh
  */
 public fun RepositoryHandler.ossrhSnapshots(
-    configure: MavenArtifactRepository.() -> Unit = {}
+    configure: MavenArtifactRepository.() -> Unit = {},
 ): MavenArtifactRepository {
     return maven("https://oss.sonatype.org/content/repositories/snapshots/") {
         name = "ossrhSnapshots"
