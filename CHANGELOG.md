@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Changed
+
+- Update Gradle 7.0.2 -> 7.1.1
+
 ## [0.10] (2021-05-31)
 
 ### Lazy Configuration
