@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    api(kotlin("gradle-plugin", version = "1.5.10"))
+    api(kotlin("gradle-plugin", version = "1.5.20"))
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1")
-    implementation("org.eclipse.jgit:org.eclipse.jgit:5.11.0.202103091610-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r")
 }

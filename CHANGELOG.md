@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Dependencies
+
+- Kotlin Gradle Plugin 1.5.10 -> 1.5.20
+- JGit 5.11.0 -> 5.12.0
+
 ### Changed
 
 - Update Gradle 7.0.2 -> 7.1.1

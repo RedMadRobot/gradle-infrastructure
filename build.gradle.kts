@@ -2,7 +2,7 @@ import com.redmadrobot.build.dsl.*
 
 plugins {
     id("redmadrobot.root-project") version "0.10"
-    id("com.github.ben-manes.versions") version "0.38.0"
+    id("com.github.ben-manes.versions") version "0.39.0"
     `maven-publish`
     `kotlin-dsl` apply false
 }
