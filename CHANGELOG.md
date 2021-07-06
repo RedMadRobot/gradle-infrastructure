@@ -5,7 +5,13 @@
 - Kotlin Gradle Plugin 1.5.10 -> 1.5.20
 - JGit 5.11.0 -> 5.12.0
 
-### Changed
+### Added
+
+- Added ability to configure `compileSdk` separately from `targetSdk`
+- Added ability to configure `buildToolsVersion` for all android modules
+- Added KDoc comments to the all plugins
+
+### Housekeeping
 
 - Update Gradle 7.0.2 -> 7.1.1
 
@@ -45,7 +51,7 @@ Default applied dependencies can't be removed if needed, so they should not be a
 
 #### Another problem is `redmadrobot.kotlinVersion`.
 
-> Option `redmadrobot.kotlinVersion` is deprecated since this version and will not take any effect.
+> Option `redmadrobot.kotlinVersion` is deprecated and will not take any effect.
 
 We've introduced this option to make it possible to change version of default kotlin dependencies.
 This option affects only dependencies added by gradle-infrastructure, not all Kotlin dependencies, and it is confusing.
