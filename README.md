@@ -265,6 +265,19 @@ dependencies {
 }
 ```
 
+Another way is using `kotlin.coreLibrariesVersion` property:
+
+```kotlin
+// Set version for all Kotlin components
+kotlin.coreLibrariesVersion = "1.5.10"
+
+dependencies {
+    // Now you can add Kotlin components without version
+    implementation(kotlin("stdlib-jdk8"))
+    testImplementation(kotlin("test-junit5"))
+}
+```
+
 ### Warnings as errors
 
 By default, infrastructure plugins enable Kotlin compiler's option `allWarningsAsErrors` (`-Werror`) on CI.
