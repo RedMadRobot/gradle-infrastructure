@@ -11,6 +11,11 @@ import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugins.signing.Sign
 import org.gradle.plugins.signing.SigningExtension
 
+/**
+ * Plugin with configurations for publication.
+ *
+ * Tied to `redmadrobot.publish` plugin ID.
+ */
 public open class PublishPlugin : InfrastructurePlugin() {
 
     public companion object {

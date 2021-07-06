@@ -9,6 +9,12 @@ import com.redmadrobot.build.extension.RedmadrobotExtension
 import com.redmadrobot.build.internal.android
 import org.gradle.api.Project
 
+/**
+ * Plugin with default configurations for Android application project.
+ * Should be applied in place of `com.android.application`.
+ *
+ * Tied to `redmadrobot.application` plugin ID.
+ */
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
     override fun Project.configure() {

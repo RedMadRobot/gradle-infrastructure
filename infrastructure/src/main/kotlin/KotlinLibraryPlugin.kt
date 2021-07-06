@@ -1,7 +1,10 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.TestOptions
-import com.redmadrobot.build.internal.*
+import com.redmadrobot.build.internal.configureKotlin
+import com.redmadrobot.build.internal.java
+import com.redmadrobot.build.internal.kotlin
+import com.redmadrobot.build.internal.setTestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
@@ -9,6 +12,12 @@ import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
 
+/**
+ * Plugin with default configurations for Kotlin library project.
+ * Should be applied in place of `kotlin` plugin.
+ *
+ * Tied to `redmadrobot.kotlin-library` plugin ID.
+ */
 public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
     override fun Project.configure() {

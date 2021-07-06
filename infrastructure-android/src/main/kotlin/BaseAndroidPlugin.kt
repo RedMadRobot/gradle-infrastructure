@@ -12,6 +12,11 @@ import org.gradle.kotlin.dsl.android
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
+/**
+ * Base plugin with common configurations for both application and library modules.
+ * @see AndroidLibraryPlugin
+ * @see AndroidApplicationPlugin
+ */
 public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 
     /** Should be called from [configure] in implementation. */
@@ -49,6 +54,7 @@ private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExte
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    @Suppress("UnstableApiUsage")
     with(buildFeatures) {
         aidl = false
         renderScript = false

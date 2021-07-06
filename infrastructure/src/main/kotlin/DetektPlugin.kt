@@ -13,6 +13,12 @@ import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
+/**
+ * Plugin with common configurations for detekt.
+ * Should be applied to root project only.
+ *
+ * Tied to `redmadrobot.detekt` plugin ID.
+ */
 public class DetektPlugin : InfrastructurePlugin() {
 
     override fun Project.configure() {

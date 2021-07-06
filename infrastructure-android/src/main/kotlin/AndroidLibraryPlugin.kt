@@ -9,12 +9,19 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 private const val ARG_EXPLICIT_API = "-Xexplicit-api"
 
+/**
+ * Plugin with default configurations for Android library project.
+ * Should be applied in place of `com.android.library`.
+ *
+ * Tied to `redmadrobot.android-library` plugin ID.
+ */
 public class AndroidLibraryPlugin : BaseAndroidPlugin() {
 
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.library")
 
         android<LibraryExtension> {
+            @Suppress("UnstableApiUsage")
             buildFeatures {
                 buildConfig = false
                 resValues = false
