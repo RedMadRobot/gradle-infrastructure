@@ -18,11 +18,18 @@ public fun RedmadrobotExtension.android(configure: AndroidOptions.() -> Unit) {
 
 public interface AndroidOptions : TestOptionsSpec {
 
-    /** Minimal Android SDK that will be applied to all android modules. */
+    /** Minimal Android SDK to use across all android modules. */
     public val minSdk: Property<Int>
 
-    /** Target Android SDK that will be applied to all android modules. Also determines compile SDK. */
+    /** Target Android SDK to use across all android modules. */
     public val targetSdk: Property<Int>
+
+    /**
+     * Compile Android SDK to use across all android modules.
+     * Format: `android-XX` where `XX` is required API level.
+     * Uses [targetSdk] as API level if not configured.
+     */
+    public val compileSdk: Property<String>
 
     public companion object {
         internal const val DEFAULT_MIN_API = 21

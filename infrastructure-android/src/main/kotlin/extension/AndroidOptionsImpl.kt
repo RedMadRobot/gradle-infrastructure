@@ -20,5 +20,8 @@ internal abstract class AndroidOptionsImpl @Inject constructor(objects: ObjectFa
         targetSdk
             .convention(AndroidOptions.DEFAULT_TARGET_API)
             .finalizeValueOnRead()
+        compileSdk
+            .convention(targetSdk.map { "android-$it" })
+            .finalizeValueOnRead()
     }
 }

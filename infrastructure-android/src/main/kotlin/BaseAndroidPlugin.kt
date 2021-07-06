@@ -32,7 +32,8 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 }
 
 private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExtension> {
-    compileSdkVersion(options.targetSdk.get())
+    compileSdkVersion(options.compileSdk.get())
+
     defaultConfig {
         minSdkVersion(options.minSdk.get())
         targetSdkVersion(options.targetSdk.get())
