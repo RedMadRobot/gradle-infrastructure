@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.11] (2021-07-06)
+
 ### Dependencies
 
 - Kotlin Gradle Plugin 1.5.10 -> 1.5.20
@@ -9,11 +11,11 @@
 
 - Added ability to configure `compileSdk` separately from `targetSdk`
 - Added ability to configure `buildToolsVersion` for all android modules
-- Added KDoc comments to the all plugins
 
 ### Housekeeping
 
 - Update Gradle 7.0.2 -> 7.1.1
+- Added KDoc comments to the all plugins
 
 ## [0.10] (2021-05-31)
 
@@ -298,7 +300,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.10...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.11...main
+[0.11]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.10...v0.11
 [0.10]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.9...v0.10
 [0.9]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.2...v0.9
 [0.8.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.1..v0.8.2

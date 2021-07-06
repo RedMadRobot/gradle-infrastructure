@@ -61,7 +61,7 @@ pluginManagement {
 Apply `redmadrobot.root-project` to your root project:
 ```kotlin
 plugins {
-    id("redmadrobot.root-project") version "0.10"
+    id("redmadrobot.root-project") version "0.11"
 }
 ```
 
@@ -154,7 +154,7 @@ redmadrobot {
             
             developers {
                 // Shorthand to add a developer
-                developer(id = "jdoe", name = "John Dow", email = "john@doe.com")
+                developer(id = "j.doe", name = "John Doe", email = "john@doe.com")
             }
         }
     }
