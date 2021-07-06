@@ -31,6 +31,12 @@ public interface AndroidOptions : TestOptionsSpec {
      */
     public val compileSdk: Property<String>
 
+    /**
+     * Build Tools version to use across all android modules.
+     * Uses default version for current Android Gradle Plugin if not configured.
+     */
+    public val buildToolsVersion: Property<String>
+
     public companion object {
         internal const val DEFAULT_MIN_API = 21
         internal const val DEFAULT_TARGET_API = 30
