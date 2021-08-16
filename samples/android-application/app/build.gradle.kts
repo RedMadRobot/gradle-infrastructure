@@ -1,6 +1,6 @@
-import com.redmadrobot.build.BUILD_TYPE_DEBUG
-import com.redmadrobot.build.BUILD_TYPE_QA
-import com.redmadrobot.build.extension.addSharedSourceSetRoot
+import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
+import com.redmadrobot.build.dsl.BUILD_TYPE_QA
+import com.redmadrobot.build.dsl.addSharedSourceSetRoot
 
 plugins {
     id("redmadrobot.application")
@@ -27,14 +27,14 @@ android {
 
 dependencies {
     // Algin Kotlin version across all dependencies
-    implementation(platform(kotlin("bom", version = "1.5.20")))
+    implementation(platform(kotlin("bom", version = "1.5.21")))
 
     // Kotlin components can be added without version specifying
     implementation(kotlin("stdlib-jdk8"))
 
-    implementation("androidx.appcompat:appcompat:1.3.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
 

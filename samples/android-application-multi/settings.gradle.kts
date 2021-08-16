@@ -16,5 +16,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "my-app"
+rootProject.name = "android-application-multi"
 include(":app", ":module1", ":module2")
