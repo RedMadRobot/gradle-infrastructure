@@ -254,7 +254,9 @@ formatting:
     active: true
     autoCorrect: true
   ArgumentListWrapping:
-    active: true
+    # TODO: Enable after update to ktlint 0.42+
+    #  Issue: https://github.com/pinterest/ktlint/issues/1159
+    active: false
     autoCorrect: true
     indentSize: 4
     maxLineLength: 120

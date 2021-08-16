@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+
+- Added Detekt tasks `detekt[Variant]All` with type resolution
+
 ## [0.11] (2021-07-06)
 
 ### Dependencies

@@ -190,10 +190,9 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
     - `detektAll` - Runs Detekt over the whole codebase
     - `detektFormat` - Reformats the whole codebase with Detekt
     - `detektDiff` - Runs Detekt only on changed files (see [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files))
+    - `detekt[Variant]All` - Runs Detekt checks with type resolution on specified build variant (example `detektDebugAll`) or main source set (`detektMainAll`) if project is non-android
 
-> :warning: `detekt*` tasks are incompatible with [**type resolution**][type-resolution].
-> This means some configured rules will not work.
-> Please check the rules that use type resolution on the [detekt page][detekt] under *Rule Sets* section.
+> :warning: only `detekt[Variant]All` tasks are compatible with [**type resolution**][type-resolution]. 
 
 ## Android Plugins
 
