@@ -46,12 +46,20 @@ private fun Project.configureDependencies() {
 }
 
 private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
+    configureDetektFormatTask(extension)
+    configureDetektAllTasks(extension)
+    configureDetektDiffTask(extension)
+}
+
+private fun Project.configureDetektFormatTask(extension: RedmadrobotExtension) {
     detektTask(extension, "detektFormat") {
         description = "Reformats whole code base."
         disableDefaultRuleSets = true
         autoCorrect = true
     }
+}
 
+private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
     detektTask(extension, "detektAll") {
         description = "Runs over whole code base without the starting overhead for each module."
     }
@@ -74,7 +82,9 @@ private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
             }
         }
     }
+}
 
+private fun Project.configureDetektDiffTask(extension: RedmadrobotExtension) {
     val detektDiffOptions = extension.detekt.detektDiffOptions.orNull
     if (detektDiffOptions != null && detektDiffOptions.baseBranch.isNotEmpty()) {
         val changedFilesFilter = FilterParams(
