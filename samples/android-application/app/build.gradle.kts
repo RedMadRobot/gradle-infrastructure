@@ -1,6 +1,6 @@
-import com.redmadrobot.build.BUILD_TYPE_DEBUG
-import com.redmadrobot.build.BUILD_TYPE_QA
-import com.redmadrobot.build.extension.addSharedSourceSetRoot
+import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
+import com.redmadrobot.build.dsl.BUILD_TYPE_QA
+import com.redmadrobot.build.dsl.addSharedSourceSetRoot
 
 plugins {
     id("redmadrobot.application")
