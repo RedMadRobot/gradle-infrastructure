@@ -130,12 +130,7 @@ private fun Project.checkAllModulesContainDetekt() {
     }
 
     check(missingPluginModules.isEmpty()) {
-        val modulesName = missingPluginModules.joinToString(
-            prefix = "\"",
-            separator = "\", \"",
-            postfix = "\"",
-            transform = Project::getName,
-        )
+        val modulesName = missingPluginModules.joinToString(", ") { project -> "\"${project.name}\"" }
         "Modules $modulesName don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
     }
 }
@@ -147,13 +142,8 @@ private fun Project.extractDetektTaskProvider(variantName: String): TaskProvider
 
     val taskProvider = if (isSubprojectAndroid) {
         val baseExtensions = extensions.getByType<BaseExtension>()
-        baseExtensions.checkVariantExist(variantName) { existVariants ->
-            val candidates = existVariants.joinToString(
-                separator = "', '",
-                prefix = "'",
-                postfix = "'",
-                transform = { variant -> "detekt${variant.capitalize()}All" },
-            )
+        baseExtensions.checkVariantExists(variantName) { existingVariants ->
+            val candidates = existingVariants.joinToString(", ") { variant -> "'detekt${variant.capitalize()}All'" }
             "Task detekt${variantName.capitalize()}All not found in project. Some candidates are: $candidates"
         }
 
@@ -165,7 +155,7 @@ private fun Project.extractDetektTaskProvider(variantName: String): TaskProvider
     return taskProvider.also { taskProvider.configure { isEnabled = false } }
 }
 
-private fun BaseExtension.checkVariantExist(variantName: String, lazyMessage: (List<String>) -> String) {
+private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (List<String>) -> String) {
     val variants = when (this) {
         is AppExtension -> applicationVariants
         is LibraryExtension -> libraryVariants
