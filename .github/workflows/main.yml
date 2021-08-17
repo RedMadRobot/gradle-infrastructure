@@ -18,13 +18,13 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
 
       - name: Run Check
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: detektAll check
-          wrapper-cache-enabled: true
+          distributions-cache-enabled: true
           dependencies-cache-enabled: true
 
   publish:
@@ -40,13 +40,13 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
 
       - name: Run Publish
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: publishMavenPublicationToGithubPackagesRepository
-          wrapper-cache-enabled: true
+          distributions-cache-enabled: true
           dependencies-cache-enabled: true
         env:
           ORG_GRADLE_PROJECT_githubPackagesUsername: ${{ github.actor }}
@@ -68,18 +68,18 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 11
 
       - name: Run Publish
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: publishMavenPublicationToMavenLocal
-          wrapper-cache-enabled: true
+          distributions-cache-enabled: true
           dependencies-cache-enabled: true
 
       - name: Run Build
         uses: eskatos/gradle-command-action@v1
         with:
           arguments: build
-          wrapper-cache-enabled: true
+          distributions-cache-enabled: true
           build-root-directory: samples/${{ matrix.sample }}
