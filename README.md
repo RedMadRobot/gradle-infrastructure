@@ -188,9 +188,11 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 - Applies `detekt` plugin with `detekt-formatting`
 - Configures additional tasks:
     - `detektAll` - Runs Detekt over the whole codebase
+    - `detectBaselineAll` Creates single baseline file in the config directory with issues from the `detectAll` task.
     - `detektFormat` - Reformats the whole codebase with Detekt
     - `detektDiff` - Runs Detekt only on changed files (see [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files))
     - `detekt[Variant]All` - Runs Detekt checks with type resolution on specified build variant (example `detektDebugAll`) or main source set (`detektMainAll`) if project is non-android
+    - `detectBaseline[Variant]All` Creates single baseline file in the config directory with issues from the `detect[Variant]All` task.
 
 > :warning: only `detekt[Variant]All` tasks are compatible with [**type resolution**][type-resolution]. 
 
