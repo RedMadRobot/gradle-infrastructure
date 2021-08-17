@@ -206,7 +206,6 @@ Both:
 - Specifies `jvmTarget` and `compatibility` 1.8
 - Specifies default compile, min and target SDK
 - Disables `aidl`, `renderScript` and `shaders` [build-features]
-- Adds `kotlin/` dirs to source sets
 - Adds repositories `mavenCentral` and `google`
 - Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)
 

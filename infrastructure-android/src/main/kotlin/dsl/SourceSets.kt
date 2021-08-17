@@ -22,7 +22,7 @@ import org.gradle.kotlin.dsl.get
 public fun BaseExtension.addSharedSourceSetRoot(
     variant1: String,
     variant2: String,
-    name: String = "$variant1${variant2.capitalize()}"
+    name: String = "$variant1${variant2.capitalize()}",
 ) {
     val variant1SourceSets = sourceSets[variant1]
     val variant2SourceSets = sourceSets[variant2]

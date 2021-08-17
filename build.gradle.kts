@@ -41,8 +41,8 @@ subprojects {
     // Keep gradle-infrastructure compatible with older versions of Gradle.
     kotlinCompile {
         kotlinOptions {
-            apiVersion = "1.3"
-            languageVersion = "1.3"
+            apiVersion = "1.4"
+            languageVersion = "1.4"
         }
     }
 
