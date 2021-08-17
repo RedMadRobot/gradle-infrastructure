@@ -33,6 +33,11 @@ public class DetektPlugin : InfrastructurePlugin() {
         configureDependencies()
         configureDetektTasks(redmadrobotExtension)
     }
+
+    internal companion object {
+
+        const val BASELINE_KEYWORD = "Baseline"
+    }
 }
 
 private fun Project.configureDependencies() {
@@ -61,6 +66,10 @@ private fun Project.configureDetektFormatTask(extension: RedmadrobotExtension) {
 
 private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
     detektTask(extension, "detektAll") {
+        description = "Runs over whole code base without the starting overhead for each module."
+    }
+
+    detektCreateBaselineTask(extension, "detekt${BASELINE_KEYWORD}All") {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
@@ -112,8 +121,8 @@ private inline fun Project.detektTask(
 ): TaskProvider<Detekt> {
     return tasks.register<Detekt>(name) {
         parallel = true
-        config.setFrom(extension.configsDir.file("detekt/detekt.yml"))
-        baseline.set(extension.configsDir.getFileIfExists("detekt/baseline.xml"))
+        config.setFrom(provider { extension.configsDir.get().file("detekt/detekt.yml") })
+        baseline.set(provider { extension.configsDir.get().file("detekt/baseline.xml") })
         setSource(rootProject.files(rootProject.projectDir))
         reportsDir.set(extension.reportsDir.asFile)
         include("**/*.kt")
@@ -130,8 +139,23 @@ private inline fun Project.detektTask(
     }
 }
 
-private fun DirectoryProperty.getFileIfExists(path: String): File? {
-    return file(path).get().asFile.takeIf { it.exists() }
+private inline fun Project.detektCreateBaselineTask(
+    extension: RedmadrobotExtension,
+    name: String,
+    crossinline configure: DetektCreateBaselineTask.() -> Unit,
+): TaskProvider<DetektCreateBaselineTask> {
+    return tasks.register<DetektCreateBaselineTask>(name) {
+        parallel.set(true)
+        config.setFrom(provider { extension.configsDir.get().file("detekt/detekt.yml") })
+        baseline.set(provider { extension.configsDir.get().file("detekt/baseline.xml") })
+        setSource(rootProject.files(rootProject.projectDir))
+        include("**/*.kt")
+        include("**/*.kts")
+        exclude("**/res/**")
+        exclude("**/build/**")
+        exclude("**/.*/**")
+        configure()
+    }
 }
 
 private fun Project.checkAllModulesContainDetekt() {
