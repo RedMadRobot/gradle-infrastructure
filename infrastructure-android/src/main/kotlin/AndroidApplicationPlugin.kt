@@ -27,7 +27,7 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppExtension> {
     defaultConfig {
         // Keep only 'ru' resources
-        resConfig("ru")
+        addResourceConfiguration("ru")
 
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(

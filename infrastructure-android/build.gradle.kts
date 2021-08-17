@@ -26,6 +26,6 @@ repositories {
 
 dependencies {
     api(project(":infrastructure"))
-    implementation("com.android.tools.build:gradle:4.2.1")
-    implementation("gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.3.2")
+    implementation("com.android.tools.build:gradle:7.0.0")
+    implementation("gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.4.0")
 }

@@ -1,8 +1,18 @@
 ## [Unreleased]
 
+### Dependencies
+
+- Kotlin Gradle Plugin 1.5.20 -> 1.5.21
+- Android Gradle Plugin 4.2.1 -> 7.0.0
+- detekt 1.17.1 -> 1.18.0
+
 ### Added
 
 - Added Detekt tasks `detekt[Variant]All` with type resolution
+
+### Housekeeping
+
+- Kotlin API version changed from 1.3 to 1.4
 
 ## [0.11] (2021-07-06)
 

@@ -10,7 +10,6 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.android
 import org.gradle.kotlin.dsl.repositories
-import java.io.File
 
 /**
  * Base plugin with common configurations for both application and library modules.
@@ -41,8 +40,8 @@ private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExte
     options.buildToolsVersion.orNull?.let(::buildToolsVersion)
 
     defaultConfig {
-        minSdkVersion(options.minSdk.get())
-        targetSdkVersion(options.targetSdk.get())
+        minSdk = options.minSdk.get()
+        targetSdk = options.targetSdk.get()
     }
 
     // Set NDK version from env variable if exists
@@ -62,14 +61,6 @@ private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExte
     }
 
     afterEvaluate {
-        // Add kotlin folder to all source sets
-        // Do it after evaluate because there can be added build types
-        for (sourceSet in sourceSets) {
-            val javaSrcDirs = sourceSet.java.srcDirs.map(File::toString)
-            val kotlinSrcDirs = javaSrcDirs.map { it.replace("/java", "/kotlin") }
-            sourceSet.java.srcDirs(javaSrcDirs + kotlinSrcDirs)
-        }
-
         // Keep only release unit tests to reduce tests execution time
         tasks.named("test") {
             setDependsOn(dependsOn.filter { it !is TaskProvider<*> || it.name.endsWith("ReleaseUnitTest") })
