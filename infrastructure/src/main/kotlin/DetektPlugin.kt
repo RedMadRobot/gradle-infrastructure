@@ -7,14 +7,15 @@ import com.android.build.gradle.TestExtension
 import com.android.build.gradle.internal.core.InternalBaseVariant
 import com.redmadrobot.build.DetektPlugin.Companion.BASELINE_KEYWORD
 import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.checkAllSubprojectsContainPlugin
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.internal.detektPlugins
-import com.redmadrobot.build.internal.hasPlugin
 import com.redmadrobot.build.internal.isRoot
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
+import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskProvider
@@ -84,7 +85,9 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
 
             if (isBaseline) {
                 detektCreateBaselineTask(extension, startTask) {
-                    checkAllModulesContainDetekt()
+                    checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
+                        "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
+                    }
 
                     val detektTaskProviders = subprojects.map { subproject ->
                         subproject.extractDetektTaskProviderByType<DetektCreateBaselineTask>(requiredVariant)
@@ -98,7 +101,9 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
                 }
             } else {
                 detektTask(extension, startTask) {
-                    checkAllModulesContainDetekt()
+                    checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
+                        "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
+                    }
 
                     val detektTaskProviders = subprojects.map { subproject ->
                         subproject.extractDetektTaskProviderByType<Detekt>(requiredVariant)
@@ -177,17 +182,6 @@ private inline fun Project.detektCreateBaselineTask(
         exclude("**/build/**")
         exclude("**/.*/**")
         configure()
-    }
-}
-
-private fun Project.checkAllModulesContainDetekt() {
-    val missingPluginModules = subprojects.filterNot { subproject ->
-        subproject.plugins.hasPlugin<io.gitlab.arturbosch.detekt.DetektPlugin>()
-    }
-
-    check(missingPluginModules.isEmpty()) {
-        val modulesName = missingPluginModules.joinToString(", ") { project -> "\"${project.name}\"" }
-        "Modules $modulesName don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
     }
 }
 
