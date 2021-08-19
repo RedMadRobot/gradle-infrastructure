@@ -15,6 +15,7 @@
 ### Housekeeping
 
 - Kotlin API version changed from 1.3 to 1.4
+- Gradle 7.1.1 -> 7.2
 
 ## [0.11] (2021-07-06)
 
