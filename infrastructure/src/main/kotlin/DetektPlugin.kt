@@ -12,6 +12,7 @@ import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.internal.detektPlugins
+import com.redmadrobot.build.internal.getFileIfExists
 import com.redmadrobot.build.internal.isRoot
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
@@ -76,7 +77,7 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
     }
 
     if (project.isRoot) {
-        val variantRegex = Regex("^detekt($BASELINE_KEYWORD)?([A-Z][a-z]+)All$")
+        val variantRegex = Regex("^detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
         val startTask = gradle.startParameter.taskNames.find { it.contains(variantRegex) }
         if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
             val taskData = variantRegex.find(startTask)?.groups
@@ -149,7 +150,7 @@ private inline fun Project.detektTask(
     return tasks.register<Detekt>(name) {
         parallel = true
         config.setFrom(provider { extension.configsDir.get().file("detekt/detekt.yml") })
-        baseline.set(provider { extension.configsDir.get().file("detekt/baseline.xml") })
+        baseline.set(provider { extension.configsDir.getFileIfExists("detekt/baseline.xml") })
         setSource(rootProject.files(rootProject.projectDir))
         reportsDir.set(extension.reportsDir.asFile)
         include("**/*.kt")
@@ -212,6 +213,7 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
     return taskProvider.also { taskProvider.configure { isEnabled = false } }
 }
 
+@Suppress("DefaultLocale")
 private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (List<String>) -> String) {
     val variants = when (this) {
         is AppExtension -> applicationVariants
@@ -219,7 +221,7 @@ private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (
         is TestExtension -> applicationVariants
         else -> null
     }
-    val requiredVariant = variants?.find { it.name.equals(variantName, ignoreCase = true) }
+    val requiredVariant = variants?.find { it.name.capitalize() == variantName }
     checkNotNull(requiredVariant) { lazyMessage.invoke(variants?.map(InternalBaseVariant::getName).orEmpty()) }
 }
 
