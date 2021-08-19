@@ -1,11 +1,13 @@
 package com.redmadrobot.build
 
+import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.dsl.isReleaseVersion
 import com.redmadrobot.build.extension.PublishingOptionsImpl
 import com.redmadrobot.build.internal.java
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugins.signing.Sign
@@ -50,19 +52,30 @@ public open class PublishPlugin : InfrastructurePlugin() {
         }
     }
 
-    protected open fun Project.configureAndroidPublication(): String {
-        error(
-            """
-            The project was recognized as Android-related because the plugin 'kotlin-android' was found.
-            If you want to publish android artifacts, you should use 'infrastructure-android'
-            instead of 'infrastructure'.
-            You can change it in gradle.settings.kts
-            """.trimIndent(),
-        )
+    private fun Project.configureAndroidPublication(): String {
+        val android = extensions.getByType<BaseExtension>()
+        if (version == Project.DEFAULT_VERSION) {
+            version = checkNotNull(android.defaultConfig.versionName) {
+                "You should specify either project 'version' or 'android.versionName' for publication."
+            }
+        }
+
+        val sourcesJar = tasks.register<Jar>("sourcesJar") {
+            archiveClassifier.set("sources")
+            from(android.sourceSets["main"].java.srcDirs)
+        }
+
+        publishing {
+            publications.create<MavenPublication>(PUBLICATION_NAME) {
+                from(components["release"])
+                artifact(sourcesJar.get())
+            }
+        }
+
+        return PUBLICATION_NAME
     }
 
     private fun Project.configurePluginPublication(): String {
-        @Suppress("UnstableApiUsage")
         java {
             withSourcesJar()
             withJavadocJar()
@@ -72,7 +85,6 @@ public open class PublishPlugin : InfrastructurePlugin() {
     }
 
     private fun Project.configurePublication(): String {
-        @Suppress("UnstableApiUsage")
         java {
             withSourcesJar()
             withJavadocJar()

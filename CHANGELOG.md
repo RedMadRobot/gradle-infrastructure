@@ -12,6 +12,10 @@
 - Added the `detektBaselineAll` task to create a baseline file for Detekt rules.
 - Added `detektBaseline[Variant]All` tasks to create a baseline file for Detekt rules with type resolution.
 
+### Changed
+
+- Android libraries' publication moved back to `infrastructure` from `infrastructure-android`.
+
 ### Housekeeping
 
 - Kotlin API version changed from 1.3 to 1.4
