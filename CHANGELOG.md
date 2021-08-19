@@ -15,6 +15,7 @@
 ### Changed
 
 - Android libraries' publication moved back to `infrastructure` from `infrastructure-android`.
+- Use only files with extension `.pro` from `proguard` directory as inputs for R8.
 
 ### Housekeeping
 
