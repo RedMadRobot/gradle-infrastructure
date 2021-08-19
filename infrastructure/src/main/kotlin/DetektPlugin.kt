@@ -5,19 +5,22 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.TestExtension
 import com.android.build.gradle.internal.core.InternalBaseVariant
+import com.redmadrobot.build.DetektPlugin.Companion.BASELINE_KEYWORD
 import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.checkAllSubprojectsContainPlugin
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.internal.detektPlugins
-import com.redmadrobot.build.internal.hasPlugin
+import com.redmadrobot.build.internal.getFileIfExists
 import com.redmadrobot.build.internal.isRoot
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
+import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.Project
-import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.*
-import java.io.File
 
 /**
  * Plugin with common configurations for detekt.
@@ -32,6 +35,11 @@ public class DetektPlugin : InfrastructurePlugin() {
 
         configureDependencies()
         configureDetektTasks(redmadrobotExtension)
+    }
+
+    internal companion object {
+
+        const val BASELINE_KEYWORD = "Baseline"
     }
 }
 
@@ -64,21 +72,50 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
+    detektCreateBaselineTask(extension, "detekt${BASELINE_KEYWORD}All") {
+        description = "Runs over whole code base without the starting overhead for each module."
+    }
+
     if (project.isRoot) {
-        val variantRegex = Regex("^detekt([A-Z][a-z]+)All$")
+        val variantRegex = Regex("^detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
         val startTask = gradle.startParameter.taskNames.find { it.contains(variantRegex) }
-        if (startTask != null) {
-            val requiredVariant = variantRegex.find(startTask)?.groups?.get(1)?.value.orEmpty()
-            detektTask(extension, startTask) {
-                checkAllModulesContainDetekt()
+        if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
+            val taskData = variantRegex.find(startTask)?.groups
+            val requiredVariant = taskData?.get(2)?.value.orEmpty()
+            val isBaseline = taskData?.get(1)?.value == BASELINE_KEYWORD
 
-                val detektTaskProviders = subprojects.map { it.extractDetektTaskProvider(requiredVariant) }
+            if (isBaseline) {
+                detektCreateBaselineTask(extension, startTask) {
+                    checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
+                        "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
+                    }
 
-                val allClasspath = detektTaskProviders.map { it.map(Detekt::classpath) }
-                val allSources = detektTaskProviders.map { it.map(Detekt::getSource) }
+                    val detektTaskProviders = subprojects.map { subproject ->
+                        subproject.extractDetektTaskProviderByType<DetektCreateBaselineTask>(requiredVariant)
+                    }
 
-                classpath.setFrom(allClasspath)
-                setSource(allSources)
+                    val allClasspath = detektTaskProviders.map { it.map(DetektCreateBaselineTask::classpath) }
+                    val allSources = detektTaskProviders.map { it.map(DetektCreateBaselineTask::getSource) }
+
+                    classpath.setFrom(allClasspath)
+                    setSource(allSources)
+                }
+            } else {
+                detektTask(extension, startTask) {
+                    checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
+                        "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
+                    }
+
+                    val detektTaskProviders = subprojects.map { subproject ->
+                        subproject.extractDetektTaskProviderByType<Detekt>(requiredVariant)
+                    }
+
+                    val allClasspath = detektTaskProviders.map { it.map(Detekt::classpath) }
+                    val allSources = detektTaskProviders.map { it.map(Detekt::getSource) }
+
+                    classpath.setFrom(allClasspath)
+                    setSource(allSources)
+                }
             }
         }
     }
@@ -112,8 +149,8 @@ private inline fun Project.detektTask(
 ): TaskProvider<Detekt> {
     return tasks.register<Detekt>(name) {
         parallel = true
-        config.setFrom(extension.configsDir.file("detekt/detekt.yml"))
-        baseline.set(extension.configsDir.getFileIfExists("detekt/baseline.xml"))
+        config.setFrom(provider { extension.configsDir.get().file("detekt/detekt.yml") })
+        baseline.set(provider { extension.configsDir.getFileIfExists("detekt/baseline.xml") })
         setSource(rootProject.files(rootProject.projectDir))
         reportsDir.set(extension.reportsDir.asFile)
         include("**/*.kt")
@@ -130,41 +167,53 @@ private inline fun Project.detektTask(
     }
 }
 
-private fun DirectoryProperty.getFileIfExists(path: String): File? {
-    return file(path).get().asFile.takeIf { it.exists() }
-}
-
-private fun Project.checkAllModulesContainDetekt() {
-    val missingPluginModules = subprojects.filterNot { subproject ->
-        subproject.plugins.hasPlugin<io.gitlab.arturbosch.detekt.DetektPlugin>()
-    }
-
-    check(missingPluginModules.isEmpty()) {
-        val modulesName = missingPluginModules.joinToString(", ") { project -> "\"${project.name}\"" }
-        "Modules $modulesName don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
+private inline fun Project.detektCreateBaselineTask(
+    extension: RedmadrobotExtension,
+    name: String,
+    crossinline configure: DetektCreateBaselineTask.() -> Unit,
+): TaskProvider<DetektCreateBaselineTask> {
+    return tasks.register<DetektCreateBaselineTask>(name) {
+        parallel.set(true)
+        config.setFrom(provider { extension.configsDir.get().file("detekt/detekt.yml") })
+        baseline.set(provider { extension.configsDir.get().file("detekt/baseline.xml") })
+        setSource(rootProject.files(rootProject.projectDir))
+        include("**/*.kt")
+        include("**/*.kts")
+        exclude("**/res/**")
+        exclude("**/build/**")
+        exclude("**/.*/**")
+        configure()
     }
 }
 
 @Suppress("DefaultLocale")
-private fun Project.extractDetektTaskProvider(variantName: String): TaskProvider<Detekt> {
+private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByType(
+    variantName: String,
+): TaskProvider<T> {
     val isSubprojectAndroid = plugins.hasPlugin("com.android.application") ||
         plugins.hasPlugin("com.android.library")
+
+    val taskSuffix = BASELINE_KEYWORD.takeIf { T::class == DetektCreateBaselineTask::class }.orEmpty()
 
     val taskProvider = if (isSubprojectAndroid) {
         val baseExtensions = extensions.getByType<BaseExtension>()
         baseExtensions.checkVariantExists(variantName) { existingVariants ->
-            val candidates = existingVariants.joinToString(", ") { variant -> "'detekt${variant.capitalize()}All'" }
-            "Task detekt${variantName.capitalize()}All not found in project. Some candidates are: $candidates"
+            val candidates = existingVariants.joinToString(", ") { variant ->
+                "'${createDetektVariantTaskName(taskSuffix, variant.capitalize(), "All")}'"
+            }
+            "Task ${createDetektVariantTaskName(taskSuffix, variantName, "All")} not found in project. " +
+                "Some candidates are: $candidates"
         }
 
-        tasks.named<Detekt>("detekt$variantName")
+        tasks.named<T>(createDetektVariantTaskName(taskSuffix, variantName))
     } else {
-        tasks.named<Detekt>("detektMain")
+        tasks.named<T>(createDetektVariantTaskName(taskSuffix, "Main"))
     }
 
     return taskProvider.also { taskProvider.configure { isEnabled = false } }
 }
 
+@Suppress("DefaultLocale")
 private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (List<String>) -> String) {
     val variants = when (this) {
         is AppExtension -> applicationVariants
@@ -172,6 +221,10 @@ private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (
         is TestExtension -> applicationVariants
         else -> null
     }
-    val requiredVariant = variants?.find { it.name.equals(variantName, ignoreCase = true) }
+    val requiredVariant = variants?.find { it.name.capitalize() == variantName }
     checkNotNull(requiredVariant) { lazyMessage.invoke(variants?.map(InternalBaseVariant::getName).orEmpty()) }
+}
+
+private fun createDetektVariantTaskName(suffix: String, variantName: String, postfix: String = ""): String {
+    return "detekt$suffix$variantName$postfix"
 }
