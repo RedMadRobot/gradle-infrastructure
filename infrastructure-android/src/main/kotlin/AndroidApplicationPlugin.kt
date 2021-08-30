@@ -31,7 +31,7 @@ private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppE
 
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(
-            rootProject.fileTree("proguard").files +
+            rootProject.fileTree("proguard").files.filter { it.endsWith(".pro") } +
                 getDefaultProguardFile("proguard-android-optimize.txt"),
         )
 
