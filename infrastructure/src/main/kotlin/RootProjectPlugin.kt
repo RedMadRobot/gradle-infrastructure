@@ -3,6 +3,7 @@ package com.redmadrobot.build
 import com.redmadrobot.build.extension.RedmadrobotExtension
 import com.redmadrobot.build.extension.RedmadrobotExtensionImpl
 import com.redmadrobot.build.extension.StaticAnalyzerSpec
+import com.redmadrobot.build.internal.findInfrastructureRootProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.create
@@ -18,7 +19,8 @@ import org.gradle.kotlin.dsl.create
 public class RootProjectPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        check(target.rootProject == target) { "This plugin can be applied only to the root project." }
+        val rootProject = target.findInfrastructureRootProject()
+        if (rootProject != null) error("Root-project is already defined: $rootProject")
 
         target.configureExtension()
     }

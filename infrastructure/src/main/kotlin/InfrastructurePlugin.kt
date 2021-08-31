@@ -1,6 +1,7 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.findInfrastructureRootProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
@@ -14,12 +15,15 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
     public lateinit var project: Project
         private set
 
+    protected lateinit var infrastructureRootProject: Project
+        private set
+
     protected val redmadrobotExtension: RedmadrobotExtension
-        get() = project.rootProject.extensions.getByType()
+        get() = infrastructureRootProject.extensions.getByType()
 
     /** @see configure */
     final override fun apply(target: Project) {
-        target.requireRootProjectPlugin()
+        infrastructureRootProject = target.requireInfrastructureRootProject()
         project = target
         target.configure()
     }
@@ -27,10 +31,11 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
     protected abstract fun Project.configure()
 }
 
-private fun Project.requireRootProjectPlugin() {
-    check(rootProject.plugins.hasPlugin("redmadrobot.root-project")) {
+private fun Project.requireInfrastructureRootProject(): Project {
+    return checkNotNull(findInfrastructureRootProject()) {
         """
-        Plugin 'redmadrobot.root-project' not found. You should apply it to your root project:
+        Plugin 'redmadrobot.root-project' is not applied to any of projects in hierarchy.
+        You should apply it to the project you want to define as "root":
 
         plugins {
             id("redmadrobot.root-project") version "[LATEST_VERSION_HERE]"
