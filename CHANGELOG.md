@@ -9,6 +9,8 @@
 
 ### Added
 
+- Plugin `redmadrobot.root-project` now can be applied to any project that should be considered as "root" project for gradle-infrastructure.
+  It may be useful for projects where you need to apply gradle-infrastructure only to particular projects.
 - Added Detekt tasks `detekt[Variant]All` with type resolution
 - Added the `detektBaselineAll` task to create a baseline file for Detekt rules.
 - Added `detektBaseline[Variant]All` tasks to create a baseline file for Detekt rules with type resolution.
