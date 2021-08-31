@@ -5,7 +5,7 @@
 - Kotlin Gradle Plugin 1.5.20 -> 1.5.21
 - Android Gradle Plugin 4.2.1 -> 4.2.2
 - Android cache fix Gradle plugin 2.4.0 -> 2.4.3
-- detekt 1.17.1 -> 1.18.0
+- detekt 1.17.1 -> 1.18.1
 
 ### Added
 
