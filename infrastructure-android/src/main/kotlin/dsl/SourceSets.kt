@@ -1,5 +1,6 @@
 package com.redmadrobot.build.dsl
 
+import com.android.SdkConstants.*
 import com.android.build.api.dsl.AndroidSourceSet
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.Incubating
@@ -32,18 +33,17 @@ public fun BaseExtension.addSharedSourceSetRoot(
     variant2SourceSets.addRoot(root)
 }
 
-// See: DefaultAndroidSourceSet.initRoot
 @Suppress("UnstableApiUsage")
 private fun AndroidSourceSet.addRoot(path: String) {
-    java.srcDir("$path/java")
-    kotlin.srcDirs("$path/java", "$path/kotlin")
-    resources.srcDir("$path/resources")
-    res.srcDir("$path/res")
-    assets.srcDir("$path/assets")
-    manifest.srcFile("$path/AndroidManifest.xml")
-    aidl.srcDir("$path/aidl")
-    renderscript.srcDir("$path/rs")
+    java.srcDirs("$path/$FD_JAVA", "$path/kotlin")
+    resources.srcDir("$path/$FD_JAVA_RES")
+    res.srcDir("$path/$FD_RES")
+    assets.srcDir("$path/$FD_ASSETS")
+    manifest.srcFile("$path/$FN_ANDROID_MANIFEST_XML")
+    aidl.srcDir("$path/$FD_AIDL")
+    renderscript.srcDir("$path/$FD_RENDERSCRIPT")
+    jni.srcDir("$path/$FD_JNI")
     jniLibs.srcDir("$path/jniLibs")
     shaders.srcDir("$path/shaders")
-    mlModels.srcDir("$path/ml")
+    mlModels.srcDir("$path/$FD_ML_MODELS")
 }
