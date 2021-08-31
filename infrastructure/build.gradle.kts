@@ -28,8 +28,8 @@ repositories {
 }
 
 dependencies {
-    api(kotlin("gradle-plugin", version = "1.5.21"))
-    compileOnly("com.android.tools.build:gradle:7.0.0")
-    implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.0")
+    api(kotlin("gradle-plugin", version = "1.5.30"))
+    compileOnly("com.android.tools.build:gradle:4.2.2")
+    implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1")
     implementation("org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r")
 }
