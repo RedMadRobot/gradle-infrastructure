@@ -61,7 +61,7 @@ pluginManagement {
 Apply `redmadrobot.root-project` to project that will be considered as "root":
 ```kotlin
 plugins {
-    id("redmadrobot.root-project") version "0.11"
+    id("redmadrobot.root-project") version "0.12"
 }
 ```
 

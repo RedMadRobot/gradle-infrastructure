@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.12] (2021-09-01)
+
 ### Dependencies
 
 - Kotlin Gradle Plugin 1.5.20 -> 1.5.30
@@ -9,8 +11,8 @@
 
 ### Added
 
-- Plugin `redmadrobot.root-project` now can be applied to any project that should be considered as "root" project for gradle-infrastructure.
-  It may be useful for projects where you need to apply gradle-infrastructure only to particular projects.
+- Plugin `redmadrobot.root-project` now can be applied to any project that should be considered as "root" project for **gradle-infrastructure**.
+  It may be useful for projects where you need to apply **gradle-infrastructure** only to particular subprojects.
 - Added Detekt tasks `detekt[Variant]All` with type resolution
 - Added the `detektBaselineAll` task to create a baseline file for Detekt rules.
 - Added `detektBaseline[Variant]All` tasks to create a baseline file for Detekt rules with type resolution.
@@ -327,7 +329,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.11...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12...main
+[0.12]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.11...v0.12
 [0.11]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.10...v0.11
 [0.10]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.9...v0.10
 [0.9]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.8.2...v0.9
