@@ -13,7 +13,7 @@ import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.internal.detektPlugins
 import com.redmadrobot.build.internal.getFileIfExists
-import com.redmadrobot.build.internal.isRoot
+import com.redmadrobot.build.internal.isInfrastructureRootProject
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.DetektPlugin
@@ -34,11 +34,10 @@ public class DetektPlugin : InfrastructurePlugin() {
         apply(plugin = "io.gitlab.arturbosch.detekt")
 
         configureDependencies()
-        configureDetektTasks(redmadrobotExtension)
+        configureDetektTasks(redmadrobotExtension, infrastructureRootProject)
     }
 
     internal companion object {
-
         const val BASELINE_KEYWORD = "Baseline"
     }
 }
@@ -53,30 +52,30 @@ private fun Project.configureDependencies() {
     }
 }
 
-private fun Project.configureDetektTasks(extension: RedmadrobotExtension) {
-    configureDetektFormatTask(extension)
-    configureDetektAllTasks(extension)
-    configureDetektDiffTask(extension)
+private fun Project.configureDetektTasks(extension: RedmadrobotExtension, infrastructureRootProject: Project) {
+    configureDetektFormatTask(extension, infrastructureRootProject)
+    configureDetektAllTasks(extension, infrastructureRootProject)
+    configureDetektDiffTask(extension, infrastructureRootProject)
 }
 
-private fun Project.configureDetektFormatTask(extension: RedmadrobotExtension) {
-    detektTask(extension, "detektFormat") {
+private fun Project.configureDetektFormatTask(extension: RedmadrobotExtension, infrastructureRootProject: Project) {
+    detektTask(extension, infrastructureRootProject, "detektFormat") {
         description = "Reformats whole code base."
         disableDefaultRuleSets = true
         autoCorrect = true
     }
 }
 
-private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
-    detektTask(extension, "detektAll") {
+private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, infrastructureRootProject: Project) {
+    detektTask(extension, infrastructureRootProject, "detektAll") {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    detektCreateBaselineTask(extension, "detekt${BASELINE_KEYWORD}All") {
+    detektCreateBaselineTask(extension, infrastructureRootProject, "detekt${BASELINE_KEYWORD}All") {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    if (project.isRoot) {
+    if (project.isInfrastructureRootProject) {
         val variantRegex = Regex("^detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
         val startTask = gradle.startParameter.taskNames.find { it.contains(variantRegex) }
         if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
@@ -85,7 +84,7 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
             val isBaseline = taskData?.get(1)?.value == BASELINE_KEYWORD
 
             if (isBaseline) {
-                detektCreateBaselineTask(extension, startTask) {
+                detektCreateBaselineTask(extension, infrastructureRootProject, startTask) {
                     checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
                         "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                     }
@@ -101,7 +100,7 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
                     setSource(allSources)
                 }
             } else {
-                detektTask(extension, startTask) {
+                detektTask(extension, infrastructureRootProject, startTask) {
                     checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
                         "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                     }
@@ -121,7 +120,7 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension) {
     }
 }
 
-private fun Project.configureDetektDiffTask(extension: RedmadrobotExtension) {
+private fun Project.configureDetektDiffTask(extension: RedmadrobotExtension, infrastructureRootProject: Project) {
     val detektDiffOptions = extension.detekt.detektDiffOptions.orNull
     if (detektDiffOptions != null && detektDiffOptions.baseBranch.isNotEmpty()) {
         val changedFilesFilter = FilterParams(
@@ -135,15 +134,16 @@ private fun Project.configureDetektDiffTask(extension: RedmadrobotExtension) {
             branch.set(detektDiffOptions.baseBranch)
         }
 
-        detektTask(extension, "detektDiff") {
+        detektTask(extension, infrastructureRootProject, "detektDiff") {
             description = "Check out only changed files versus the ${detektDiffOptions.baseBranch} branch"
-            setSource(rootProject.files(findChangedFiles.map { it.outputFiles.from }))
+            setSource(infrastructureRootProject.files(findChangedFiles.map { it.outputFiles.from }))
         }
     }
 }
 
 private inline fun Project.detektTask(
     extension: RedmadrobotExtension,
+    infrastructureRootProject: Project,
     name: String,
     crossinline configure: Detekt.() -> Unit,
 ): TaskProvider<Detekt> {
@@ -151,7 +151,7 @@ private inline fun Project.detektTask(
         parallel = true
         config.setFrom(provider { extension.configsDir.get().file("detekt/detekt.yml") })
         baseline.set(provider { extension.configsDir.getFileIfExists("detekt/baseline.xml") })
-        setSource(rootProject.files(rootProject.projectDir))
+        setSource(infrastructureRootProject.projectDir)
         reportsDir.set(extension.reportsDir.asFile)
         include("**/*.kt")
         include("**/*.kts")
@@ -169,6 +169,7 @@ private inline fun Project.detektTask(
 
 private inline fun Project.detektCreateBaselineTask(
     extension: RedmadrobotExtension,
+    infrastructureRootProject: Project,
     name: String,
     crossinline configure: DetektCreateBaselineTask.() -> Unit,
 ): TaskProvider<DetektCreateBaselineTask> {
@@ -176,7 +177,7 @@ private inline fun Project.detektCreateBaselineTask(
         parallel.set(true)
         config.setFrom(provider { extension.configsDir.get().file("detekt/detekt.yml") })
         baseline.set(provider { extension.configsDir.get().file("detekt/baseline.xml") })
-        setSource(rootProject.files(rootProject.projectDir))
+        setSource(infrastructureRootProject.projectDir)
         include("**/*.kt")
         include("**/*.kts")
         exclude("**/res/**")

@@ -20,18 +20,21 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.application")
 
-        configureApp(redmadrobotExtension)
+        configureApp(redmadrobotExtension, infrastructureRootProject)
     }
 }
 
-private fun Project.configureApp(extension: RedmadrobotExtension) = android<AppExtension> {
+private fun Project.configureApp(
+    extension: RedmadrobotExtension,
+    infrastructureRootProject: Project,
+) = android<AppExtension> {
     defaultConfig {
         // Keep only 'ru' resources
         resConfig("ru")
 
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(
-            rootProject.fileTree("proguard").files.filter { it.endsWith(".pro") } +
+            infrastructureRootProject.fileTree("proguard").files.filter { it.endsWith(".pro") } +
                 getDefaultProguardFile("proguard-android-optimize.txt"),
         )
 
