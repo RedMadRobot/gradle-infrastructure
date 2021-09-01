@@ -79,7 +79,7 @@ plugins {
 > You can apply it with `apply(plugin = "...")` syntax to let it use `root-project`s plugin version.
 > ```kotlin
 > plugins {
->     id("redmadrobot.root-project") version "0.10"
+>     id("redmadrobot.root-project") version "0.12"
 > }
 > 
 > apply(plugin = "redmadrobot.detekt")

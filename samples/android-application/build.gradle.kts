@@ -1,3 +1,3 @@
 plugins {
-    id("redmadrobot.root-project") version "0.12-SNAPSHOT"
+    id("redmadrobot.root-project") version "1.0-SNAPSHOT"
 }
