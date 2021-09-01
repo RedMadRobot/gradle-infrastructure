@@ -1,6 +1,7 @@
 package com.redmadrobot.build.extension
 
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.android as _android
 
 /** Settings for android modules. */
@@ -36,6 +37,15 @@ public interface AndroidOptions : TestOptionsSpec {
      * Uses default version for current Android Gradle Plugin if not configured.
      */
     public val buildToolsVersion: Property<String>
+
+    /**
+     * Filters test tasks that should be run on ':test'.
+     * It is useful if you don't want to run tests for all build variants when run 'test' task.
+     *
+     * Filter should return `true` if the task should be executed of `false`, otherwise.
+     * By default, it returns `true` only for release unit tests.
+     */
+    public val testTasksFilter: Property<(TaskProvider<*>) -> Boolean>
 
     public companion object {
         internal const val DEFAULT_MIN_API = 21

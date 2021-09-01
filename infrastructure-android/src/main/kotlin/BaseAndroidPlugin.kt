@@ -75,9 +75,10 @@ private fun Project.configureAndroid(
             sourceSet.java.srcDirs(javaSrcDirs + kotlinSrcDirs)
         }
 
-        // Keep only release unit tests to reduce tests execution time
+        // Filter unit tests to be run with 'test' task
         tasks.named("test") {
-            setDependsOn(dependsOn.filter { it !is TaskProvider<*> || it.name.endsWith("ReleaseUnitTest") })
+            val testTasksFilter = options.testTasksFilter.get()
+            setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
         }
     }
 

@@ -25,5 +25,8 @@ internal abstract class AndroidOptionsImpl @Inject constructor(objects: ObjectFa
             .finalizeValueOnRead()
         buildToolsVersion
             .finalizeValueOnRead()
+        testTasksFilter
+            .convention { taskProvider -> taskProvider.name.endsWith("ReleaseUnitTest") }
+            .finalizeValueOnRead()
     }
 }

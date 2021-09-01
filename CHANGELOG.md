@@ -15,6 +15,7 @@
 - Added the `detektBaselineAll` task to create a baseline file for Detekt rules.
 - Added `detektBaseline[Variant]All` tasks to create a baseline file for Detekt rules with type resolution.
 - Added option `redmadrobot.jvmTarget` to specify target JVM for Kotlin and Java compilers.
+- Added option `redmadrobot.android.testTasksFilter` to filter tasks that should be run on ':test'.
 
 ### Changed
 
