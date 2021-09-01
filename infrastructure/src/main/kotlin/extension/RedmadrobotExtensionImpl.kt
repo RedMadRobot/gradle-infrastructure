@@ -1,9 +1,11 @@
 package com.redmadrobot.build.extension
 
+import org.gradle.api.JavaVersion
 import org.gradle.api.model.ObjectFactory
 import org.gradle.kotlin.dsl.newInstance
 import javax.inject.Inject
 
+@Suppress("LeakingThis")
 internal abstract class RedmadrobotExtensionImpl @Inject constructor(objects: ObjectFactory) : RedmadrobotExtension {
 
     override val publishing: PublishingOptions = objects.newInstance<PublishingOptionsImpl>()
@@ -22,5 +24,11 @@ internal abstract class RedmadrobotExtensionImpl @Inject constructor(objects: Ob
 
     override fun detekt(configure: DetektOptions.() -> Unit) {
         detekt.configure()
+    }
+
+    init {
+        jvmTarget
+            .convention(JavaVersion.VERSION_1_8)
+            .finalizeValueOnRead()
     }
 }

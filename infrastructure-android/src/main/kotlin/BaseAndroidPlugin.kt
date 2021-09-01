@@ -7,6 +7,7 @@ import com.redmadrobot.build.internal.configureKotlin
 import com.redmadrobot.build.internal.setTestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.android
 import org.gradle.kotlin.dsl.repositories
@@ -30,13 +31,17 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
             plugin("org.gradle.android.cache-fix")
         }
 
-        configureKotlin()
-        configureAndroid(redmadrobotExtension.android)
+        val extension = redmadrobotExtension
+        configureKotlin(extension.jvmTarget)
+        configureAndroid(extension.android, extension.jvmTarget)
         configureRepositories()
     }
 }
 
-private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExtension> {
+private fun Project.configureAndroid(
+    options: AndroidOptions,
+    jvmTarget: Property<JavaVersion>,
+) = android<BaseExtension> {
     compileSdkVersion(options.compileSdk.get())
     options.buildToolsVersion.orNull?.let(::buildToolsVersion)
 
@@ -50,8 +55,8 @@ private fun Project.configureAndroid(options: AndroidOptions) = android<BaseExte
     if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = jvmTarget.get()
+        targetCompatibility = jvmTarget.get()
     }
 
     @Suppress("UnstableApiUsage")

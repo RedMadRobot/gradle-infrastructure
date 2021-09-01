@@ -1,7 +1,9 @@
 package com.redmadrobot.build.extension
 
 import com.redmadrobot.build.internal.findByName
+import org.gradle.api.JavaVersion
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.provider.Property
 import org.gradle.kotlin.dsl.create
 import kotlin.properties.ReadOnlyProperty
 
@@ -21,6 +23,12 @@ public interface RedmadrobotExtension :
     public var kotlinVersion: String
         set(value) = error("You should not use this.")
         get() = error("You should not use this.")
+
+    /**
+     * JVM version to be used as a target by Kotlin and Java compilers.
+     * By default, used 1.8.
+     */
+    public val jvmTarget: Property<JavaVersion>
 
     public companion object {
         /** Extension name. */

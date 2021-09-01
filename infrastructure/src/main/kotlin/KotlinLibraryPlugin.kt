@@ -32,7 +32,7 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
         kotlin.explicitApi()
 
         val extension = redmadrobotExtension
-        configureKotlin()
+        configureKotlin(extension.jvmTarget)
         configureKotlinTest(extension.test)
         configureRepositories()
     }
