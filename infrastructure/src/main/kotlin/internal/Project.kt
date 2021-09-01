@@ -3,12 +3,12 @@ package com.redmadrobot.build.internal
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-internal val Project.isRootInfrastructureProject: Boolean
-    get() = this == findInfrastructureRootProject()
+internal val Project.isInfrastructureRootProject: Boolean
+    get() = plugins.hasPlugin("redmadrobot.root-project")
 
 /** Returns project with applied root-project plugin or `null` if there are no such project. */
 internal tailrec fun Project.findInfrastructureRootProject(): Project? {
-    if (plugins.hasPlugin("redmadrobot.root-project")) return this
+    if (isInfrastructureRootProject) return this
     return parent?.findInfrastructureRootProject()
 }
 

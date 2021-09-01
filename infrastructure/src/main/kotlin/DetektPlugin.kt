@@ -13,7 +13,7 @@ import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.internal.detektPlugins
 import com.redmadrobot.build.internal.getFileIfExists
-import com.redmadrobot.build.internal.isRootInfrastructureProject
+import com.redmadrobot.build.internal.isInfrastructureRootProject
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.DetektPlugin
@@ -75,7 +75,7 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, inf
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    if (project.isRootInfrastructureProject) {
+    if (project.isInfrastructureRootProject) {
         val variantRegex = Regex("^detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
         val startTask = gradle.startParameter.taskNames.find { it.contains(variantRegex) }
         if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
