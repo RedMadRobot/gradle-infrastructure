@@ -43,7 +43,7 @@ private fun Project.configureExplicitApi(mode: ExplicitApiMode?) {
     tasks.matching { it is KotlinCompile && !it.name.contains("test", ignoreCase = true) }
         .configureEach {
             val options = (this as KotlinCompile).kotlinOptions
-            if (options.freeCompilerArgs.none { it.startsWith(ARG_EXPLICIT_API) }) {
+            if (options.freeCompilerArgs.none { arg -> arg.startsWith(ARG_EXPLICIT_API) }) {
                 options.freeCompilerArgs += mode.toCompilerArg()
             }
         }

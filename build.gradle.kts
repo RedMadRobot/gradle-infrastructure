@@ -33,6 +33,7 @@ subprojects {
         plugin("org.gradle.kotlin.kotlin-dsl")
         plugin("redmadrobot.kotlin-library")
         plugin("redmadrobot.publish")
+        plugin("redmadrobot.detekt")
     }
 
     group = "com.redmadrobot.build"
