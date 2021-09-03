@@ -76,15 +76,17 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, inf
     }
 
     if (project.isInfrastructureRootProject) {
-        val variantRegex = Regex("^detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
-        val startTask = gradle.startParameter.taskNames.find { it.contains(variantRegex) }
+        val variantRegex = Regex("detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
+        val taskRegex = Regex("^(${project.path}:)?$variantRegex")
+        val startTask = gradle.startParameter.taskNames.find { it.contains(taskRegex) }
         if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
             val taskData = variantRegex.find(startTask)?.groups
             val requiredVariant = taskData?.get(2)?.value.orEmpty()
             val isBaseline = taskData?.get(1)?.value == BASELINE_KEYWORD
+            val detektTaskName = taskData?.get(0)?.value ?: return
 
             if (isBaseline) {
-                detektCreateBaselineTask(extension, infrastructureRootProject, startTask) {
+                detektCreateBaselineTask(extension, infrastructureRootProject, detektTaskName) {
                     checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
                         "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                     }
@@ -100,7 +102,7 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, inf
                     setSource(allSources)
                 }
             } else {
-                detektTask(extension, infrastructureRootProject, startTask) {
+                detektTask(extension, infrastructureRootProject, detektTaskName) {
                     checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
                         "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                     }
