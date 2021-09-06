@@ -2,7 +2,7 @@
 
 ### Fixed
 
-- Fixed regex to create `detekt[Variant]All`, `detektBaseline[Variant]All` for a project with non gradle root. 
+- Fixed regex to create `detekt[Variant]All`, `detektBaseline[Variant]All` when infrastructure root project differs from Gradle root project.
 
 ## [0.12] (2021-09-01)
 
