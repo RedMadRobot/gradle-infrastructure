@@ -80,10 +80,10 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, inf
         val taskRegex = Regex("^(${project.path}:)?$variantRegex")
         val startTask = gradle.startParameter.taskNames.find { it.contains(taskRegex) }
         if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
-            val taskData = variantRegex.find(startTask)?.groups
-            val requiredVariant = taskData?.get(2)?.value.orEmpty()
-            val isBaseline = taskData?.get(1)?.value == BASELINE_KEYWORD
-            val detektTaskName = taskData?.get(0)?.value ?: return
+            val taskData = variantRegex.find(startTask)?.groupValues
+            val detektTaskName = taskData?.get(0) ?: return
+            val isBaseline = taskData[1] == BASELINE_KEYWORD
+            val requiredVariant = taskData[2]
 
             if (isBaseline) {
                 detektCreateBaselineTask(extension, infrastructureRootProject, detektTaskName) {
