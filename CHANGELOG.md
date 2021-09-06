@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Fixed
+
+- Fixed regex to create `detekt[Variant]All`, `detektBaseline[Variant]All` for a project with non gradle root. 
+
 ## [0.12] (2021-09-01)
 
 ### Dependencies
