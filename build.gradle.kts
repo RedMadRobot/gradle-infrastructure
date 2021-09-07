@@ -36,7 +36,7 @@ subprojects {
     }
 
     group = "com.redmadrobot.build"
-    version = "1.0-SNAPSHOT"
+    version = "0.12.1"
 
     // Keep gradle-infrastructure compatible with older versions of Gradle.
     kotlinCompile {

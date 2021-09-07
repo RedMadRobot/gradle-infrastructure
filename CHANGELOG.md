@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.12.1] (2021-09-07)
+
 ### Fixed
 
 - Fixed regex to create `detekt[Variant]All`, `detektBaseline[Variant]All` when infrastructure root project differs from Gradle root project.
@@ -333,7 +335,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...main
+[0.12.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12...v0.12.1
 [0.12]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.11...v0.12
 [0.11]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.10...v0.11
 [0.10]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.9...v0.10
