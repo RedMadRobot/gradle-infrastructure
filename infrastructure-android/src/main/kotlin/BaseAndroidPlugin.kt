@@ -71,7 +71,7 @@ private fun Project.configureAndroid(
         // Do it after evaluate because there can be added build types
         for (sourceSet in sourceSets) {
             val javaSrcDirs = sourceSet.java.srcDirs.map(File::toString)
-            val kotlinSrcDirs = javaSrcDirs.map { it.replace("/java", "/kotlin") }
+            val kotlinSrcDirs = javaSrcDirs.map { dir -> dir.replace("/java", "/kotlin") }
             sourceSet.java.srcDirs(javaSrcDirs + kotlinSrcDirs)
         }
 

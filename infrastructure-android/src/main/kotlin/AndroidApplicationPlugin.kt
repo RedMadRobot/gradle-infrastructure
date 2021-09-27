@@ -34,7 +34,7 @@ private fun Project.configureApp(
 
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(
-            infrastructureRootProject.fileTree("proguard").files.filter { it.endsWith(".pro") } +
+            infrastructureRootProject.fileTree("proguard").files.filter { file -> file.endsWith(".pro") } +
                 getDefaultProguardFile("proguard-android-optimize.txt"),
         )
 
