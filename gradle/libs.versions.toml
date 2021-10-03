@@ -1,0 +1,8 @@
+[versions]
+kotlin = "1.5.31"
+
+[libraries]
+androidGradle = "com.android.tools.build:gradle:4.2.2"
+androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.4.3"
+detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
+jgit = "org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r"
