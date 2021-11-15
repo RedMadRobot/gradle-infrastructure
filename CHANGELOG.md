@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Fixed
+
+- Fixed proguard file detection which was broken after file extensions check was added.
+
 ## [0.12.1] (2021-09-07)
 
 ### Fixed
