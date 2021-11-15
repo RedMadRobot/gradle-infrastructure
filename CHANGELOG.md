@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.12.2] (2021-11-15)
+
 ### Fixed
 
 - Fixed proguard file detection which was broken after file extensions check was added.
@@ -339,7 +341,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.2...main
+[0.12.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12...v0.12.1
 [0.12]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.11...v0.12
 [0.11]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.10...v0.11
