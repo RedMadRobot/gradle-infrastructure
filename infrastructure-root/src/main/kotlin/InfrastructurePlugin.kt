@@ -1,9 +1,12 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.RedmadrobotExtension
+import com.redmadrobot.build.internal.findByName
 import com.redmadrobot.build.internal.findInfrastructureRootProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtensionAware
+import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.getByType
 
 /**
@@ -29,6 +32,12 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
     }
 
     protected abstract fun Project.configure()
+
+    protected inline fun <reified T : Any> getOrCreateExtension(name: String): T {
+        val redmadrobotExtension = redmadrobotExtension as ExtensionAware
+        return redmadrobotExtension.extensions.findByName<T>(name)
+            ?: redmadrobotExtension.extensions.create(name)
+    }
 }
 
 private fun Project.requireInfrastructureRootProject(): Project {

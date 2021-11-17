@@ -7,11 +7,7 @@ import org.gradle.api.provider.Property
 import org.gradle.kotlin.dsl.create
 import kotlin.properties.ReadOnlyProperty
 
-public interface RedmadrobotExtension :
-    TestOptionsSpec,
-    PublishingOptionsSpec,
-    DetektOptionsSpec,
-    ExtensionAware {
+public interface RedmadrobotExtension : StaticAnalyzerSpec {
 
     /** Kotlin version that should be used for all projects. */
     @Deprecated(
@@ -49,6 +45,7 @@ public interface RedmadrobotExtension :
          */
         public inline fun <reified V : Any> extensionProperty(): ReadOnlyProperty<RedmadrobotExtension, V> {
             return ReadOnlyProperty { thisRef, property ->
+                thisRef as ExtensionAware
                 thisRef.extensions.findByName<V>(property.name)
                     ?: thisRef.extensions.create(property.name)
             }

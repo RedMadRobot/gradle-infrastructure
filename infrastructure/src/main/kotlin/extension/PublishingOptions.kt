@@ -3,15 +3,6 @@ package com.redmadrobot.build.extension
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom
 
-public interface PublishingOptionsSpec {
-
-    /** Settings for publishing. */
-    public val publishing: PublishingOptions
-
-    /** Settings for publishing. */
-    public fun publishing(configure: PublishingOptions.() -> Unit)
-}
-
 public interface PublishingOptions {
 
     /**

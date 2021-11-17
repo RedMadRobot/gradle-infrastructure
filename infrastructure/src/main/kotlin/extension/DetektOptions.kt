@@ -2,15 +2,6 @@ package com.redmadrobot.build.extension
 
 import org.gradle.api.provider.Provider
 
-public interface DetektOptionsSpec : StaticAnalyzerSpec {
-
-    /** Settings for detekt task. */
-    public val detekt: DetektOptions
-
-    /** Settings for detekt task. */
-    public fun detekt(configure: DetektOptions.() -> Unit)
-}
-
 public interface DetektOptions {
 
     /** Options for detektDiff task. */

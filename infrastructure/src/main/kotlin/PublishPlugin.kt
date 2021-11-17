@@ -28,6 +28,8 @@ public open class PublishPlugin : InfrastructurePlugin() {
     override fun Project.configure() {
         apply(plugin = "maven-publish")
 
+        val options = getOrCreateExtension<PublishingOptionsImpl>("publish")
+
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
             val publicationName = when {
@@ -36,13 +38,11 @@ public open class PublishPlugin : InfrastructurePlugin() {
                 else -> configurePublication()
             }
 
-            val options = redmadrobotExtension.publishing
-
             publishing.publications.getByName<MavenPublication>(publicationName) {
                 pom {
                     name.convention(project.name)
                     description.convention(project.description)
-                    (options as PublishingOptionsImpl).configurePom.get().invoke(this)
+                    options.configurePom.get().invoke(this)
                 }
             }
 

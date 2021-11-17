@@ -1,6 +1,7 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.extension.TestOptions
+import com.redmadrobot.build.extension.TestOptionsImpl
 import com.redmadrobot.build.internal.configureKotlin
 import com.redmadrobot.build.internal.java
 import com.redmadrobot.build.internal.kotlin
@@ -23,6 +24,8 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
     override fun Project.configure() {
         apply(plugin = "kotlin")
 
+        val testOptions = getOrCreateExtension<TestOptionsImpl>("test")
+
         java {
             targetCompatibility = JavaVersion.VERSION_1_8
             sourceCompatibility = JavaVersion.VERSION_1_8
@@ -33,7 +36,7 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
         val extension = redmadrobotExtension
         configureKotlin(extension.jvmTarget)
-        configureKotlinTest(extension.test)
+        configureKotlinTest(testOptions)
         configureRepositories()
     }
 }
