@@ -1,3 +1,6 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("VERSION_CATALOGS")
+
 pluginManagement {
     repositories {
         google()
@@ -13,14 +16,13 @@ pluginManagement {
     }
 }
 
-rootProject.name = "infrastructure"
+rootProject.name = "gradle-infrastructure"
 
 include(
     ":infrastructure",
     ":infrastructure-android",
 )
 
-enableFeaturePreview("VERSION_CATALOGS")
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     versionCatalogs {
