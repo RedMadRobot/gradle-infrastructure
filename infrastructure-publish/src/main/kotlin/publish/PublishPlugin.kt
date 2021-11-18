@@ -1,17 +1,17 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.publish
 
 import com.android.build.gradle.BaseExtension
+import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.dsl.isReleaseVersion
-import com.redmadrobot.build.extension.PublishingOptionsImpl
-import com.redmadrobot.build.internal.java
+import com.redmadrobot.build.publish.internal.isPluginAutomatedPublishing
+import com.redmadrobot.build.publish.internal.java
+import com.redmadrobot.build.publish.internal.publishing
+import com.redmadrobot.build.publish.internal.signing
 import org.gradle.api.Project
-import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
-import org.gradle.plugin.devel.GradlePluginDevelopmentExtension
 import org.gradle.plugins.signing.Sign
-import org.gradle.plugins.signing.SigningExtension
 
 /**
  * Plugin with configurations for publication.
@@ -110,21 +110,5 @@ public open class PublishPlugin : InfrastructurePlugin() {
         tasks.withType<Sign>().configureEach {
             onlyIf { isReleaseVersion }
         }
-    }
-
-    // Accessors
-
-    protected val publishing: PublishingExtension
-        get() = project.extensions.getByName<PublishingExtension>("publishing")
-
-    private val isPluginAutomatedPublishing: Boolean
-        get() = project.extensions.getByType<GradlePluginDevelopmentExtension>().isAutomatedPublishing
-
-    protected fun publishing(configure: PublishingExtension.() -> Unit) {
-        project.extensions.configure("publishing", configure)
-    }
-
-    private fun signing(configure: SigningExtension.() -> Unit) {
-        project.extensions.configure("signing", configure)
     }
 }

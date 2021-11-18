@@ -7,10 +7,6 @@ gradlePlugin {
             id = "redmadrobot.kotlin-library"
             implementationClass = "com.redmadrobot.build.KotlinLibraryPlugin"
         }
-        register("publish") {
-            id = "redmadrobot.publish"
-            implementationClass = "com.redmadrobot.build.PublishPlugin"
-        }
     }
 }
 

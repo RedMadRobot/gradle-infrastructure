@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.publish
 
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom

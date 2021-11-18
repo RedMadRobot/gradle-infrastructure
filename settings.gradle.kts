@@ -22,6 +22,7 @@ include(
     ":infrastructure",
     ":infrastructure-android",
     ":infrastructure-detekt",
+    ":infrastructure-publish",
     ":infrastructure-base",
 )
 
