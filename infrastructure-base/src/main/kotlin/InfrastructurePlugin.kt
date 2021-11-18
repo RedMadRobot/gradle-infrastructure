@@ -36,8 +36,7 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
 
     private fun ExtensionContainer.obtainRedmadrobotExtension(): RedmadrobotExtension {
         return findByName<RedmadrobotExtension>(RedmadrobotExtension.NAME)
-            ?: create<RedmadrobotExtensionImpl>(
-                RedmadrobotExtension.NAME,
-            ).apply { setDefaults(project.layout) }
+            ?: create<RedmadrobotExtensionImpl>(RedmadrobotExtension.NAME)
+                .apply { setDefaults(project.layout) }
     }
 }

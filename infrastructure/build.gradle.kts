@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    api(projects.infrastructureRoot)
+    api(projects.infrastructureBase)
     api(kotlin("gradle-plugin", version = libs.versions.kotlin.get()))
     compileOnly(libs.androidGradle)
     implementation(libs.detektGradle)

@@ -21,7 +21,7 @@ rootProject.name = "gradle-infrastructure"
 include(
     ":infrastructure",
     ":infrastructure-android",
-    ":infrastructure-root",
+    ":infrastructure-base",
 )
 
 dependencyResolutionManagement {
