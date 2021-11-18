@@ -1,5 +1,5 @@
 @file:Suppress("TopLevelPropertyNaming")
 
-package com.redmadrobot.build.internal
+package com.redmadrobot.build.detekt.internal
 
 internal const val detektPlugins: String = "detektPlugins"

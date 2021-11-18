@@ -11,10 +11,6 @@ gradlePlugin {
             id = "redmadrobot.publish"
             implementationClass = "com.redmadrobot.build.PublishPlugin"
         }
-        register("detekt") {
-            id = "redmadrobot.detekt"
-            implementationClass = "com.redmadrobot.build.DetektPlugin"
-        }
     }
 }
 

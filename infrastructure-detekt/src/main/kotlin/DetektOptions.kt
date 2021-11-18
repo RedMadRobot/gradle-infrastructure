@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.detekt
 
 import org.gradle.api.provider.Provider
 

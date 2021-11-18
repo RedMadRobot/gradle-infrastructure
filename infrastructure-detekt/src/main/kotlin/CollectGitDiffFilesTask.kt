@@ -1,4 +1,4 @@
-package com.redmadrobot.build.internal.detekt
+package com.redmadrobot.build.detekt
 
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.diff.DiffEntry

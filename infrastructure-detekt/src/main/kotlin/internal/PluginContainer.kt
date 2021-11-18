@@ -1,4 +1,4 @@
-package com.redmadrobot.build.internal
+package com.redmadrobot.build.detekt.internal
 
 import org.gradle.api.Plugin
 import org.gradle.api.plugins.PluginContainer

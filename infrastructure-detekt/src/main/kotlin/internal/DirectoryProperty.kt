@@ -1,4 +1,4 @@
-package com.redmadrobot.build.internal
+package com.redmadrobot.build.detekt.internal
 
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFile
