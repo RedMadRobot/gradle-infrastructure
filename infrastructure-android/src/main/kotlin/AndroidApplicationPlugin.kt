@@ -20,7 +20,8 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.application")
 
-        configureApp(redmadrobotExtension, infrastructureRootProject)
+        // FIXME: Align root-project
+        configureApp(redmadrobotExtension, project.rootProject)
     }
 }
 

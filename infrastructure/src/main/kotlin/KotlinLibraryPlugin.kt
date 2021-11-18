@@ -24,7 +24,7 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
     override fun Project.configure() {
         apply(plugin = "kotlin")
 
-        val testOptions = getOrCreateExtension<TestOptionsImpl>("test")
+        val testOptions = createExtension<TestOptionsImpl>("test")
 
         java {
             targetCompatibility = JavaVersion.VERSION_1_8

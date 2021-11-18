@@ -28,7 +28,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
     override fun Project.configure() {
         apply(plugin = "maven-publish")
 
-        val options = getOrCreateExtension<PublishingOptionsImpl>("publish")
+        val options = createExtension<PublishingOptionsImpl>("publish")
 
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
