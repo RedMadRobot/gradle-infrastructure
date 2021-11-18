@@ -1,11 +1,12 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.detekt
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.TestExtension
 import com.android.build.gradle.internal.core.InternalBaseVariant
-import com.redmadrobot.build.DetektPlugin.Companion.BASELINE_KEYWORD
+import com.redmadrobot.build.InfrastructurePlugin
+import com.redmadrobot.build.detekt.DetektPlugin.Companion.BASELINE_KEYWORD
 import com.redmadrobot.build.extension.DetektOptions
 import com.redmadrobot.build.extension.DetektOptionsImpl
 import com.redmadrobot.build.extension.StaticAnalyzerSpec
@@ -31,13 +32,13 @@ public class DetektPlugin : InfrastructurePlugin() {
     override fun Project.configure() {
         apply(plugin = "io.gitlab.arturbosch.detekt")
 
-        val detektOptions = getOrCreateExtension<DetektOptionsImpl>("detekt")
+        val detektOptions = createExtension<DetektOptionsImpl>("detekt")
 
         configureDependencies()
 
         configureDetektFormatTask(redmadrobotExtension, infrastructureRootProject)
         configureDetektAllTasks(redmadrobotExtension, infrastructureRootProject)
-        configureDetektDiffTask(redmadrobotExtension, detektOptions, infrastructureRootProject)
+        configureDetektDiffTask(redmadrobotExtension, detektOptions)
     }
 
     internal companion object {
@@ -65,65 +66,60 @@ private fun Project.configureDetektFormatTask(staticAnalyzerSpec: StaticAnalyzer
 
 private fun Project.configureDetektAllTasks(
     staticAnalyzerSpec: StaticAnalyzerSpec,
-    infrastructureRootProject: Project,
 ) {
-    detektTask(staticAnalyzerSpec, infrastructureRootProject, "detektAll") {
+    detektTask(staticAnalyzerSpec, "detektAll") {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    detektCreateBaselineTask(
-        staticAnalyzerSpec,
-        infrastructureRootProject,
+    detektCreateBaselineTask(staticAnalyzerSpec,
         "detekt${BASELINE_KEYWORD}All",
     ) {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    if (project.isInfrastructureRootProject) {
-        val variantRegex = Regex("detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
-        val relativePath = project.path.replace(Regex("^:"), "")
+    val variantRegex = Regex("detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
+    val relativePath = project.path.replace(Regex("^:"), "")
         val taskRegex = Regex("^(:?$relativePath:)?$variantRegex")
-        val startTask = gradle.startParameter.taskNames.find { it.contains(taskRegex) }
-        if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
-            val taskData = variantRegex.find(startTask)?.groupValues
-            val detektTaskName = taskData?.get(0) ?: return
-            val isBaseline = taskData[1] == BASELINE_KEYWORD
-            val requiredVariant = taskData[2]
+    val startTask = gradle.startParameter.taskNames.find { it.contains(taskRegex) }
+    if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
+        val taskData = variantRegex.find(startTask)?.groupValues
+        val detektTaskName = taskData?.get(0) ?: return
+        val isBaseline = taskData[1] == BASELINE_KEYWORD
+        val requiredVariant = taskData[2]
 
-            if (isBaseline) {
-                detektCreateBaselineTask(staticAnalyzerSpec, infrastructureRootProject, detektTaskName) {
-                    val modules = subprojects.filter(Project::hasKotlinPlugin)
+        if (isBaseline) {
+            detektCreateBaselineTask(staticAnalyzerSpec, detektTaskName) {
+                val modules = subprojects.filter(Project::hasKotlinPlugin)
                     modules.checkModulesContainDetekt { modulesNames ->
-                        "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
-                    }
-
-                    val detektTaskProviders = modules.map { subproject ->
-                        subproject.extractDetektTaskProviderByType<DetektCreateBaselineTask>(requiredVariant)
-                    }
-
-                    val allClasspath = detektTaskProviders.map { it.map(DetektCreateBaselineTask::classpath) }
-                    val allSources = detektTaskProviders.map { it.map(DetektCreateBaselineTask::getSource) }
-
-                    classpath.setFrom(allClasspath)
-                    setSource(allSources)
+                    "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                 }
-            } else {
-                detektTask(staticAnalyzerSpec, infrastructureRootProject, detektTaskName) {
-                    val modules = subprojects.filter(Project::hasKotlinPlugin)
+
+                val detektTaskProviders = modules.map { subproject ->
+                    subproject.extractDetektTaskProviderByType<DetektCreateBaselineTask>(requiredVariant)
+                }
+
+                val allClasspath = detektTaskProviders.map { it.map(DetektCreateBaselineTask::classpath) }
+                val allSources = detektTaskProviders.map { it.map(DetektCreateBaselineTask::getSource) }
+
+                classpath.setFrom(allClasspath)
+                setSource(allSources)
+            }
+        } else {
+            detektTask(staticAnalyzerSpec, detektTaskName) {
+                val modules = subprojects.filter(Project::hasKotlinPlugin)
                     modules.checkModulesContainDetekt { modulesNames ->
-                        "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
-                    }
-
-                    val detektTaskProviders = modules.map { subproject ->
-                        subproject.extractDetektTaskProviderByType<Detekt>(requiredVariant)
-                    }
-
-                    val allClasspath = detektTaskProviders.map { it.map(Detekt::classpath) }
-                    val allSources = detektTaskProviders.map { it.map(Detekt::getSource) }
-
-                    classpath.setFrom(allClasspath)
-                    setSource(allSources)
+                    "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                 }
+
+                val detektTaskProviders = modules.map { subproject ->
+                    subproject.extractDetektTaskProviderByType<Detekt>(requiredVariant)
+                }
+
+                val allClasspath = detektTaskProviders.map { it.map(Detekt::classpath) }
+                val allSources = detektTaskProviders.map { it.map(Detekt::getSource) }
+
+                classpath.setFrom(allClasspath)
+                setSource(allSources)
             }
         }
     }
@@ -132,7 +128,6 @@ private fun Project.configureDetektAllTasks(
 private fun Project.configureDetektDiffTask(
     staticAnalyzerSpec: StaticAnalyzerSpec,
     detektOptions: DetektOptions,
-    infrastructureRootProject: Project,
 ) {
     val detektDiffOptions = detektOptions.detektDiffOptions.orNull
     if (detektDiffOptions != null && detektDiffOptions.baseBranch.isNotEmpty()) {
@@ -147,16 +142,15 @@ private fun Project.configureDetektDiffTask(
             branch.set(detektDiffOptions.baseBranch)
         }
 
-        detektTask(staticAnalyzerSpec, infrastructureRootProject, "detektDiff") {
+        detektTask(staticAnalyzerSpec, "detektDiff") {
             description = "Check out only changed files versus the ${detektDiffOptions.baseBranch} branch"
-            setSource(infrastructureRootProject.files(findChangedFiles.map { it.outputFiles.from }))
+            setSource(files(findChangedFiles.map { it.outputFiles.from }))
         }
     }
 }
 
 private inline fun Project.detektTask(
     staticAnalyzerSpec: StaticAnalyzerSpec,
-    infrastructureRootProject: Project,
     name: String,
     crossinline configure: Detekt.() -> Unit,
 ): TaskProvider<Detekt> {
@@ -164,7 +158,7 @@ private inline fun Project.detektTask(
         parallel = true
         config.setFrom(provider { staticAnalyzerSpec.configsDir.get().file("detekt/detekt.yml") })
         baseline.set(provider { staticAnalyzerSpec.configsDir.getFileIfExists("detekt/baseline.xml") })
-        setSource(infrastructureRootProject.projectDir)
+        setSource(projectDir)
         reportsDir.set(staticAnalyzerSpec.reportsDir.asFile)
         include("**/*.kt")
         include("**/*.kts")
@@ -182,7 +176,6 @@ private inline fun Project.detektTask(
 
 private inline fun Project.detektCreateBaselineTask(
     staticAnalyzerSpec: StaticAnalyzerSpec,
-    infrastructureRootProject: Project,
     name: String,
     crossinline configure: DetektCreateBaselineTask.() -> Unit,
 ): TaskProvider<DetektCreateBaselineTask> {
@@ -190,7 +183,7 @@ private inline fun Project.detektCreateBaselineTask(
         parallel.set(true)
         config.setFrom(provider { staticAnalyzerSpec.configsDir.get().file("detekt/detekt.yml") })
         baseline.set(provider { staticAnalyzerSpec.configsDir.get().file("detekt/baseline.xml") })
-        setSource(infrastructureRootProject.projectDir)
+        setSource(projectDir)
         include("**/*.kt")
         include("**/*.kts")
         exclude("**/res/**")
