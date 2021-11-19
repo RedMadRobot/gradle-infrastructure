@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    api(project(":infrastructure"))
+    api(projects.infrastructureKotlin)
     implementation(libs.androidGradle)
     implementation(libs.androidGradleCacheFix)
 }

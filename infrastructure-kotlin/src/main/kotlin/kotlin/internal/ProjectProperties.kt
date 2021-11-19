@@ -1,4 +1,4 @@
-package com.redmadrobot.build.internal
+package com.redmadrobot.build.kotlin.internal
 
 import org.gradle.api.Project
 

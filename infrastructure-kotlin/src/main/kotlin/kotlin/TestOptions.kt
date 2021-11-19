@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.kotlin
 
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.testing.junit.JUnitOptions

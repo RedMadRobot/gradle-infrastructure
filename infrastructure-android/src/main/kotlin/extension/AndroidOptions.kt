@@ -1,5 +1,6 @@
 package com.redmadrobot.build.extension
 
+import com.redmadrobot.build.kotlin.TestOptionsSpec
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.android as _android

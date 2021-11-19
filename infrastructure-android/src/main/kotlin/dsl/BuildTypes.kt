@@ -1,6 +1,6 @@
 package com.redmadrobot.build.dsl
 
-import com.redmadrobot.build.internal.findStringProperty
+import com.redmadrobot.build.kotlin.internal.findStringProperty
 import org.gradle.api.Project
 
 /** Debug build type name. */

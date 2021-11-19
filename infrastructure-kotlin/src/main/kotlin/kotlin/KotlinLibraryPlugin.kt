@@ -1,11 +1,10 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.kotlin
 
-import com.redmadrobot.build.extension.TestOptions
-import com.redmadrobot.build.extension.TestOptionsImpl
-import com.redmadrobot.build.internal.configureKotlin
-import com.redmadrobot.build.internal.java
-import com.redmadrobot.build.internal.kotlin
-import com.redmadrobot.build.internal.setTestOptions
+import com.redmadrobot.build.InfrastructurePlugin
+import com.redmadrobot.build.kotlin.internal.configureKotlin
+import com.redmadrobot.build.kotlin.internal.java
+import com.redmadrobot.build.kotlin.internal.kotlin
+import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test

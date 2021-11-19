@@ -1,5 +1,7 @@
 package com.redmadrobot.build.extension
 
+import com.redmadrobot.build.kotlin.TestOptions
+import com.redmadrobot.build.kotlin.TestOptionsImpl
 import org.gradle.api.model.ObjectFactory
 import org.gradle.kotlin.dsl.newInstance
 import javax.inject.Inject

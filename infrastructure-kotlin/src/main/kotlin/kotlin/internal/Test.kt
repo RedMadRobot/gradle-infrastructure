@@ -1,7 +1,7 @@
-package com.redmadrobot.build.internal
+package com.redmadrobot.build.kotlin.internal
 
-import com.redmadrobot.build.extension.TestOptions
-import com.redmadrobot.build.extension.TestOptionsImpl
+import com.redmadrobot.build.kotlin.TestOptions
+import com.redmadrobot.build.kotlin.TestOptionsImpl
 import org.gradle.api.tasks.testing.Test
 
 public fun Test.setTestOptions(testOptions: TestOptions) {

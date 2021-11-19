@@ -1,6 +1,6 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.kotlin
 
-import com.redmadrobot.build.internal.setFinalValue
+import com.redmadrobot.build.kotlin.internal.setFinalValue
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.testing.TestFrameworkOptions
 import org.gradle.api.tasks.testing.junit.JUnitOptions
