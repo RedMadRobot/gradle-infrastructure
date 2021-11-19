@@ -10,17 +10,6 @@ import kotlin.properties.ReadOnlyProperty
 /** Extension used as a namespace for all infrastructure plugins' extensions. */
 public interface RedmadrobotExtension : StaticAnalyzerSpec, ExtensionAware {
 
-    /** Kotlin version that should be used for all projects. */
-    @Deprecated(
-        level = DeprecationLevel.ERROR,
-        message = "This option have not effect anymore. " +
-            "Remove it and use `kotlin-bom` to align Kotlin version across all dependencies.",
-    )
-    @Suppress("unused_parameter")
-    public var kotlinVersion: String
-        set(value) = error("You should not use this.")
-        get() = error("You should not use this.")
-
     /**
      * JVM version to be used as a target by Kotlin and Java compilers.
      * By default, used 1.8.
