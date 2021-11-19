@@ -1,6 +1,7 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.internal.findByName
+import com.redmadrobot.build.internal.parents
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
@@ -18,6 +19,10 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
     protected lateinit var redmadrobotExtension: RedmadrobotExtension
         private set
 
+    @PublishedApi
+    internal val redmadrobotExtensions: Sequence<RedmadrobotExtensionImpl>
+        get() = project.parents.mapNotNull { it.extensions.redmadrobot }
+
     /** @see configure */
     final override fun apply(target: Project) {
         project = target
@@ -33,8 +38,7 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
     }
 
     private fun ExtensionContainer.obtainRedmadrobotExtension(): RedmadrobotExtension {
-        return findByName<RedmadrobotExtension>(RedmadrobotExtension.NAME)
-            ?: create<RedmadrobotExtensionImpl>(RedmadrobotExtension.NAME)
-                .apply { setDefaults(project.layout) }
+        return redmadrobot
+            ?: createWithDefaults(RedmadrobotExtension.NAME, redmadrobotExtensions.firstOrNull())
     }
 }

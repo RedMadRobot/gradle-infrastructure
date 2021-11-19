@@ -1,12 +1,17 @@
 package com.redmadrobot.build
 
+import com.redmadrobot.build.internal.findByName
 import org.gradle.api.JavaVersion
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.plugins.ExtensionContainer
+import javax.inject.Inject
 
 @Suppress("LeakingThis")
-internal abstract class RedmadrobotExtensionImpl : RedmadrobotExtension {
+internal abstract class RedmadrobotExtensionImpl @Inject constructor(
+    layout: ProjectLayout,
+) : RedmadrobotExtension, WithDefaults<RedmadrobotExtensionImpl> {
 
-    fun setDefaults(layout: ProjectLayout) {
+    init {
         jvmTarget
             .convention(JavaVersion.VERSION_1_8)
             .finalizeValueOnRead()
@@ -17,4 +22,14 @@ internal abstract class RedmadrobotExtensionImpl : RedmadrobotExtension {
             .convention(layout.buildDirectory.dir(StaticAnalyzerSpec.DEFAULT_REPORTS_DIR))
             .finalizeValueOnRead()
     }
+
+    override fun setDefaults(defaults: RedmadrobotExtensionImpl) {
+        jvmTarget.convention(defaults.jvmTarget)
+        configsDir.convention(defaults.configsDir)
+        reportsDir.convention(defaults.reportsDir)
+    }
 }
+
+@PublishedApi
+internal val ExtensionContainer.redmadrobot: RedmadrobotExtensionImpl?
+    get() = findByName<RedmadrobotExtensionImpl>(RedmadrobotExtension.NAME)
