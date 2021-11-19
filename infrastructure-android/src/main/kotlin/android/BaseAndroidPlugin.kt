@@ -1,8 +1,8 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.android
 
 import com.android.build.gradle.BaseExtension
-import com.redmadrobot.build.extension.AndroidOptions
-import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.InfrastructurePlugin
+import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.JavaVersion

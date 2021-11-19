@@ -1,4 +1,4 @@
-package com.redmadrobot.build.internal
+package com.redmadrobot.build.android.internal
 
 import com.android.build.gradle.BaseExtension
 import org.gradle.api.Project

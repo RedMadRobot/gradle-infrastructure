@@ -1,7 +1,7 @@
-package com.redmadrobot.build
+package com.redmadrobot.build.android
 
 import com.android.build.gradle.LibraryExtension
-import com.redmadrobot.build.internal.android
+import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.kotlin.internal.kotlin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode

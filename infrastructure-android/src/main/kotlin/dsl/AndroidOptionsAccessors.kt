@@ -1,11 +1,11 @@
-// Members from package org.gradle.kotlin.dsl are imported by default
+// Members from package org.gradle.kotlin.dsl are imported by default,
 // so we use hack to make field android available without import.
 @file:Suppress("PackageDirectoryMismatch")
 
 package org.gradle.kotlin.dsl
 
-import com.redmadrobot.build.extension.AndroidOptions
-import com.redmadrobot.build.extension.AndroidOptionsImpl
+import com.redmadrobot.build.android.AndroidOptions
+import com.redmadrobot.build.android.AndroidOptionsImpl
 import com.redmadrobot.build.extension.RedmadrobotExtension
 
 /**

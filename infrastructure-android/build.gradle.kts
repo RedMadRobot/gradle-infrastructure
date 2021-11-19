@@ -5,11 +5,11 @@ gradlePlugin {
         isAutomatedPublishing = false
         register("application") {
             id = "redmadrobot.application"
-            implementationClass = "com.redmadrobot.build.AndroidApplicationPlugin"
+            implementationClass = "com.redmadrobot.build.android.AndroidApplicationPlugin"
         }
         register("android-library") {
             id = "redmadrobot.android-library"
-            implementationClass = "com.redmadrobot.build.AndroidLibraryPlugin"
+            implementationClass = "com.redmadrobot.build.android.AndroidLibraryPlugin"
         }
     }
 }

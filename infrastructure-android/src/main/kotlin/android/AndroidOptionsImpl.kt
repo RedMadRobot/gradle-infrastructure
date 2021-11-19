@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.android
 
 import com.redmadrobot.build.kotlin.TestOptions
 import com.redmadrobot.build.kotlin.TestOptionsImpl

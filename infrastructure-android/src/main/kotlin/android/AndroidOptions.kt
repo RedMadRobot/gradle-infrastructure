@@ -1,22 +1,8 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build.android
 
 import com.redmadrobot.build.kotlin.TestOptionsSpec
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.android as _android
-
-/** Settings for android modules. */
-@Suppress("DeprecatedCallableAddReplaceWith")
-@Deprecated("Property `android` can be used without import. Please remove import manually")
-public val RedmadrobotExtension.android: AndroidOptions
-    get() = _android
-
-/** Settings for android modules. */
-@Suppress("DeprecatedCallableAddReplaceWith")
-@Deprecated("Function `android { }` can be used without import. Please remove import manually")
-public fun RedmadrobotExtension.android(configure: AndroidOptions.() -> Unit) {
-    _android(configure)
-}
 
 public interface AndroidOptions : TestOptionsSpec {
 
