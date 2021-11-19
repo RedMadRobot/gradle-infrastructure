@@ -4,9 +4,9 @@
 
 package org.gradle.kotlin.dsl
 
+import com.redmadrobot.build.RedmadrobotExtension
 import com.redmadrobot.build.android.AndroidOptions
 import com.redmadrobot.build.android.AndroidOptionsImpl
-import com.redmadrobot.build.extension.RedmadrobotExtension
 
 /**
  * Settings for android modules.

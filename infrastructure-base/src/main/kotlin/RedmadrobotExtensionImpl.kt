@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build
 
 import org.gradle.api.JavaVersion
 import org.gradle.api.file.ProjectLayout

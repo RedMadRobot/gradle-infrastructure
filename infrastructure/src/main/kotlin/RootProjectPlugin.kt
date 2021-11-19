@@ -1,6 +1,5 @@
 package com.redmadrobot.build
 
-import com.redmadrobot.build.extension.RedmadrobotExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

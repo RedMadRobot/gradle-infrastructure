@@ -1,12 +1,12 @@
 package com.redmadrobot.build.android
 
 import com.android.build.gradle.AppExtension
+import com.redmadrobot.build.RedmadrobotExtension
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
 import com.redmadrobot.build.dsl.BUILD_TYPE_RELEASE
 import com.redmadrobot.build.dsl.finalizeQaBuildType
-import com.redmadrobot.build.extension.RedmadrobotExtension
 import org.gradle.api.Project
 
 /**

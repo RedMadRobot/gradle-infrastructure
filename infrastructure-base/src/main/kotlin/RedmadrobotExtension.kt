@@ -1,4 +1,4 @@
-package com.redmadrobot.build.extension
+package com.redmadrobot.build
 
 import com.redmadrobot.build.internal.findByName
 import org.gradle.api.JavaVersion
