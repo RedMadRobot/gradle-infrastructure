@@ -5,7 +5,6 @@ import com.redmadrobot.build.internal.parents
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
-import org.gradle.kotlin.dsl.create
 
 /**
  * Base plugin class.
@@ -32,9 +31,12 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
 
     protected abstract fun Project.configure()
 
-    /** Shorthand to create an extension for the plugin in namespace 'redmadrobot'. */
-    protected inline fun <reified T : Any> createExtension(name: String): T {
-        return redmadrobotExtension.extensions.create(name)
+    /** Creates an extension for the plugin in namespace 'redmadrobot' and returns it. */
+    protected inline fun <reified T : WithDefaults<T>> createExtension(name: String): T {
+        val defaults = redmadrobotExtensions
+            .mapNotNull { it.extensions.findByName<T>(name) }
+            .firstOrNull()
+        return redmadrobotExtension.extensions.createWithDefaults(name, defaults)
     }
 
     private fun ExtensionContainer.obtainRedmadrobotExtension(): RedmadrobotExtension {

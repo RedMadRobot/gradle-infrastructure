@@ -1,11 +1,16 @@
 package com.redmadrobot.build.detekt
 
+import com.redmadrobot.build.WithDefaults
 import org.gradle.api.provider.Property
 
 @Suppress("LeakingThis")
-internal abstract class DetektOptionsImpl : DetektOptions {
+internal abstract class DetektOptionsImpl : DetektOptions, WithDefaults<DetektOptionsImpl> {
 
     abstract override val detektDiffOptions: Property<DetektDiffOptions>
+
+    init {
+        detektDiffOptions.finalizeValueOnRead()
+    }
 
     override fun checkOnlyDiffWithBranch(
         branch: String,
@@ -21,7 +26,7 @@ internal abstract class DetektOptionsImpl : DetektOptions {
         )
     }
 
-    init {
-        detektDiffOptions.finalizeValueOnRead()
+    override fun setDefaults(defaults: DetektOptionsImpl) {
+        detektDiffOptions.convention(defaults.detektDiffOptions)
     }
 }

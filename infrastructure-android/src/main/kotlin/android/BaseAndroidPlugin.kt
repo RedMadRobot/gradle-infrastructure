@@ -9,7 +9,6 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.android
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
@@ -32,8 +31,10 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
         }
 
         val extension = redmadrobotExtension
+        val androidOptions = createExtension<AndroidOptionsImpl>("android")
+
         configureKotlin(extension.jvmTarget)
-        configureAndroid(extension.android, extension.jvmTarget)
+        configureAndroid(androidOptions, extension.jvmTarget)
         configureRepositories()
     }
 }

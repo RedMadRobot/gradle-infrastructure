@@ -1,10 +1,11 @@
 package com.redmadrobot.build.publish
 
+import com.redmadrobot.build.WithDefaults
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom
 
 @Suppress("LeakingThis")
-internal abstract class PublishingOptionsImpl : PublishingOptions {
+internal abstract class PublishingOptionsImpl : PublishingOptions, WithDefaults<PublishingOptionsImpl> {
 
     abstract val configurePom: Property<MavenPom.() -> Unit>
 
@@ -22,5 +23,11 @@ internal abstract class PublishingOptionsImpl : PublishingOptions {
         configurePom
             .convention { /* no-op */ }
             .finalizeValueOnRead()
+    }
+
+    override fun setDefaults(defaults: PublishingOptionsImpl) {
+        signArtifacts.convention(defaults.signArtifacts)
+        useGpgAgent.convention(defaults.useGpgAgent)
+        configurePom.convention(defaults.configurePom)
     }
 }
