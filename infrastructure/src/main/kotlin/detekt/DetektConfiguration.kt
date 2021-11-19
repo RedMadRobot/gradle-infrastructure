@@ -54,7 +54,7 @@ internal class DetektConfiguration(
 
         if (project.isInfrastructureRootProject) {
             val variantRegex = Regex("detekt(${DetektPlugin.BASELINE_KEYWORD})?([A-Za-z]+)All$")
-            val taskRegex = Regex("^(${project.path.orEmpty()}:)?$variantRegex")
+            val taskRegex = Regex("^(:?${project.name.orEmpty()}:)?$variantRegex")
             val startTask = gradle.startParameter.taskNames.find { it.contains(taskRegex) }
             if (startTask != null && startTask != "detekt${DetektPlugin.BASELINE_KEYWORD}All") {
                 val taskData = variantRegex.find(startTask)?.groupValues
