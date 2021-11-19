@@ -6,14 +6,6 @@ pluginManagement {
         gradlePluginPortal()
         google()
     }
-
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.namespace == "redmadrobot") {
-                useModule("com.redmadrobot.build:infrastructure-android:${requested.version}")
-            }
-        }
-    }
 }
 
 rootProject.name = "android-application"

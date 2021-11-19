@@ -2,7 +2,6 @@ description = "Plugin to make publication as simple as possible."
 
 gradlePlugin {
     plugins {
-        isAutomatedPublishing = false
         register("detekt") {
             id = "redmadrobot.detekt"
             implementationClass = "com.redmadrobot.build.detekt.DetektPlugin"
