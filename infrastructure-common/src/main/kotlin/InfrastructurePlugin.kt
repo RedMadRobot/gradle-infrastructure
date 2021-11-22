@@ -4,6 +4,7 @@ import com.redmadrobot.build.internal.findByName
 import com.redmadrobot.build.internal.parents
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtensionContainer
 
 /**
@@ -36,7 +37,7 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
         val defaults = redmadrobotExtensions
             .mapNotNull { it.extensions.findByName<T>(name) }
             .firstOrNull()
-        return redmadrobotExtension.extensions.createWithDefaults(name, defaults)
+        return (redmadrobotExtension as ExtensionAware).extensions.createWithDefaults(name, defaults)
     }
 
     private fun ExtensionContainer.obtainRedmadrobotExtension(): RedmadrobotExtension {

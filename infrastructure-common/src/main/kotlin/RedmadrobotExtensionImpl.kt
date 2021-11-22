@@ -3,13 +3,14 @@ package com.redmadrobot.build
 import com.redmadrobot.build.internal.findByName
 import org.gradle.api.JavaVersion
 import org.gradle.api.file.ProjectLayout
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtensionContainer
 import javax.inject.Inject
 
 @Suppress("LeakingThis")
 internal abstract class RedmadrobotExtensionImpl @Inject constructor(
     layout: ProjectLayout,
-) : RedmadrobotExtension, WithDefaults<RedmadrobotExtensionImpl> {
+) : RedmadrobotExtension, ExtensionAware, WithDefaults<RedmadrobotExtensionImpl> {
 
     init {
         jvmTarget
