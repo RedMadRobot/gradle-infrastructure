@@ -1,22 +1,15 @@
 package com.redmadrobot.build.android
 
 import com.redmadrobot.build.WithDefaults
-import com.redmadrobot.build.kotlin.TestOptions
 import com.redmadrobot.build.kotlin.TestOptionsImpl
-import org.gradle.api.model.ObjectFactory
-import org.gradle.kotlin.dsl.newInstance
-import javax.inject.Inject
+import org.gradle.api.plugins.ExtensionAware
+import org.gradle.kotlin.dsl.create
 
 @Suppress("LeakingThis")
-internal abstract class AndroidOptionsImpl @Inject constructor(
-    objects: ObjectFactory,
-) : AndroidOptions, WithDefaults<AndroidOptionsImpl> {
+internal abstract class AndroidOptionsImpl : AndroidOptions, WithDefaults<AndroidOptionsImpl> {
 
-    override val test: TestOptions = objects.newInstance<TestOptionsImpl>()
-
-    override fun test(configure: TestOptions.() -> Unit) {
-        test.run(configure)
-    }
+    private val testOptions: TestOptionsImpl
+    private var areTestDefaultsSet = false
 
     init {
         minSdk
@@ -33,6 +26,8 @@ internal abstract class AndroidOptionsImpl @Inject constructor(
         testTasksFilter
             .convention { taskProvider -> taskProvider.name.endsWith("ReleaseUnitTest") }
             .finalizeValueOnRead()
+
+        testOptions = (this as ExtensionAware).extensions.create("test")
     }
 
     override fun setDefaults(defaults: AndroidOptionsImpl) {
@@ -41,5 +36,12 @@ internal abstract class AndroidOptionsImpl @Inject constructor(
         compileSdk.convention(defaults.compileSdk)
         buildToolsVersion.convention(defaults.buildToolsVersion)
         testTasksFilter.convention(defaults.testTasksFilter)
+        setTestDefaults(defaults.testOptions)
+    }
+
+    internal fun setTestDefaults(defaults: TestOptionsImpl) {
+        if (areTestDefaultsSet) return
+        areTestDefaultsSet = true
+        testOptions.setDefaults(defaults)
     }
 }

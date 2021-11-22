@@ -3,6 +3,7 @@ package com.redmadrobot.build.android
 import com.android.build.gradle.BaseExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.android.internal.android
+import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.JavaVersion

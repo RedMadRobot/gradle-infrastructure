@@ -1,10 +1,9 @@
 package com.redmadrobot.build.android
 
-import com.redmadrobot.build.kotlin.TestOptionsSpec
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 
-public interface AndroidOptions : TestOptionsSpec {
+public interface AndroidOptions {
 
     /** Minimal Android SDK to use across all android modules. */
     public val minSdk: Property<Int>
