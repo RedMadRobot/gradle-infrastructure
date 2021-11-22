@@ -10,6 +10,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
+import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.repositories
 import java.io.File
 
@@ -22,6 +23,7 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 
     /** Should be called from [configure] in implementation. */
     protected fun Project.applyBaseAndroidPlugin(pluginId: String) {
+        val configPlugin = plugins.apply(AndroidConfigPlugin::class)
         apply {
             plugin(pluginId)
             plugin("kotlin-android")
@@ -31,11 +33,8 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
             plugin("org.gradle.android.cache-fix")
         }
 
-        val extension = redmadrobotExtension
-        val androidOptions = createExtension<AndroidOptionsImpl>("android")
-
-        configureKotlin(extension.jvmTarget)
-        configureAndroid(androidOptions, extension.jvmTarget)
+        configureKotlin(configPlugin.jvmTarget)
+        configureAndroid(configPlugin.androidOptions, configPlugin.jvmTarget)
         configureRepositories()
     }
 }

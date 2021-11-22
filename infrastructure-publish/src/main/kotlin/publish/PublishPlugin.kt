@@ -14,21 +14,15 @@ import org.gradle.kotlin.dsl.*
 import org.gradle.plugins.signing.Sign
 
 /**
- * Plugin with configurations for publication.
+ * Plugin that configures publication using specified [PublishingOptions].
  *
  * Tied to `redmadrobot.publish` plugin ID.
  */
 public open class PublishPlugin : InfrastructurePlugin() {
 
-    public companion object {
-        public const val PUBLICATION_NAME: String = "maven"
-        public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
-    }
-
     override fun Project.configure() {
         apply(plugin = "maven-publish")
-
-        val options = createExtension<PublishingOptionsImpl>("publish")
+        val configPlugin = plugins.apply(PublishConfigPlugin::class)
 
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
@@ -38,6 +32,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
                 else -> configurePublication()
             }
 
+            val options = configPlugin.publishingOptions
             publishing.publications.getByName<MavenPublication>(publicationName) {
                 pom {
                     name.convention(project.name)
@@ -110,5 +105,10 @@ public open class PublishPlugin : InfrastructurePlugin() {
         tasks.withType<Sign>().configureEach {
             onlyIf { isReleaseVersion }
         }
+    }
+
+    public companion object {
+        public const val PUBLICATION_NAME: String = "maven"
+        public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
     }
 }

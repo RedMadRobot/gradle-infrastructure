@@ -12,10 +12,11 @@ gradlePlugin {
 repositories {
     mavenCentral()
     google()
+    gradlePluginPortal()
 }
 
 dependencies {
     api(projects.infrastructurePublish)
-    api(projects.infrastructureDetekt)
+    api(projects.infrastructureAndroid)
     api(projects.infrastructureKotlin)
 }

@@ -13,7 +13,7 @@ import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
 
 /**
- * Plugin with default configurations for Kotlin library project.
+ * Plugin that applies default configurations for Kotlin library project.
  * Should be applied in place of `kotlin` plugin.
  *
  * Tied to `redmadrobot.kotlin-library` plugin ID.
@@ -22,8 +22,7 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
     override fun Project.configure() {
         apply(plugin = "kotlin")
-
-        val testOptions = createExtension<TestOptionsImpl>("test")
+        val configPlugin = plugins.apply(KotlinConfigPlugin::class)
 
         java {
             targetCompatibility = JavaVersion.VERSION_1_8
@@ -35,7 +34,7 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
         val extension = redmadrobotExtension
         configureKotlin(extension.jvmTarget)
-        configureKotlinTest(testOptions)
+        configureKotlinTest(configPlugin.testOptions)
         configureRepositories()
     }
 }

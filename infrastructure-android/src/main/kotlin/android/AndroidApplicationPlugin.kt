@@ -10,7 +10,7 @@ import com.redmadrobot.build.dsl.finalizeQaBuildType
 import org.gradle.api.Project
 
 /**
- * Plugin with default configurations for Android application project.
+ * Plugin that applies default configurations for Android application project.
  * Should be applied in place of `com.android.application`.
  *
  * Tied to `redmadrobot.application` plugin ID.

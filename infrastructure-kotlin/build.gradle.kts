@@ -2,6 +2,10 @@ description = "Plugin with defaults for Kotlin projects."
 
 gradlePlugin {
     plugins {
+        register("kotlin-config") {
+            id = "redmadrobot.kotlin-config"
+            implementationClass = "com.redmadrobot.build.kotlin.KotlinConfigPlugin"
+        }
         register("kotlin-library") {
             id = "redmadrobot.kotlin-library"
             implementationClass = "com.redmadrobot.build.kotlin.KotlinLibraryPlugin"
@@ -15,5 +19,5 @@ repositories {
 
 dependencies {
     api(projects.infrastructureBase)
-    api(kotlin("gradle-plugin",  version = libs.versions.kotlin.get()))
+    api(libs.kotlinGradle)
 }
