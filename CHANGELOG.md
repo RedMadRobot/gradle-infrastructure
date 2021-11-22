@@ -1,8 +1,67 @@
 ## [Unreleased]
 
+### Change plugins naming convention
+
+> **Breaking change!**
+
+Plugins group changed from `redmadrobot` to `com.redmadrobot`.
+This change allows us to publish infrastructure plugins to [Gradle Plugins Portal](https://plugins.gradle.org/) and make it easier to add plugins to project.
+
+Changing `resolutionStrategy` in `settings.gradle.kts` is not needed anymore.
+To make migration easier, it is allowed to apply plugins with deprecated IDs if you've specified `resolutionStrategy`, but it will throw a warning to console.
+
+### Switch to multi-modular structure
+
+> **Breaking change!**
+
+<details>
+<summary>Why multi-modular structure?</summary>
+
+Until now plugins' structure inside module `infrastructure` was looking like this:
+
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggQlRcbnJvb3RbXCJyb290LXByb2plY3RcIl1cbmtvdGxpbi1saWJyYXJ5IC0tPiByb290XG5kZXRla3QgLS0-IHJvb3RcbnB1Ymxpc2ggLS0-IHJvb3RcbmFwcGxpY2F0aW9uIC0tPiByb290XG5hbmRyb2lkLWxpYnJhcnkgLS0-IHJvb3QiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOnRydWUsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjp0cnVlfQ)](https://mermaid-js.github.io/mermaid-live-editor/edit/#eyJjb2RlIjoiZ3JhcGggQlRcbnJvb3RbXCJyb290LXByb2plY3RcIl1cbmtvdGxpbi1saWJyYXJ5IC0tPiByb290XG5kZXRla3QgLS0-IHJvb3RcbnB1Ymxpc2ggLS0-IHJvb3RcbmFwcGxpY2F0aW9uIC0tPiByb290XG5hbmRyb2lkLWxpYnJhcnkgLS0-IHJvb3QiLCJtZXJtYWlkIjoie1xuICBcInRoZW1lXCI6IFwiZGVmYXVsdFwiXG59IiwidXBkYXRlRWRpdG9yIjp0cnVlLCJhdXRvU3luYyI6dHJ1ZSwidXBkYXRlRGlhZ3JhbSI6dHJ1ZX0)
+
+Plugin `root-project` was used to add configurations for all others plugins.
+With such structure all plugins should know about `root-project` plugin to access configs, and `root-project` should also know about all plugins to hold their configs.
+It is possible only if all plugins are declared in the same module with `root-project`.
+So it was the main stopping factor from breaking `infrastructure` to several independent modules.
+
+Multi-modular structure gives important benefits to us:
+
+- Allows modules to be updated independently, allowing users to pick what version of each module they want to use.
+- Makes `infrastructure` more scalable.
+  Because it is not more required to change `root-project` when adding a new plugin.
+- Enables to use only "what you want" and don't bring extra dependencies to project.
+---
+</details>
+
+Since now plugins are separated to modules:
+
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggQlRcbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWFuZHJvaWRcbiAgICBhbmRyb2lkLWNvbmZpZ1tjb20ucmVkbWFkcm9ib3QuYW5kcm9pZC1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmFwcGxpY2F0aW9uIC0tPiBhbmRyb2lkLWNvbmZpZ1xuICAgIGNvbS5yZWRtYWRyb2JvdC5hbmRyb2lkLWxpYnJhcnkgLS0-IGFuZHJvaWQtY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtZGV0ZWt0XG4gICAgY29tLnJlZG1hZHJvYm90LmRldGVrdFxuZW5kXG5cbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWtvdGxpblxuICAgIGtvdGxpbi1jb25maWdbY29tLnJlZG1hZHJvYm90LmtvdGxpbi1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmtvdGxpbi1saWJyYXJ5IC0tPiBrb3RsaW4tY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtcHVibGlzaFxuICAgIHB1Ymxpc2gtY29uZmlnW2NvbS5yZWRtYWRyb2JvdC5wdWJsaXNoLWNvbmZpZ11cbiAgICBjb20ucmVkbWFkcm9ib3QucHVibGlzaCAtLT4gcHVibGlzaC1jb25maWdcbmVuZFxuXG5hbmRyb2lkLWNvbmZpZyAtLT4ga290bGluLWNvbmZpZyIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6dHJ1ZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOnRydWV9)](https://mermaid-js.github.io/mermaid-live-editor/edit/#eyJjb2RlIjoiZ3JhcGggQlRcbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWFuZHJvaWRcbiAgICBhbmRyb2lkLWNvbmZpZ1tjb20ucmVkbWFkcm9ib3QuYW5kcm9pZC1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmFwcGxpY2F0aW9uIC0tPiBhbmRyb2lkLWNvbmZpZ1xuICAgIGNvbS5yZWRtYWRyb2JvdC5hbmRyb2lkLWxpYnJhcnkgLS0-IGFuZHJvaWQtY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtZGV0ZWt0XG4gICAgY29tLnJlZG1hZHJvYm90LmRldGVrdFxuZW5kXG5cbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWtvdGxpblxuICAgIGtvdGxpbi1jb25maWdbY29tLnJlZG1hZHJvYm90LmtvdGxpbi1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmtvdGxpbi1saWJyYXJ5IC0tPiBrb3RsaW4tY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtcHVibGlzaFxuICAgIHB1Ymxpc2gtY29uZmlnW2NvbS5yZWRtYWRyb2JvdC5wdWJsaXNoLWNvbmZpZ11cbiAgICBjb20ucmVkbWFkcm9ib3QucHVibGlzaCAtLT4gcHVibGlzaC1jb25maWdcbmVuZFxuXG5hbmRyb2lkLWNvbmZpZyAtLT4ga290bGluLWNvbmZpZyIsIm1lcm1haWQiOiJ7XG4gIFwidGhlbWVcIjogXCJkZWZhdWx0XCJcbn0iLCJ1cGRhdGVFZGl0b3IiOnRydWUsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjp0cnVlfQ)
+
+Plugin `root-project` is deprecated now and will be removed in further versions.
+Extensions are added to project via `*-config` plugins (exception is `detekt` plugin, so it is designed to be applied to root project).
+
+If you want to get the same behavior as applying `root-project`, you can apply all config plugins to the root project:
+
+```kotlin
+apply {
+    id("com.redmadrobot.android-config") version "0.13"
+    id("com.redmadrobot.publish-config") version "0.13"
+    id("com.redmadrobot.detekt") version "0.13"
+}
+```
+
+### Configs behavior changes
+
+- `*-config` plugins can be applied to any project.
+  Config from inner project will inherit options from outer project.
+- Options `redmadrobot.android.test` are inherited from `redmadrobot.test`
+
 ### Changed
 
-- Default `targetSdk` changed from 30 to 31
+- **Breaking change!** Directory with ProGuard rules now intended to be in `application` project instead of root project.
+- Default `targetSdk` changed from 30 to 31.
 
 ### Fixed
 
@@ -350,7 +409,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.2...main
-[0.12.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...v0.12.2
+[0.12.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12...v0.12.1
 [0.12]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.11...v0.12
 [0.11]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.10...v0.11
