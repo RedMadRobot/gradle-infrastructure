@@ -10,9 +10,9 @@ import com.redmadrobot.build.android.AndroidLibraryPlugin as NewAndroidLibraryPl
 public class AndroidLibraryPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        println(
+        target.logger.warn(
             """
-            WARNING: Plugin 'redmadrobot.android-library' is deprecated and will be removed soon.
+            Plugin 'redmadrobot.android-library' is deprecated and will be removed soon.
             You should apply plugin 'com.redmadrobot.android-library' instead.
             """.trimIndent(),
         )

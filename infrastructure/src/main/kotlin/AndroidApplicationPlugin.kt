@@ -10,9 +10,9 @@ import com.redmadrobot.build.android.AndroidApplicationPlugin as NewAndroidAppli
 public class AndroidApplicationPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        println(
+        target.logger.warn(
             """
-            WARNING: Plugin 'redmadrobot.application' is deprecated and will be removed soon.
+            Plugin 'redmadrobot.application' is deprecated and will be removed soon.
             You should apply plugin 'com.redmadrobot.application' instead.
             """.trimIndent(),
         )

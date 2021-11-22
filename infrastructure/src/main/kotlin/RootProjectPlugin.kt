@@ -11,9 +11,9 @@ import org.gradle.kotlin.dsl.plugin
 public class RootProjectPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        println(
+        target.logger.warn(
             """
-            WARNING: Plugin 'redmadrobot.root-project' is deprecated and will be removed soon.
+            Plugin 'redmadrobot.root-project' is deprecated and will be removed soon.
             You should apply plugins 'detekt', 'kotlin-config', 'publish-config' and 'android-config' instead.
             Please, refer to release notes to learn new plugins' structure:
             https://github.com/RedMadRobot/gradle-infrastructure/releases/tag/v0.13

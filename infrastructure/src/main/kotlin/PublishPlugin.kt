@@ -10,9 +10,9 @@ import com.redmadrobot.build.publish.PublishPlugin as NewPublishPlugin
 public class PublishPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        println(
+        target.logger.warn(
             """
-            WARNING: Plugin 'redmadrobot.publish' is deprecated and will be removed soon.
+            Plugin 'redmadrobot.publish' is deprecated and will be removed soon.
             You should apply plugin 'com.redmadrobot.publish' instead.
             """.trimIndent(),
         )

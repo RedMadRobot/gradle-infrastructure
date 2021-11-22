@@ -10,9 +10,9 @@ import com.redmadrobot.build.kotlin.KotlinLibraryPlugin as NewKotlinLibraryPlugi
 public class KotlinLibraryPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        println(
+        target.logger.warn(
             """
-            WARNING: Plugin 'redmadrobot.kotlin-library' is deprecated and will be removed soon.
+            Plugin 'redmadrobot.kotlin-library' is deprecated and will be removed soon.
             You should apply plugin 'com.redmadrobot.kotlin-library' instead.
             """.trimIndent(),
         )

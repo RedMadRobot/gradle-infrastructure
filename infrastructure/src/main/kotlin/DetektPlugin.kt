@@ -10,9 +10,9 @@ import com.redmadrobot.build.detekt.DetektPlugin as NewDetektPlugin
 public class DetektPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
-        println(
+        target.logger.warn(
             """
-            WARNING: Plugin 'redmadrobot.detekt' is deprecated and will be removed soon.
+            Plugin 'redmadrobot.detekt' is deprecated and will be removed soon.
             You should apply plugin 'com.redmadrobot.detekt' instead.
             """.trimIndent(),
         )

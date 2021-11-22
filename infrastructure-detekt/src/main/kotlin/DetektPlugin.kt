@@ -78,7 +78,7 @@ private fun Project.configureDetektAllTasks(
 
     val variantRegex = Regex("detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
     val relativePath = project.path.replace(Regex("^:"), "")
-        val taskRegex = Regex("^(:?$relativePath:)?$variantRegex")
+    val taskRegex = Regex("^(:?$relativePath:)?$variantRegex")
     val startTask = gradle.startParameter.taskNames.find { it.contains(taskRegex) }
     if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
         val taskData = variantRegex.find(startTask)?.groupValues
