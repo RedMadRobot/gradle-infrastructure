@@ -121,7 +121,7 @@ publishing {
 
 #### Signing
 
-You can configure publication in extension `redmadrobot.publishing`:
+You can configure publication via extension `redmadrobot.publishing`:
 
 ```kotlin
 redmadrobot {
@@ -302,7 +302,7 @@ android {
 
 ### Enable Detekt checks only on changed files
 
-Plugin `redmadrobot.detekt` adds task `detektDiff` to check the only files changed comparing to the base branch.
+Plugin `com.redmadrobot.detekt` adds task `detektDiff` to check the only files changed comparing to the base branch.
 To enable this feature, you should specify base branch name:
 
 ```kotlin
@@ -425,7 +425,7 @@ Execution failed for task ':app:stripDebugDebugSymbols'.
 It is because NDK version on CI differs from a requested version.
 You can change requested version by setting `android.ndkVersion`.
 
-Plugins `redmadrobot.android-library` and `redmadrobot.application` by default apply NDK version from env variable `ANDROID_NDK_VERSION` if it set.
+Plugins `com.redmadrobot.android-library` and `com.redmadrobot.application` by default apply NDK version from env variable `ANDROID_NDK_VERSION` if it set.
 
 ### `Could not resolve` or `Could not find` dependencies
 

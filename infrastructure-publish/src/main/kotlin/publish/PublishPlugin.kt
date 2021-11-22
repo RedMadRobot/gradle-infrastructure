@@ -16,7 +16,7 @@ import org.gradle.plugins.signing.Sign
 /**
  * Plugin that configures publication using specified [PublishingOptions].
  *
- * Tied to `redmadrobot.publish` plugin ID.
+ * Tied to `com.redmadrobot.publish` plugin ID.
  */
 public open class PublishPlugin : InfrastructurePlugin() {
 

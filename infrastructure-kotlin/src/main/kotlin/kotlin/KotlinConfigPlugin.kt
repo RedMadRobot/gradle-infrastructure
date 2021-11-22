@@ -7,7 +7,7 @@ import org.gradle.api.Project
  * Plugin that adds configurations for Kotlin projects.
  * Used from [KotlinLibraryPlugin].
  *
- * Tied to `redmadrobot.kotlin-config` plugin ID.
+ * Tied to `com.redmadrobot.kotlin-config` plugin ID.
  */
 public open class KotlinConfigPlugin : InfrastructurePlugin() {
 

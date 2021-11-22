@@ -7,7 +7,7 @@ import org.gradle.api.Project
  * Plugin that adds configurations for publication.
  * Used from [PublishPlugin].
  *
- * Tied to `redmadrobot.publish-config` plugin ID.
+ * Tied to `com.redmadrobot.publish-config` plugin ID.
  */
 public open class PublishConfigPlugin : InfrastructurePlugin() {
 
@@ -15,6 +15,6 @@ public open class PublishConfigPlugin : InfrastructurePlugin() {
         private set
 
     override fun Project.configure() {
-        publishingOptions = createExtension("publish")
+        publishingOptions = createExtension("publishing")
     }
 }

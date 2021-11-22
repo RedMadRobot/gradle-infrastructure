@@ -13,7 +13,7 @@ import org.gradle.api.Project
  * Plugin that applies default configurations for Android application project.
  * Should be applied in place of `com.android.application`.
  *
- * Tied to `redmadrobot.application` plugin ID.
+ * Tied to `com.redmadrobot.application` plugin ID.
  */
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 

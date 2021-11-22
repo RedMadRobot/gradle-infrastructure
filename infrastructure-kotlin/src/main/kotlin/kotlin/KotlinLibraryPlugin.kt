@@ -16,7 +16,7 @@ import org.gradle.kotlin.dsl.withType
  * Plugin that applies default configurations for Kotlin library project.
  * Should be applied in place of `kotlin` plugin.
  *
- * Tied to `redmadrobot.kotlin-library` plugin ID.
+ * Tied to `com.redmadrobot.kotlin-library` plugin ID.
  */
 public class KotlinLibraryPlugin : InfrastructurePlugin() {
 

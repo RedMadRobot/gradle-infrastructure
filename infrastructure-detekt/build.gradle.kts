@@ -3,7 +3,7 @@ description = "Plugin to make publication as simple as possible."
 gradlePlugin {
     plugins {
         register("detekt") {
-            id = "redmadrobot.detekt"
+            id = "com.redmadrobot.detekt"
             implementationClass = "com.redmadrobot.build.detekt.DetektPlugin"
         }
     }

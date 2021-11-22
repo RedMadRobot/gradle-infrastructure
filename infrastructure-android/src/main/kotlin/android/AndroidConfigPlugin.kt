@@ -11,7 +11,7 @@ import org.gradle.kotlin.dsl.apply
  * Plugin that adds configurations for Android projects.
  * Used from [BaseAndroidPlugin].
  *
- * Tied to `redmadrobot.android-config` plugin ID.
+ * Tied to `com.redmadrobot.android-config` plugin ID.
  */
 public open class AndroidConfigPlugin : InfrastructurePlugin() {
 

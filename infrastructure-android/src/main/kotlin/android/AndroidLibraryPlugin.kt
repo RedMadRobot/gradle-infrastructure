@@ -13,7 +13,7 @@ private const val ARG_EXPLICIT_API = "-Xexplicit-api"
  * Plugin that applies default configurations for Android library project.
  * Should be applied in place of `com.android.library`.
  *
- * Tied to `redmadrobot.android-library` plugin ID.
+ * Tied to `com.redmadrobot.android-library` plugin ID.
  */
 public class AndroidLibraryPlugin : BaseAndroidPlugin() {
 
