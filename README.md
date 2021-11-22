@@ -9,7 +9,6 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Installation](#installation)
 - [Plugins](#plugins)
   - [kotlin-library](#kotlin-library)
@@ -37,57 +36,64 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 
 ## Installation
 
-Add resolution strategy to `settings.gradle.kts`:
+If you're planning to use android plugins, add Google repository to `settings.gradle.kts`:
+
 ```kotlin
 pluginManagement {
     repositories {
         google() // Required if you use infrastructure-android
         gradlePluginPortal()
     }
-
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.namespace == "redmadrobot") {
-                // For pure Kotlin projects
-                useModule("com.redmadrobot.build:infrastructure:${requested.version}")
-                // For Android projects
-                useModule("com.redmadrobot.build:infrastructure-android:${requested.version}")
-            }
-        }
-    }
-}
-```
-
-Apply `redmadrobot.root-project` to project that will be considered as "root":
-```kotlin
-plugins {
-    id("redmadrobot.root-project") version "0.12.2"
 }
 ```
 
 Then you can apply any of plugins where you need:
+
 ```kotlin
 plugins {
-    id("redmadrobot.kotlin-library")
-    id("redmadrobot.publish")
-    id("redmadrobot.application")
+    id("com.redmadrobot.kotlin-library") version "0.13"
+    id("com.redmadrobot.publish") version "0.13"
+    id("com.redmadrobot.detekt") version "0.13"
+    id("com.redmadrobot.application") version "0.13"
+    id("com.redmadrobot.android-library") version "0.13"
 }
 ```
 
-> :bulb: **Hint**  
-> If you'll try to apply any of plugins to the root project, it will require 'version'.
-> You can apply it with `apply(plugin = "...")` syntax to let it use `root-project`s plugin version.
-> ```kotlin
-> plugins {
->     id("redmadrobot.root-project") version "0.12.2"
-> }
-> 
-> apply(plugin = "redmadrobot.detekt")
-> ```
+If you want to configure subprojects from root project, you can apply `*-config` plugins to root project.
+This way subprojects will use configs from parent projects as defaults.
+
+`./build.gradle.kts`:
+
+```kotlin
+plugins {
+    id("com.redmadrobot.android-config")
+}
+
+redmadrobot {
+    android {
+        minSdk.set(28)
+    }
+}
+```
+
+`./app/build/build.gradle.kts`:
+
+```kotlin
+plugins {
+    id("com.redmadrobot.application")
+}
+
+// Will be used minSdk = 28 by default
+android {
+    // ...
+}
+```
 
 *Look at [samples](#samples) for quick start.*
 
 ## Plugins
+
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggQlRcbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWFuZHJvaWRcbiAgICBhbmRyb2lkLWNvbmZpZ1tjb20ucmVkbWFkcm9ib3QuYW5kcm9pZC1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmFwcGxpY2F0aW9uIC0tPiBhbmRyb2lkLWNvbmZpZ1xuICAgIGNvbS5yZWRtYWRyb2JvdC5hbmRyb2lkLWxpYnJhcnkgLS0-IGFuZHJvaWQtY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtZGV0ZWt0XG4gICAgY29tLnJlZG1hZHJvYm90LmRldGVrdFxuZW5kXG5cbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWtvdGxpblxuICAgIGtvdGxpbi1jb25maWdbY29tLnJlZG1hZHJvYm90LmtvdGxpbi1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmtvdGxpbi1saWJyYXJ5IC0tPiBrb3RsaW4tY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtcHVibGlzaFxuICAgIHB1Ymxpc2gtY29uZmlnW2NvbS5yZWRtYWRyb2JvdC5wdWJsaXNoLWNvbmZpZ11cbiAgICBjb20ucmVkbWFkcm9ib3QucHVibGlzaCAtLT4gcHVibGlzaC1jb25maWdcbmVuZFxuXG5hbmRyb2lkLWNvbmZpZyAtLT4ga290bGluLWNvbmZpZyIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6dHJ1ZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOnRydWV9)](https://mermaid-js.github.io/mermaid-live-editor/edit/#eyJjb2RlIjoiZ3JhcGggQlRcbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWFuZHJvaWRcbiAgICBhbmRyb2lkLWNvbmZpZ1tjb20ucmVkbWFkcm9ib3QuYW5kcm9pZC1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmFwcGxpY2F0aW9uIC0tPiBhbmRyb2lkLWNvbmZpZ1xuICAgIGNvbS5yZWRtYWRyb2JvdC5hbmRyb2lkLWxpYnJhcnkgLS0-IGFuZHJvaWQtY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtZGV0ZWt0XG4gICAgY29tLnJlZG1hZHJvYm90LmRldGVrdFxuZW5kXG5cbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWtvdGxpblxuICAgIGtvdGxpbi1jb25maWdbY29tLnJlZG1hZHJvYm90LmtvdGxpbi1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmtvdGxpbi1saWJyYXJ5IC0tPiBrb3RsaW4tY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtcHVibGlzaFxuICAgIHB1Ymxpc2gtY29uZmlnW2NvbS5yZWRtYWRyb2JvdC5wdWJsaXNoLWNvbmZpZ11cbiAgICBjb20ucmVkbWFkcm9ib3QucHVibGlzaCAtLT4gcHVibGlzaC1jb25maWdcbmVuZFxuXG5hbmRyb2lkLWNvbmZpZyAtLT4ga290bGluLWNvbmZpZyIsIm1lcm1haWQiOiJ7XG4gIFwidGhlbWVcIjogXCJkZWZhdWx0XCJcbn0iLCJ1cGRhdGVFZGl0b3IiOnRydWUsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjp0cnVlfQ)
 
 ### kotlin-library
 
