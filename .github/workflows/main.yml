@@ -45,7 +45,7 @@ jobs:
       - name: Run Publish
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: publishMavenPublicationToGithubPackagesRepository
+          arguments: publishToGithubPackagesRepository
           distributions-cache-enabled: true
           dependencies-cache-enabled: true
         env:
@@ -73,7 +73,7 @@ jobs:
       - name: Run Publish
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: publishMavenPublicationToMavenLocal
+          arguments: publishToMavenLocal
           distributions-cache-enabled: true
           dependencies-cache-enabled: true
 
