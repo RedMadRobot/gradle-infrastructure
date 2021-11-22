@@ -6,6 +6,6 @@ plugins {
 redmadrobot {
     android {
         minSdk.set(24)
-        targetSdk.set(30)
+        targetSdk.set(31)
     }
 }

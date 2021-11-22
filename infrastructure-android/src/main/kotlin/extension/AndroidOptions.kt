@@ -49,6 +49,6 @@ public interface AndroidOptions : TestOptionsSpec {
 
     public companion object {
         internal const val DEFAULT_MIN_API = 21
-        internal const val DEFAULT_TARGET_API = 30
+        internal const val DEFAULT_TARGET_API = 31
     }
 }

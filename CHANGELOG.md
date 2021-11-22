@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Changed
+
+- Default `targetSdk` changed from 30 to 31
+
 ## [0.12.2] (2021-11-15)
 
 ### Fixed
