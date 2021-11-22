@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    api(projects.infrastructureBase)
+    api(projects.infrastructureCommon)
 
     compileOnly(libs.androidGradle)
 }

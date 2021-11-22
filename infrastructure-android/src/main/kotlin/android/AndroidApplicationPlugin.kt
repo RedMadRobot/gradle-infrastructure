@@ -20,14 +20,12 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.application")
 
-        // FIXME: Align root-project
-        configureApp(redmadrobotExtension, project.rootProject)
+        configureApp(redmadrobotExtension)
     }
 }
 
 private fun Project.configureApp(
     extension: RedmadrobotExtension,
-    infrastructureRootProject: Project,
 ) = android<AppExtension> {
     defaultConfig {
         // Keep only 'ru' resources
@@ -35,7 +33,7 @@ private fun Project.configureApp(
 
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(
-            infrastructureRootProject.fileTree("proguard").files.filter { file -> file.extension == "pro" } +
+            fileTree("proguard").files.filter { file -> file.extension == "pro" } +
                 getDefaultProguardFile("proguard-android-optimize.txt"),
         )
 

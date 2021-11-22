@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    api(projects.infrastructureBase)
+    api(projects.infrastructureCommon)
 
     implementation(libs.detektGradle)
     implementation(libs.jgit)

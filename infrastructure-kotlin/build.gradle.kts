@@ -18,6 +18,6 @@ repositories {
 }
 
 dependencies {
-    api(projects.infrastructureBase)
+    api(projects.infrastructureCommon)
     api(libs.kotlinGradle)
 }

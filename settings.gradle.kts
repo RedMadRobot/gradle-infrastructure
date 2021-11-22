@@ -24,7 +24,7 @@ include(
     ":infrastructure-kotlin",
     ":infrastructure-detekt",
     ":infrastructure-publish",
-    ":infrastructure-base",
+    ":infrastructure-common",
 )
 
 dependencyResolutionManagement {
