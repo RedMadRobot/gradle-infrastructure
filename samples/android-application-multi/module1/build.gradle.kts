@@ -1,5 +1,5 @@
 plugins {
-    id("redmadrobot.android-library")
+    id("com.redmadrobot.android-library")
 }
 
 dependencies {

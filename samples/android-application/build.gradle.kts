@@ -1,3 +1,3 @@
 plugins {
-    id("redmadrobot.root-project") version "0.13-SNAPSHOT"
+    id("com.redmadrobot.android-config") version "0.13-SNAPSHOT"
 }

@@ -3,10 +3,10 @@ import com.redmadrobot.build.dsl.BUILD_TYPE_QA
 import com.redmadrobot.build.dsl.addSharedSourceSetRoot
 
 plugins {
-    id("redmadrobot.application")
+    id("com.redmadrobot.application")
 }
 
-// Plugin "redmadrobot.application" configures build types, SDK versions, proguard and so on.
+// Plugin "com.redmadrobot.application" configures build types, SDK versions, proguard and so on.
 // We only should configure applicationId and version name and code.
 android {
     defaultConfig {
