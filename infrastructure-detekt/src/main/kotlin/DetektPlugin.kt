@@ -10,9 +10,10 @@ import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.detekt.DetektPlugin.Companion.BASELINE_KEYWORD
-import com.redmadrobot.build.detekt.internal.checkAllSubprojectsContainPlugin
 import com.redmadrobot.build.detekt.internal.detektPlugins
 import com.redmadrobot.build.detekt.internal.getFileIfExists
+import com.redmadrobot.build.detekt.internal.hasKotlinPlugin
+import com.redmadrobot.build.detekt.internal.hasPlugin
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.Project
@@ -35,8 +36,8 @@ public class DetektPlugin : InfrastructurePlugin() {
 
         configureDependencies()
 
-        configureDetektFormatTask(redmadrobotExtension, infrastructureRootProject)
-        configureDetektAllTasks(redmadrobotExtension, infrastructureRootProject)
+        configureDetektFormatTask(redmadrobotExtension)
+        configureDetektAllTasks(redmadrobotExtension)
         configureDetektDiffTask(redmadrobotExtension, detektOptions)
     }
 
@@ -55,8 +56,8 @@ private fun Project.configureDependencies() {
     }
 }
 
-private fun Project.configureDetektFormatTask(staticAnalyzerSpec: StaticAnalyzerSpec, infrastructureRootProject: Project) {
-    detektTask(staticAnalyzerSpec, infrastructureRootProject, "detektFormat") {
+private fun Project.configureDetektFormatTask(staticAnalyzerSpec: StaticAnalyzerSpec) {
+    detektTask(staticAnalyzerSpec, "detektFormat") {
         description = "Reformats whole code base."
         disableDefaultRuleSets = true
         autoCorrect = true
@@ -70,7 +71,8 @@ private fun Project.configureDetektAllTasks(
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    detektCreateBaselineTask(staticAnalyzerSpec,
+    detektCreateBaselineTask(
+        staticAnalyzerSpec,
         "detekt${BASELINE_KEYWORD}All",
     ) {
         description = "Runs over whole code base without the starting overhead for each module."
@@ -89,7 +91,7 @@ private fun Project.configureDetektAllTasks(
         if (isBaseline) {
             detektCreateBaselineTask(staticAnalyzerSpec, detektTaskName) {
                 val modules = subprojects.filter(Project::hasKotlinPlugin)
-                    modules.checkModulesContainDetekt { modulesNames ->
+                modules.checkModulesContainDetekt { modulesNames ->
                     "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                 }
 
@@ -106,7 +108,7 @@ private fun Project.configureDetektAllTasks(
         } else {
             detektTask(staticAnalyzerSpec, detektTaskName) {
                 val modules = subprojects.filter(Project::hasKotlinPlugin)
-                    modules.checkModulesContainDetekt { modulesNames ->
+                modules.checkModulesContainDetekt { modulesNames ->
                     "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                 }
 
