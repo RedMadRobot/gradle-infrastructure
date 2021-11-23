@@ -7,16 +7,12 @@ import com.android.build.gradle.TestExtension
 import com.android.build.gradle.internal.core.InternalBaseVariant
 import com.redmadrobot.build.DetektPlugin.Companion.BASELINE_KEYWORD
 import com.redmadrobot.build.extension.RedmadrobotExtension
-import com.redmadrobot.build.internal.checkAllSubprojectsContainPlugin
+import com.redmadrobot.build.internal.*
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.internal.detekt.CollectGitDiffFilesTask.FilterParams
-import com.redmadrobot.build.internal.detektPlugins
-import com.redmadrobot.build.internal.getFileIfExists
-import com.redmadrobot.build.internal.isInfrastructureRootProject
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
-import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskProvider
@@ -34,7 +30,10 @@ public class DetektPlugin : InfrastructurePlugin() {
         apply(plugin = "io.gitlab.arturbosch.detekt")
 
         configureDependencies()
-        configureDetektTasks(redmadrobotExtension, infrastructureRootProject)
+
+        configureDetektFormatTask(redmadrobotExtension, infrastructureRootProject)
+        configureDetektAllTasks(redmadrobotExtension, infrastructureRootProject)
+        configureDetektDiffTask(redmadrobotExtension, infrastructureRootProject)
     }
 
     internal companion object {
@@ -52,12 +51,6 @@ private fun Project.configureDependencies() {
     }
 }
 
-private fun Project.configureDetektTasks(extension: RedmadrobotExtension, infrastructureRootProject: Project) {
-    configureDetektFormatTask(extension, infrastructureRootProject)
-    configureDetektAllTasks(extension, infrastructureRootProject)
-    configureDetektDiffTask(extension, infrastructureRootProject)
-}
-
 private fun Project.configureDetektFormatTask(extension: RedmadrobotExtension, infrastructureRootProject: Project) {
     detektTask(extension, infrastructureRootProject, "detektFormat") {
         description = "Reformats whole code base."
@@ -71,13 +64,18 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, inf
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
-    detektCreateBaselineTask(extension, infrastructureRootProject, "detekt${BASELINE_KEYWORD}All") {
+    detektCreateBaselineTask(
+        extension,
+        infrastructureRootProject,
+        "detekt${BASELINE_KEYWORD}All",
+    ) {
         description = "Runs over whole code base without the starting overhead for each module."
     }
 
     if (project.isInfrastructureRootProject) {
         val variantRegex = Regex("detekt($BASELINE_KEYWORD)?([A-Za-z]+)All$")
-        val taskRegex = Regex("^(${project.path.orEmpty()}:)?$variantRegex")
+        val relativePath = project.path.replace(Regex("^:"), "")
+        val taskRegex = Regex("^(:?$relativePath:)?$variantRegex")
         val startTask = gradle.startParameter.taskNames.find { it.contains(taskRegex) }
         if (startTask != null && startTask != "detekt${BASELINE_KEYWORD}All") {
             val taskData = variantRegex.find(startTask)?.groupValues
@@ -87,11 +85,12 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, inf
 
             if (isBaseline) {
                 detektCreateBaselineTask(extension, infrastructureRootProject, detektTaskName) {
-                    checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
+                    val modules = subprojects.filter(Project::hasKotlinPlugin)
+                    modules.checkModulesContainDetekt { modulesNames ->
                         "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                     }
 
-                    val detektTaskProviders = subprojects.map { subproject ->
+                    val detektTaskProviders = modules.map { subproject ->
                         subproject.extractDetektTaskProviderByType<DetektCreateBaselineTask>(requiredVariant)
                     }
 
@@ -103,11 +102,12 @@ private fun Project.configureDetektAllTasks(extension: RedmadrobotExtension, inf
                 }
             } else {
                 detektTask(extension, infrastructureRootProject, detektTaskName) {
-                    checkAllSubprojectsContainPlugin<DetektPlugin> { modulesNames ->
+                    val modules = subprojects.filter(Project::hasKotlinPlugin)
+                    modules.checkModulesContainDetekt { modulesNames ->
                         "Modules $modulesNames don't contain \"detekt\" or \"redmadrobot.detekt\" plugin"
                     }
 
-                    val detektTaskProviders = subprojects.map { subproject ->
+                    val detektTaskProviders = modules.map { subproject ->
                         subproject.extractDetektTaskProviderByType<Detekt>(requiredVariant)
                     }
 
@@ -196,7 +196,9 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
     val isSubprojectAndroid = plugins.hasPlugin("com.android.application") ||
         plugins.hasPlugin("com.android.library")
 
-    val taskSuffix = BASELINE_KEYWORD.takeIf { T::class == DetektCreateBaselineTask::class }.orEmpty()
+    val taskSuffix = BASELINE_KEYWORD
+        .takeIf { T::class == DetektCreateBaselineTask::class }
+        .orEmpty()
 
     val taskProvider = if (isSubprojectAndroid) {
         val baseExtensions = extensions.getByType<BaseExtension>()
@@ -230,4 +232,15 @@ private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (
 
 private fun createDetektVariantTaskName(suffix: String, variantName: String, postfix: String = ""): String {
     return "detekt$suffix$variantName$postfix"
+}
+
+private fun List<Project>.checkModulesContainDetekt(lazyMessage: (String) -> String) {
+    val missingPluginModules = filterNot { subproject ->
+        subproject.plugins.hasPlugin<io.gitlab.arturbosch.detekt.DetektPlugin>()
+    }
+
+    check(missingPluginModules.isEmpty()) {
+        val modulesName = missingPluginModules.joinToString(", ") { project -> "\"${project.name}\"" }
+        lazyMessage.invoke(modulesName)
+    }
 }

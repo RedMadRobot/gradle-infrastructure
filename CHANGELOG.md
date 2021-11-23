@@ -4,6 +4,10 @@
 
 - Default `targetSdk` changed from 30 to 31
 
+### Fixed
+
+- Non-Kotlin modules are excluded from checking that the module contains detekt [#81](https://github.com/RedMadRobot/gradle-infrastructure/issues/81)
+
 ## [0.12.2] (2021-11-15)
 
 ### Fixed
