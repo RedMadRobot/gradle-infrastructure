@@ -58,6 +58,11 @@ apply {
   Config from inner project will inherit options from outer project.
 - Options `redmadrobot.android.test` are inherited from `redmadrobot.test`
 
+### Dependencies
+
+- Kotlin 1.5.30 -> 1.5.31
+- Detekt 1.18.1 -> 1.19.0
+
 ### Changed
 
 - **Breaking change!** Directory with ProGuard rules now intended to be in `application` project instead of root project.

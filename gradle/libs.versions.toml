@@ -1,6 +1,6 @@
 [libraries]
 androidGradle = "com.android.tools.build:gradle:4.2.2"
 androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.4.3"
-detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.18.1"
-kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30"
+detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0"
+kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
 jgit = "org.eclipse.jgit:org.eclipse.jgit:5.12.0.202106070339-r"
