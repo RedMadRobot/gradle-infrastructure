@@ -62,6 +62,7 @@ apply {
 
 - **Breaking change!** Directory with ProGuard rules now intended to be in `application` project instead of root project.
 - Default `targetSdk` changed from 30 to 31.
+- Gradle updated to 7.3.1
 
 ### Fixed
 

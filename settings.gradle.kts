@@ -26,10 +26,3 @@ include(
     ":infrastructure-publish",
     ":infrastructure-common",
 )
-
-dependencyResolutionManagement {
-    @Suppress("UnstableApiUsage")
-    versionCatalogs {
-        create("libs")
-    }
-}
