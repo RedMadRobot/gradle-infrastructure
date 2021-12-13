@@ -63,6 +63,10 @@ apply {
 - Kotlin 1.5.30 -> 1.5.31
 - Detekt 1.18.1 -> 1.19.0
 
+### Added
+
+- Added repository extension `jitpack()` (#82)
+
 ### Changed
 
 - **Breaking change!** Repositories `ossrh` and `ossrhSnapshots` now use host `s01.oss.sonatype.org` by default.

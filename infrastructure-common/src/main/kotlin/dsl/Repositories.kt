@@ -17,6 +17,24 @@ public fun Project.credentialsExist(name: String): Boolean {
 }
 
 /**
+ * Adds JitPack repo with name "jitpack".
+ * The URL used for the repository is `https://jitpack.io`.
+ *
+ * Usage:
+ * ```
+ * repositories {
+ *     jitpack()
+ * }
+ * ```
+ */
+public fun RepositoryHandler.jitpack(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
+    return maven("https://jitpack.io") {
+        name = "jitpack"
+        configure()
+    }
+}
+
+/**
  * Adds RMR Nexus repo with name "rmrNexus".
  * Credentials should be provided through project properties `rmrNexusUsername` and `rmrNexusPassword`.
  *
