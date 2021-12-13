@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.credentials
 import org.gradle.kotlin.dsl.maven
 
 /**
- * Adds Sonatype OSSRH repository with name "ossrh".
+ * Adds Sonatype OSSRH repository with name "ossrh" and the specified [host].
  * Requires credentials to be specified in project properties `ossrhUsername` and `ossrhPassword`.
  *
  * See:
@@ -22,8 +22,11 @@ import org.gradle.kotlin.dsl.maven
  * ```
  * @see ossrhSnapshots
  */
-public fun RepositoryHandler.ossrh(configure: MavenArtifactRepository.() -> Unit = {}): MavenArtifactRepository {
-    return maven("https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+public fun RepositoryHandler.ossrh(
+    host: OssrhHost = OssrhHost.S01,
+    configure: MavenArtifactRepository.() -> Unit = {},
+): MavenArtifactRepository {
+    return maven("${host.value}/service/local/staging/deploy/maven2/") {
         name = "ossrh"
         credentials(PasswordCredentials::class)
         configure()
@@ -31,7 +34,7 @@ public fun RepositoryHandler.ossrh(configure: MavenArtifactRepository.() -> Unit
 }
 
 /**
- * Adds Sonatype OSSRH Snapshots repository with name "ossrhSnapshots".
+ * Adds Sonatype OSSRH Snapshots repository with name "ossrhSnapshots" and the specified [host].
  *
  * Example:
  * ```
@@ -42,10 +45,21 @@ public fun RepositoryHandler.ossrh(configure: MavenArtifactRepository.() -> Unit
  * @see ossrh
  */
 public fun RepositoryHandler.ossrhSnapshots(
+    host: OssrhHost = OssrhHost.S01,
     configure: MavenArtifactRepository.() -> Unit = {},
 ): MavenArtifactRepository {
-    return maven("https://oss.sonatype.org/content/repositories/snapshots/") {
+    return maven("${host.value}/content/repositories/snapshots/") {
         name = "ossrhSnapshots"
         configure()
     }
+}
+
+/** OSSRH hosts. */
+public enum class OssrhHost(public val value: String) {
+
+    /** Host used since February 2021. */
+    S01("https://s01.oss.sonatype.org"),
+
+    /** Legacy host used before February 2021. */
+    LEGACY("https://oss.sonatype.org"),
 }

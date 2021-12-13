@@ -65,6 +65,8 @@ apply {
 
 ### Changed
 
+- **Breaking change!** Repositories `ossrh` and `ossrhSnapshots` now use host `s01.oss.sonatype.org` by default.
+  To keep legacy host `oss.sonatype.org`, use `ossrh(LEGACY)` instead.
 - **Breaking change!** Directory with ProGuard rules now intended to be in `application` project instead of root project.
 - Default `targetSdk` changed from 30 to 31.
 - Gradle updated to 7.3.1
