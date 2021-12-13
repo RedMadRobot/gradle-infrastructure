@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.13] (2021-12-13)
+
 ### Change plugins naming convention
 
 > **Breaking change!**
@@ -420,7 +422,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.2...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.13...main
+[0.13]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.2...v0.13
 [0.12.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12...v0.12.1
 [0.12]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.11...v0.12
