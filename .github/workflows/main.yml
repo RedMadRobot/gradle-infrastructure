@@ -45,7 +45,7 @@ jobs:
       - name: Run Publish
         uses: eskatos/gradle-command-action@v1
         with:
-          arguments: publishToGithubPackagesRepository
+          arguments: publishAllPublicationsToGithubPackagesRepository
           distributions-cache-enabled: true
           dependencies-cache-enabled: true
         env:
