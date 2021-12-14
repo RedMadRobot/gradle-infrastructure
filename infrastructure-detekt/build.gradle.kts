@@ -8,6 +8,8 @@ gradlePlugin {
     plugins {
         register("detekt") {
             id = "com.redmadrobot.detekt"
+            displayName = "Infrastructure Detekt Plugin"
+            description = project.description
             implementationClass = "com.redmadrobot.build.detekt.DetektPlugin"
         }
     }
