@@ -1,13 +1,14 @@
-import com.redmadrobot.build.dsl.*
+import com.redmadrobot.build.dsl.developer
+import com.redmadrobot.build.dsl.isRunningOnCi
+import com.redmadrobot.build.dsl.mit
+import com.redmadrobot.build.dsl.setGitHubProject
 
 plugins {
-    id("redmadrobot.root-project") version "0.12.1"
+    id("redmadrobot.root-project")
+    id("redmadrobot.detekt")
     id("com.github.ben-manes.versions") version "0.39.0"
-    `maven-publish`
     `kotlin-dsl` apply false
 }
-
-apply(plugin = "redmadrobot.detekt")
 
 redmadrobot {
     publishing {
@@ -31,26 +32,9 @@ redmadrobot {
 subprojects {
     apply {
         plugin("org.gradle.kotlin.kotlin-dsl")
-        plugin("redmadrobot.kotlin-library")
-        plugin("redmadrobot.publish")
-        plugin("redmadrobot.detekt")
+        plugin("io.gitlab.arturbosch.detekt")
     }
 
     group = "com.redmadrobot.build"
     version = "0.13"
-
-    // Keep gradle-infrastructure compatible with older versions of Gradle.
-    kotlinCompile {
-        kotlinOptions {
-            apiVersion = "1.4"
-            languageVersion = "1.4"
-        }
-    }
-
-    publishing {
-        repositories {
-            if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
-            if (isReleaseVersion && credentialsExist("ossrh")) ossrh()
-        }
-    }
 }

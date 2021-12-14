@@ -1,4 +1,8 @@
-description = "Plugin to make publication as simple as possible."
+plugins {
+    id("gradle-plugin-commons")
+}
+
+description = "Plugin to simplify common publication scenarios."
 
 gradlePlugin {
     plugins {

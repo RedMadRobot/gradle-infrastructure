@@ -1,3 +1,7 @@
+plugins {
+    id("gradle-plugin-commons")
+}
+
 description = "Small plugins to reduce boilerplate in Android projects' Gradle build scripts."
 
 gradlePlugin {

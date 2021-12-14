@@ -1,3 +1,7 @@
+plugins {
+    id("gradle-plugin-commons")
+}
+
 description = "[DEPRECATED] Small plugins to reduce boilerplate in Gradle build scripts."
 
 gradlePlugin {
@@ -29,6 +33,9 @@ gradlePlugin {
         }
     }
 }
+
+// Don't publish this legacy artifact to Gradle Plugins Portal
+tasks.publishPlugins { enabled = false }
 
 repositories {
     mavenCentral()

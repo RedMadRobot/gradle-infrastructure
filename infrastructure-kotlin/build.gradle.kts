@@ -1,4 +1,8 @@
-description = "Plugin with defaults for Kotlin projects."
+plugins {
+    id("gradle-plugin-commons")
+}
+
+description = "Defaults for Kotlin projects"
 
 gradlePlugin {
     plugins {
