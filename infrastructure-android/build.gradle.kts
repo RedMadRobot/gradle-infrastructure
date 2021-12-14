@@ -18,10 +18,6 @@ gradlePlugin {
             id = "com.redmadrobot.android-library"
             implementationClass = "com.redmadrobot.build.android.AndroidLibraryPlugin"
         }
-        register("root-project-deprecated") {
-            id = "redmadrobot.root-project"
-            implementationClass = "com.redmadrobot.build.AndroidRootProjectPlugin"
-        }
     }
 }
 
@@ -35,13 +31,4 @@ dependencies {
     api(projects.infrastructureKotlin)
     implementation(libs.androidGradle)
     implementation(libs.androidGradleCacheFix)
-}
-
-// TODO: Remove along with 'root-project' plugin publication
-afterEvaluate {
-    tasks.configureEach {
-        if (name.contains("root-project-deprecated", ignoreCase = true)) {
-            enabled = false
-        }
-    }
 }
