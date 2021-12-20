@@ -1,11 +1,9 @@
 import com.redmadrobot.build.dsl.*
 
 plugins {
-    id("maven-publish")
+    id("com.redmadrobot.kotlin-library")
+    id("com.redmadrobot.publish")
 }
-
-apply(plugin = "redmadrobot.kotlin-library")
-apply(plugin = "redmadrobot.publish")
 
 // Keep gradle-infrastructure compatible with older versions of Gradle.
 kotlinCompile {
