@@ -5,6 +5,7 @@
 - Android Gradle Plugin 4.2.2 -> 7.0.3 
 - Android cache fix Gradle plugin 2.4.3 -> 2.4.5
 - Kotlin 1.5.31 -> 1.6.10
+- JGit 5.12.0 -> 6.0.0
 
 ## [0.13] (2021-12-13)
 
