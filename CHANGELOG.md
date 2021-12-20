@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Dependencies
+
+- Kotlin 1.5.31 -> 1.6.10
+
 ## [0.13] (2021-12-13)
 
 ### Change plugins naming convention

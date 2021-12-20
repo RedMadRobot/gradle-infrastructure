@@ -263,7 +263,7 @@ To align the Kotlin version for all dependencies including transitive ones, use 
 ```kotlin
 dependencies {
     // Align versions of all Kotlin components 
-    implementation(platform(kotlin("bom", version = "1.5.10")))
+    implementation(platform(kotlin("bom", version = "1.6.10")))
 
     // Now you can add Kotlin components without version
     implementation(kotlin("stdlib-jdk8"))
@@ -275,7 +275,7 @@ Another way is using `kotlin.coreLibrariesVersion` property:
 
 ```kotlin
 // Set version for all Kotlin components
-kotlin.coreLibrariesVersion = "1.5.10"
+kotlin.coreLibrariesVersion = "1.6.10"
 
 dependencies {
     // Now you can add Kotlin components without version
