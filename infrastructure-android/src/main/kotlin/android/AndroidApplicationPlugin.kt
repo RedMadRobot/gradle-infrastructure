@@ -29,7 +29,7 @@ private fun Project.configureApp(
 ) = android<AppExtension> {
     defaultConfig {
         // Keep only 'ru' resources
-        resConfig("ru")
+        addResourceConfiguration("ru")
 
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(

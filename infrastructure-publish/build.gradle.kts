@@ -28,5 +28,5 @@ repositories {
 dependencies {
     api(projects.infrastructureCommon)
 
-    compileOnly(libs.androidGradle)
+    compileOnly(libs.androidTools.gradle)
 }

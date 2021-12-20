@@ -35,14 +35,14 @@ public fun BaseExtension.addSharedSourceSetRoot(
 
 @Suppress("UnstableApiUsage")
 private fun AndroidSourceSet.addRoot(path: String) {
-    java.srcDirs("$path/$FD_JAVA", "$path/kotlin")
+    java.srcDirs("$path/$FD_JAVA")
+    kotlin.srcDirs("$path/$FD_JAVA", "$path/kotlin")
     resources.srcDir("$path/$FD_JAVA_RES")
     res.srcDir("$path/$FD_RES")
     assets.srcDir("$path/$FD_ASSETS")
     manifest.srcFile("$path/$FN_ANDROID_MANIFEST_XML")
     aidl.srcDir("$path/$FD_AIDL")
     renderscript.srcDir("$path/$FD_RENDERSCRIPT")
-    jni.srcDir("$path/$FD_JNI")
     jniLibs.srcDir("$path/jniLibs")
     shaders.srcDir("$path/shaders")
     mlModels.srcDir("$path/$FD_ML_MODELS")

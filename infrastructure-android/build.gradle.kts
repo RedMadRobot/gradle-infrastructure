@@ -35,6 +35,9 @@ repositories {
 
 dependencies {
     api(projects.infrastructureKotlin)
-    implementation(libs.androidGradle)
+
+    implementation(libs.androidTools.gradle)
+    compileOnly(libs.androidTools.common) // Should be provided via AGP
+
     implementation(libs.androidGradleCacheFix)
 }

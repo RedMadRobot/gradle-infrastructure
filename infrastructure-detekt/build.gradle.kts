@@ -25,5 +25,5 @@ dependencies {
 
     implementation(libs.detektGradle)
     implementation(libs.jgit)
-    compileOnly(libs.androidGradle)
+    compileOnly(libs.androidTools.gradle)
 }
