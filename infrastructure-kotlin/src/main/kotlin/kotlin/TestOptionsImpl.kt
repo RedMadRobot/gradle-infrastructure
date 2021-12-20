@@ -15,6 +15,15 @@ public abstract class TestOptionsImpl : TestOptions, WithDefaults<TestOptionsImp
     /** Configurator for Test Framework. */
     internal abstract val configuration: Property<TestFrameworkOptions.() -> Unit>
 
+    init {
+        useJunitPlatform
+            .convention(true)
+            .finalizeValueOnRead()
+        configuration
+            .convention { /* no-op */ }
+            .finalizeValueOnRead()
+    }
+
     override fun useJunitPlatform(configure: JUnitPlatformOptions.() -> Unit) {
         useJunitPlatform.setFinalValue(true)
         configuration.set { (this as JUnitPlatformOptions).configure() }
@@ -23,15 +32,6 @@ public abstract class TestOptionsImpl : TestOptions, WithDefaults<TestOptionsImp
     override fun useJunit(configure: JUnitOptions.() -> Unit) {
         useJunitPlatform.setFinalValue(false)
         configuration.set { (this as JUnitOptions).configure() }
-    }
-
-    init {
-        useJunitPlatform
-            .convention(true)
-            .finalizeValueOnRead()
-        configuration
-            .convention { /* no-op */ }
-            .finalizeValueOnRead()
     }
 
     override fun setDefaults(defaults: TestOptionsImpl) {

@@ -27,4 +27,3 @@ afterEvaluate {
         .matching { task -> task.repository.name == "ossrh" && "PluginMarker" in task.name }
         .configureEach { enabled = false }
 }
-

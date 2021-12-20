@@ -9,10 +9,6 @@ internal abstract class PublishingOptionsImpl : PublishingOptions, WithDefaults<
 
     abstract val configurePom: Property<MavenPom.() -> Unit>
 
-    override fun pom(configure: MavenPom.() -> Unit) {
-        configurePom.set(configure)
-    }
-
     init {
         signArtifacts
             .convention(false)
@@ -23,6 +19,10 @@ internal abstract class PublishingOptionsImpl : PublishingOptions, WithDefaults<
         configurePom
             .convention { /* no-op */ }
             .finalizeValueOnRead()
+    }
+
+    override fun pom(configure: MavenPom.() -> Unit) {
+        configurePom.set(configure)
     }
 
     override fun setDefaults(defaults: PublishingOptionsImpl) {
