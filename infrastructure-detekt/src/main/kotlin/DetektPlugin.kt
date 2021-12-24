@@ -1,19 +1,12 @@
 package com.redmadrobot.build.detekt
 
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.TestExtension
-import com.android.build.gradle.internal.core.InternalBaseVariant
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.detekt.DetektPlugin.Companion.BASELINE_KEYWORD
-import com.redmadrobot.build.detekt.internal.detektPlugins
-import com.redmadrobot.build.detekt.internal.getFileIfExists
-import com.redmadrobot.build.detekt.internal.hasKotlinPlugin
-import com.redmadrobot.build.detekt.internal.hasPlugin
+import com.redmadrobot.build.detekt.internal.*
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.Project
@@ -198,14 +191,11 @@ private inline fun Project.detektCreateBaselineTask(
 private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByType(
     variantName: String,
 ): TaskProvider<T> {
-    val isSubprojectAndroid = plugins.hasPlugin("com.android.application") ||
-        plugins.hasPlugin("com.android.library")
-
     val taskSuffix = BASELINE_KEYWORD
         .takeIf { T::class == DetektCreateBaselineTask::class }
         .orEmpty()
 
-    val taskProvider = if (isSubprojectAndroid) {
+    val taskProvider = if (isKotlinAndroidProject) {
         val baseExtensions = extensions.getByType<BaseExtension>()
         baseExtensions.checkVariantExists(variantName) { existingVariants ->
             val candidates = existingVariants.joinToString(", ") { variant ->
@@ -223,16 +213,9 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
     return taskProvider.also { taskProvider.configure { isEnabled = false } }
 }
 
-@Suppress("DefaultLocale")
 private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (List<String>) -> String) {
-    val variants = when (this) {
-        is AppExtension -> applicationVariants
-        is LibraryExtension -> libraryVariants
-        is TestExtension -> applicationVariants
-        else -> null
-    }
     val requiredVariant = variants?.find { it.name.capitalize() == variantName }
-    checkNotNull(requiredVariant) { lazyMessage.invoke(variants?.map(InternalBaseVariant::getName).orEmpty()) }
+    checkNotNull(requiredVariant) { lazyMessage.invoke(variants?.map { it.name }.orEmpty()) }
 }
 
 private fun createDetektVariantTaskName(suffix: String, variantName: String, postfix: String = ""): String {
@@ -240,12 +223,10 @@ private fun createDetektVariantTaskName(suffix: String, variantName: String, pos
 }
 
 private fun List<Project>.checkModulesContainDetekt(lazyMessage: (String) -> String) {
-    val missingPluginModules = filterNot { subproject ->
-        subproject.plugins.hasPlugin<io.gitlab.arturbosch.detekt.DetektPlugin>()
-    }
+    val detektMissingModules = filterNot(Project::hasDetektPlugin)
 
-    check(missingPluginModules.isEmpty()) {
-        val modulesName = missingPluginModules.joinToString(", ") { project -> "\"${project.name}\"" }
+    check(detektMissingModules.isEmpty()) {
+        val modulesName = detektMissingModules.joinToString(", ") { project -> "\"${project.name}\"" }
         lazyMessage.invoke(modulesName)
     }
 }
