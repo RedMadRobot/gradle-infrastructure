@@ -7,6 +7,10 @@
 - Kotlin 1.5.31 -> 1.6.10
 - JGit 5.12.0 -> 6.0.0
 
+### Added
+
+- Added workaround for the case when detekt ignores kotlin sources when run on Android project with type resolution (detekt/detekt#4177)
+
 ## [0.13] (2021-12-13)
 
 ### Change plugins naming convention

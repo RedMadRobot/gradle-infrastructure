@@ -32,6 +32,8 @@ public class DetektPlugin : InfrastructurePlugin() {
         configureDetektFormatTask(redmadrobotExtension)
         configureDetektAllTasks(redmadrobotExtension)
         configureDetektDiffTask(redmadrobotExtension, detektOptions)
+
+        applyAndroidSourceFixToAllProjects()
     }
 
     internal companion object {
