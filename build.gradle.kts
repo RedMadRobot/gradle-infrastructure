@@ -36,5 +36,5 @@ subprojects {
     }
 
     group = "com.redmadrobot.build"
-    version = "0.14"
+    version = "0.15-SNAPSHOT"
 }
