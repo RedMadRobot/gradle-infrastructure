@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.14] (2021-12-27)
+
 ### Dependencies
 
 - Android Gradle Plugin 4.2.2 -> 7.0.3 
@@ -433,7 +435,8 @@ Pull request: #35
 - Update dependencies in samples
 - Added CHANGELOG.md :)
 
-[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.13...main
+[unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.14]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.13..v0.14
 [0.13]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.2...v0.13
 [0.12.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...v0.12.2
 [0.12.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12...v0.12.1
