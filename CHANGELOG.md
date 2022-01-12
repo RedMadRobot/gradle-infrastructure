@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Dependencies
+
+- Android Gradle Plugin 7.0.3 -> 7.0.4
+- Android cache fix Gradle plugin 2.4.5 -> 2.4.6
+
 ## [0.14] (2021-12-27)
 
 ### Dependencies
