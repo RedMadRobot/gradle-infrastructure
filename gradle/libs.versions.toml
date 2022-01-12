@@ -1,14 +1,14 @@
 [versions]
-infrastructure = "0.13"
+infrastructure = "0.14"
 
 [libraries]
 infrastructure-kotlin = { module = "com.redmadrobot.build:infrastructure-kotlin", version.ref = "infrastructure" }
 infrastructure-detekt = { module = "com.redmadrobot.build:infrastructure-detekt", version.ref = "infrastructure" }
 infrastructure-publish = { module = "com.redmadrobot.build:infrastructure-publish", version.ref = "infrastructure" }
-androidTools-gradle = "com.android.tools.build:gradle:7.0.3"
+androidTools-gradle = "com.android.tools.build:gradle:7.0.4"
 androidTools-common = "com.android.tools:common:30.0.4"
-androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.4.5"
+androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.4.6"
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.19.0"
 kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
-pluginPublish = "com.gradle.publish:plugin-publish-plugin:0.18.0"
+pluginPublish = "com.gradle.publish:plugin-publish-plugin:0.19.0"
 jgit = "org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r"
