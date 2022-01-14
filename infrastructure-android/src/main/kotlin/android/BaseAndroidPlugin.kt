@@ -1,6 +1,6 @@
 package com.redmadrobot.build.android
 
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.CommonExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.test
@@ -11,6 +11,7 @@ import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.getPlugin
 import org.gradle.kotlin.dsl.repositories
 
 /**
@@ -19,6 +20,9 @@ import org.gradle.kotlin.dsl.repositories
  * @see AndroidApplicationPlugin
  */
 public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
+
+    protected val configPlugin: AndroidConfigPlugin
+        get() = project.plugins.getPlugin(AndroidConfigPlugin::class)
 
     /** Should be called from [configure] in implementation. */
     protected fun Project.applyBaseAndroidPlugin(pluginId: String) {
@@ -38,16 +42,16 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
     }
 }
 
+@Suppress("UnstableApiUsage")
 private fun Project.configureAndroid(
     options: AndroidOptions,
     jvmTarget: Property<JavaVersion>,
-) = android<BaseExtension> {
+) = android<CommonExtension<*, *, *, *>> {
     compileSdkVersion(options.compileSdk.get())
-    options.buildToolsVersion.orNull?.let(::buildToolsVersion)
+    options.buildToolsVersion.orNull?.let { buildToolsVersion = it }
 
     defaultConfig {
         minSdk = options.minSdk.get()
-        targetSdk = options.targetSdk.get()
     }
 
     // Set NDK version from env variable if exists
@@ -59,8 +63,7 @@ private fun Project.configureAndroid(
         targetCompatibility = jvmTarget.get()
     }
 
-    @Suppress("UnstableApiUsage")
-    with(buildFeatures) {
+    buildFeatures {
         aidl = false
         renderScript = false
         shaders = false
