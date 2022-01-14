@@ -1,7 +1,10 @@
+@file:Suppress("UnstableApiUsage") // We want to use new APIs
+
 package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.redmadrobot.build.android.internal.android
+import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
 import com.redmadrobot.build.dsl.BUILD_TYPE_RELEASE
@@ -19,17 +22,13 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.application")
 
-        configureApp(configPlugin.androidOptions)
+        configureApp()
+        finalizeApp(configPlugin.androidOptions)
     }
 }
 
-@Suppress("UnstableApiUsage") // We want to use new APIs
-private fun Project.configureApp(
-    androidOptions: AndroidOptions,
-) = android<ApplicationExtension> {
+private fun Project.configureApp() = android<ApplicationExtension> {
     defaultConfig {
-        targetSdk = androidOptions.targetSdk.get()
-
         // Keep only 'ru' resources by default
         resourceConfigurations.add("ru")
 
@@ -69,6 +68,14 @@ private fun Project.configureApp(
             matchingFallbacks += listOf(BUILD_TYPE_DEBUG, BUILD_TYPE_RELEASE)
             signingConfig = signingConfigs.findByName(BUILD_TYPE_DEBUG)
         }
+    }
+}
+
+private fun Project.finalizeApp(
+    androidOptions: AndroidOptions,
+) = androidFinalizeDsl<ApplicationExtension> {
+    defaultConfig {
+        targetSdk = androidOptions.targetSdk.get()
     }
 }
 
