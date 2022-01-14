@@ -1,17 +1,21 @@
+@file:Suppress("UnstableApiUsage") // We want to use new APIs
+
 package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.CommonExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
+import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.provider.Property
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getPlugin
 import org.gradle.kotlin.dsl.repositories
 
@@ -38,37 +42,39 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
         }
 
         configureKotlin(configPlugin.jvmTarget)
-        configureAndroid(configPlugin.androidOptions, configPlugin.jvmTarget, configPlugin.staticAnalyzerSpec)
+        configureAndroid()
+        applyAndroidOptions(configPlugin.androidOptions, configPlugin.jvmTarget, configPlugin.staticAnalyzerSpec)
         configureRepositories()
     }
 }
 
-@Suppress("UnstableApiUsage")
-private fun Project.configureAndroid(
+private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
+    // Set NDK version from env variable if exists
+    val requestedNdkVersion = System.getenv("ANDROID_NDK_VERSION")
+    if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
+
+    buildFeatures {
+        aidl = false
+        renderScript = false
+        shaders = false
+    }
+}
+
+private fun Project.applyAndroidOptions(
     options: AndroidOptions,
-    jvmTarget: Property<JavaVersion>,
+    jvmTarget: Provider<JavaVersion>,
     staticAnalyzerSpec: StaticAnalyzerSpec,
-) = android<CommonExtension<*, *, *, *>> {
-    compileSdkVersion(options.compileSdk.get())
+) = androidFinalizeDsl {
+    compileSdkPreview = options.compileSdk.get()
     options.buildToolsVersion.orNull?.let { buildToolsVersion = it }
 
     defaultConfig {
         minSdk = options.minSdk.get()
     }
 
-    // Set NDK version from env variable if exists
-    val requestedNdkVersion = System.getenv("ANDROID_NDK_VERSION")
-    if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
-
     compileOptions {
         sourceCompatibility = jvmTarget.get()
         targetCompatibility = jvmTarget.get()
-    }
-
-    buildFeatures {
-        aidl = false
-        renderScript = false
-        shaders = false
     }
 
     afterEvaluate {

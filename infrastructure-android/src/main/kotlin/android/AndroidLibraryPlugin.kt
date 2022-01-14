@@ -1,7 +1,10 @@
+@file:Suppress("UnstableApiUsage") // We want to use new APIs
+
 package com.redmadrobot.build.android
 
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.android.internal.android
+import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.kotlin.internal.kotlin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
@@ -21,16 +24,16 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
         applyBaseAndroidPlugin("com.android.library")
         val androidOptions = configPlugin.androidOptions
 
-        @Suppress("UnstableApiUsage")
         android<LibraryExtension> {
-            defaultConfig {
-                targetSdk = androidOptions.targetSdk.get()
-            }
-
             buildFeatures {
                 buildConfig = false
                 resValues = false
                 androidResources = false
+            }
+        }
+        androidFinalizeDsl<LibraryExtension> {
+            defaultConfig {
+                targetSdk = androidOptions.targetSdk.get()
             }
         }
 

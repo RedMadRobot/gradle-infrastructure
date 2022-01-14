@@ -14,10 +14,14 @@
   ```
 - Apply Lint settings to android-library modules (#98)
 
-### Changes
+### Changed
 
 - Switch to experimental API added in AGP 7.0.0
 - Changed QA build type fallbacks from `[release]` to `[debug, release]`
+
+### Fixed
+
+- Fixed error when trying to override `jvmTarget` or `android` options or in subprojects
 
 ### Dependencies
 
