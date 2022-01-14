@@ -2,6 +2,7 @@ package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.CommonExtension
 import com.redmadrobot.build.InfrastructurePlugin
+import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.kotlin.internal.configureKotlin
@@ -37,7 +38,7 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
         }
 
         configureKotlin(configPlugin.jvmTarget)
-        configureAndroid(configPlugin.androidOptions, configPlugin.jvmTarget)
+        configureAndroid(configPlugin.androidOptions, configPlugin.jvmTarget, configPlugin.staticAnalyzerSpec)
         configureRepositories()
     }
 }
@@ -46,6 +47,7 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 private fun Project.configureAndroid(
     options: AndroidOptions,
     jvmTarget: Property<JavaVersion>,
+    staticAnalyzerSpec: StaticAnalyzerSpec,
 ) = android<CommonExtension<*, *, *, *>> {
     compileSdkVersion(options.compileSdk.get())
     options.buildToolsVersion.orNull?.let { buildToolsVersion = it }
@@ -79,6 +81,16 @@ private fun Project.configureAndroid(
 
     testOptions {
         unitTests.all { it.setTestOptions(options.test) }
+    }
+
+    lint {
+        isCheckDependencies = true
+        isAbortOnError = true
+        isWarningsAsErrors = true
+        xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile
+        htmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.html").get().asFile
+        lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
+        baselineFile = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
     }
 }
 

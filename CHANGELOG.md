@@ -12,6 +12,7 @@
       }
   }
   ```
+- Apply Lint settings to android-library modules (#98)
 
 ### Changes
 
