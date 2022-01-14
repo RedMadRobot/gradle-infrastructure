@@ -1,5 +1,18 @@
 ## [Unreleased]
 
+### Added
+
+- Shortcuts for easy access to QA build type:
+  ```kotlin
+  android {
+      buildTypes {
+          qa {
+              // ...
+          }
+      }
+  }
+  ```
+
 ### Changes
 
 - Switch to experimental API added in AGP 7.0.0
