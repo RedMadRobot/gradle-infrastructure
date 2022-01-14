@@ -1,6 +1,8 @@
 package com.redmadrobot.build.dsl
 
+import com.android.build.api.dsl.BuildType
 import com.redmadrobot.build.kotlin.internal.findStringProperty
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 
 /** Debug build type name. */
@@ -23,3 +25,25 @@ internal fun Project.finalizeQaBuildType() {
     BUILD_TYPE_QA = findStringProperty("redmadrobot.android.build.type.qa") ?: BUILD_TYPE_QA
     qaBuildTypeFinalized = true
 }
+
+/**
+ * Shortcut extension field to get the predefined QA [BuildType].
+ */
+public val <BuildTypeT : BuildType> NamedDomainObjectContainer<BuildTypeT>.qa: BuildTypeT
+    get() = getByName(BUILD_TYPE_QA)
+
+/**
+ * Shortcut extension method to allow easy access to the predefined `qa` [BuildType]:
+ * ```
+ * android {
+ *     buildTypes {
+ *         qa {
+ *             // ...
+ *         }
+ *     }
+ * }
+ * ```
+ */
+public fun <BuildTypeT : BuildType> NamedDomainObjectContainer<BuildTypeT>.qa(
+    action: BuildTypeT.() -> Unit,
+): BuildTypeT = getByName(BUILD_TYPE_QA, action)
