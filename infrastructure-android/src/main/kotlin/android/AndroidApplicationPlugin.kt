@@ -1,7 +1,6 @@
 package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
@@ -20,14 +19,13 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.application")
 
-        configureApp(configPlugin.androidOptions, redmadrobotExtension)
+        configureApp(configPlugin.androidOptions)
     }
 }
 
 @Suppress("UnstableApiUsage") // We want to use new APIs
 private fun Project.configureApp(
     androidOptions: AndroidOptions,
-    staticAnalyzerSpec: StaticAnalyzerSpec,
 ) = android<ApplicationExtension> {
     defaultConfig {
         targetSdk = androidOptions.targetSdk.get()
@@ -71,16 +69,6 @@ private fun Project.configureApp(
             matchingFallbacks += listOf(BUILD_TYPE_DEBUG, BUILD_TYPE_RELEASE)
             signingConfig = signingConfigs.findByName(BUILD_TYPE_DEBUG)
         }
-    }
-
-    lint {
-        isCheckDependencies = true
-        isAbortOnError = true
-        isWarningsAsErrors = true
-        xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile
-        htmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.html").get().asFile
-        lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
-        baselineFile = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
     }
 }
 
