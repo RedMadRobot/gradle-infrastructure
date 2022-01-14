@@ -5,7 +5,6 @@ import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.java
 import com.redmadrobot.build.kotlin.internal.kotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
@@ -24,18 +23,19 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
         apply(plugin = "kotlin")
         val configPlugin = plugins.apply(KotlinConfigPlugin::class)
 
-        java {
-            targetCompatibility = JavaVersion.VERSION_1_8
-            sourceCompatibility = JavaVersion.VERSION_1_8
-        }
-
         // Enable Explicit API mode for libraries by default
         kotlin.explicitApi()
 
-        val extension = redmadrobotExtension
-        configureKotlin(extension.jvmTarget)
+        configureKotlin(configPlugin.jvmTarget)
         configureKotlinTest(configPlugin.testOptions)
         configureRepositories()
+
+        afterEvaluate {
+            java {
+                targetCompatibility = configPlugin.jvmTarget.get()
+                sourceCompatibility = configPlugin.jvmTarget.get()
+            }
+        }
     }
 }
 
