@@ -22,6 +22,7 @@
 ### Fixed
 
 - Fixed error when trying to override `jvmTarget` or `android` options or in subprojects
+- Use `jvmTarget` for java target and source compatibility (#93)
 
 ### Dependencies
 
