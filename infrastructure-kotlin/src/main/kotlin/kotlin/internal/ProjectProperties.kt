@@ -7,5 +7,5 @@ internal fun Project.findBooleanProperty(propertyName: String): Boolean? {
 }
 
 public fun Project.findStringProperty(propertyName: String): String? {
-    return project.findProperty(propertyName) as? String
+    return providers.gradleProperty(propertyName).forUseAtConfigurationTime().orNull
 }
