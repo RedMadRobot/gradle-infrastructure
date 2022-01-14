@@ -68,7 +68,7 @@ private fun Project.configureApp(
             initWith(getByName(BUILD_TYPE_RELEASE))
             applicationIdSuffix = ".$BUILD_TYPE_QA"
             isDebuggable = true
-            matchingFallbacks += BUILD_TYPE_RELEASE
+            matchingFallbacks += listOf(BUILD_TYPE_DEBUG, BUILD_TYPE_RELEASE)
             signingConfig = signingConfigs.findByName(BUILD_TYPE_DEBUG)
         }
     }

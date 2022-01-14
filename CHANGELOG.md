@@ -3,6 +3,7 @@
 ### Changes
 
 - Switch to experimental API added in AGP 7.0.0
+- Changed QA build type fallbacks from `[release]` to `[debug, release]`
 
 ### Dependencies
 
