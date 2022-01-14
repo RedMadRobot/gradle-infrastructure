@@ -50,7 +50,9 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 
 private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
     // Set NDK version from env variable if exists
-    val requestedNdkVersion = System.getenv("ANDROID_NDK_VERSION")
+    val requestedNdkVersion = providers.environmentVariable("ANDROID_NDK_VERSION")
+        .forUseAtConfigurationTime()
+        .orNull
     if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
 
     buildFeatures {

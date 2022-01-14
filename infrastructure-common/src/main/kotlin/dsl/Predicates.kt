@@ -1,5 +1,7 @@
 package com.redmadrobot.build.dsl
 
+import org.gradle.api.Project
+
 /** Returns `true` if build is running on CI. */
-public val isRunningOnCi: Boolean
-    get() = System.getenv("CI") == "true"
+public val Project.isRunningOnCi: Boolean
+    get() = providers.environmentVariable("CI").forUseAtConfigurationTime().orNull == "true"
