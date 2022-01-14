@@ -2,7 +2,7 @@ package com.redmadrobot.build.dsl
 
 import com.android.SdkConstants.*
 import com.android.build.api.dsl.AndroidSourceSet
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Incubating
 import org.gradle.kotlin.dsl.get
 
@@ -20,7 +20,7 @@ import org.gradle.kotlin.dsl.get
  * ```
  */
 @Incubating
-public fun BaseExtension.addSharedSourceSetRoot(
+public fun CommonExtension<*, *, *, *>.addSharedSourceSetRoot(
     variant1: String,
     variant2: String,
     name: String = "$variant1${variant2.capitalize()}",

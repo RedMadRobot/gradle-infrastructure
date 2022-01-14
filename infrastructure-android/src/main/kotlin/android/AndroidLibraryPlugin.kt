@@ -19,9 +19,14 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
 
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.library")
+        val androidOptions = configPlugin.androidOptions
 
+        @Suppress("UnstableApiUsage")
         android<LibraryExtension> {
-            @Suppress("UnstableApiUsage")
+            defaultConfig {
+                targetSdk = androidOptions.targetSdk.get()
+            }
+
             buildFeatures {
                 buildConfig = false
                 resValues = false

@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Changes
+
+- Switch to experimental API added in AGP 7.0.0
+
 ### Dependencies
 
 - Android Gradle Plugin 7.0.3 -> 7.0.4

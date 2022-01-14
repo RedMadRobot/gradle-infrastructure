@@ -1,7 +1,7 @@
 package com.redmadrobot.build.android
 
-import com.android.build.gradle.AppExtension
-import com.redmadrobot.build.RedmadrobotExtension
+import com.android.build.api.dsl.ApplicationExtension
+import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
@@ -20,16 +20,20 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.application")
 
-        configureApp(redmadrobotExtension)
+        configureApp(configPlugin.androidOptions, redmadrobotExtension)
     }
 }
 
+@Suppress("UnstableApiUsage") // We want to use new APIs
 private fun Project.configureApp(
-    extension: RedmadrobotExtension,
-) = android<AppExtension> {
+    androidOptions: AndroidOptions,
+    staticAnalyzerSpec: StaticAnalyzerSpec,
+) = android<ApplicationExtension> {
     defaultConfig {
-        // Keep only 'ru' resources
-        addResourceConfiguration("ru")
+        targetSdk = androidOptions.targetSdk.get()
+
+        // Keep only 'ru' resources by default
+        resourceConfigurations.add("ru")
 
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(
@@ -43,7 +47,7 @@ private fun Project.configureApp(
 
     finalizeQaBuildType()
     buildTypes {
-        getByName(BUILD_TYPE_DEBUG) {
+        debug {
             applicationIdSuffix = ".$BUILD_TYPE_DEBUG"
             isDebuggable = true
             isMinifyEnabled = false
@@ -53,7 +57,7 @@ private fun Project.configureApp(
             buildConfigField("boolean", VAR_CRASH_REPORTS_ENABLED, "false")
         }
 
-        val release = getByName(BUILD_TYPE_RELEASE) {
+        release {
             applicationIdSuffix = ""
             isDebuggable = false
             isMinifyEnabled = true
@@ -61,7 +65,7 @@ private fun Project.configureApp(
         }
 
         register(BUILD_TYPE_QA) {
-            initWith(release)
+            initWith(getByName(BUILD_TYPE_RELEASE))
             applicationIdSuffix = ".$BUILD_TYPE_QA"
             isDebuggable = true
             matchingFallbacks += BUILD_TYPE_RELEASE
@@ -69,14 +73,14 @@ private fun Project.configureApp(
         }
     }
 
-    lintOptions {
+    lint {
         isCheckDependencies = true
         isAbortOnError = true
         isWarningsAsErrors = true
-        xmlOutput = extension.reportsDir.file("lint-results.xml").get().asFile
-        htmlOutput = extension.reportsDir.file("lint-results.html").get().asFile
-        lintConfig = extension.configsDir.file("lint/lint.xml").get().asFile
-        baselineFile = extension.configsDir.file("lint/lint-baseline.xml").get().asFile
+        xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile
+        htmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.html").get().asFile
+        lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
+        baselineFile = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
     }
 }
 
