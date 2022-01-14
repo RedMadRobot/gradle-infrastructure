@@ -13,9 +13,11 @@
   }
   ```
 - Apply Lint settings to android-library modules (#98)
+- Configuration caching support (experimental)
 
 ### Changed
 
+- **Breaking change:** property `isRunningOnCi` changed to an extension-property on `Project` for configuration caching support
 - Switch to experimental API added in AGP 7.0.0
 - Changed QA build type fallbacks from `[release]` to `[debug, release]`
 
