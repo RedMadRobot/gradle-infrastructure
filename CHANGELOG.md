@@ -14,6 +14,7 @@
   ```
 - Apply Lint settings to android-library modules (#98)
 - Configuration caching support (experimental)
+- Version catalogs publication via `com.redmadrobot.publish`
 
 ### Changed
 

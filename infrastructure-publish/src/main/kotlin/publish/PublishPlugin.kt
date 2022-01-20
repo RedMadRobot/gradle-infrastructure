@@ -29,6 +29,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
             val publicationName = when {
                 plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
                 plugins.hasPlugin("java-gradle-plugin") && isPluginAutomatedPublishing -> configurePluginPublication()
+                plugins.hasPlugin("org.gradle.version-catalog") -> configureVersionCatalogPublication()
                 else -> configurePublication()
             }
 
@@ -77,6 +78,16 @@ public open class PublishPlugin : InfrastructurePlugin() {
         }
 
         return PLUGIN_PUBLICATION_NAME
+    }
+
+    private fun Project.configureVersionCatalogPublication(): String {
+        publishing {
+            publications.create<MavenPublication>(PUBLICATION_NAME) {
+                from(components["versionCatalog"])
+            }
+        }
+
+        return PUBLICATION_NAME
     }
 
     private fun Project.configurePublication(): String {
