@@ -49,6 +49,12 @@ public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
 }
 
 private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
+    // Compile SDK is configured in finalizeDsl block, so here we can specify any value
+    // Without this line finalizeDsl will not be called at all.
+    // TODO: Remove this hack, when the issue will be fixed
+    //  https://issuetracker.google.com/issues/215407138
+    compileSdk = -1
+
     // Set NDK version from env variable if exists
     val requestedNdkVersion = providers.environmentVariable("ANDROID_NDK_VERSION")
         .forUseAtConfigurationTime()
