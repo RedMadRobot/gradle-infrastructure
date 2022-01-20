@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.15] (2022-01-20)
+
 ### Added
 
 - Shortcuts for easy access to QA build type:
@@ -468,6 +470,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.15]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.14..v0.15
 [0.14]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.13..v0.14
 [0.13]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.2...v0.13
 [0.12.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.12.1...v0.12.2
