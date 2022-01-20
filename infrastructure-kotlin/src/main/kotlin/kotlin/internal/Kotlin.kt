@@ -13,7 +13,7 @@ public fun InfrastructurePlugin.configureKotlin(jvmTargetProperty: Provider<Java
         kotlinOptions {
             jvmTarget = jvmTargetProperty.get().toString()
             allWarningsAsErrors = warningsAsErrors
-            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+            freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
         }
     }
 }
