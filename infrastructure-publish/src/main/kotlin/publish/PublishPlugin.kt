@@ -27,7 +27,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
             val publicationName = when {
-                plugins.hasPlugin("kotlin-android") -> configureAndroidPublication()
+                plugins.hasPlugin("com.android.library") -> configureAndroidPublication()
                 plugins.hasPlugin("java-gradle-plugin") && isPluginAutomatedPublishing -> configurePluginPublication()
                 plugins.hasPlugin("org.gradle.version-catalog") -> configureVersionCatalogPublication()
                 else -> configurePublication()
@@ -50,11 +50,6 @@ public open class PublishPlugin : InfrastructurePlugin() {
 
     private fun Project.configureAndroidPublication(): String {
         val android = extensions.getByType<BaseExtension>()
-        if (version == Project.DEFAULT_VERSION) {
-            version = checkNotNull(android.defaultConfig.versionName) {
-                "You should specify either project 'version' or 'android.versionName' for publication."
-            }
-        }
 
         val sourcesJar = tasks.register<Jar>("sourcesJar") {
             archiveClassifier.set("sources")
