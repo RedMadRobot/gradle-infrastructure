@@ -5,6 +5,10 @@
 - **publish:** Check if a publication can be configured automatically for the project
 - **android:** Add files from `proguard/` directory to `consumerProguardFiles` in `android-library` modules (#101)
 
+### Dependencies
+
+- Detekt 1.19.0 -> 1.20.0
+
 ## [0.15] (2022-01-20)
 
 ### Added

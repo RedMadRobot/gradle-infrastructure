@@ -32,8 +32,6 @@ public class DetektPlugin : InfrastructurePlugin() {
         configureDetektFormatTask(redmadrobotExtension)
         configureDetektAllTasks(redmadrobotExtension)
         configureDetektDiffTask(redmadrobotExtension, detektOptions)
-
-        applyAndroidSourceFixToAllProjects()
     }
 
     internal companion object {
@@ -47,7 +45,7 @@ private fun Project.configureDependencies() {
     }
 
     dependencies {
-        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
     }
 }
 
