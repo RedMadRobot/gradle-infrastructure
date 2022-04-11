@@ -102,8 +102,6 @@ private fun Project.applyAndroidOptions(
     }
 
     lint {
-        xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile
-        htmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.html").get().asFile
         lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
         baseline = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
     }
