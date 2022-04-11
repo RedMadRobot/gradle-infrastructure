@@ -27,10 +27,20 @@ public open class PublishPlugin : InfrastructurePlugin() {
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
             val publicationName = when {
-                plugins.hasPlugin("com.android.library") -> configureAndroidPublication()
+                plugins.hasPlugin("com.android.library") -> configureAndroidLibraryPublication()
                 plugins.hasPlugin("java-gradle-plugin") && isPluginAutomatedPublishing -> configurePluginPublication()
                 plugins.hasPlugin("org.gradle.version-catalog") -> configureVersionCatalogPublication()
-                else -> configurePublication()
+                plugins.hasPlugin("java") -> configureJavaLibraryPublication()
+
+                else -> {
+                    logger.warn(
+                        """
+                        Can not automatically configure publishing for the project ${project.name}.
+                        Project type has not recognized.
+                        """.trimIndent()
+                    )
+                    return@afterEvaluate
+                }
             }
 
             val options = configPlugin.publishingOptions
@@ -48,7 +58,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
         }
     }
 
-    private fun Project.configureAndroidPublication(): String {
+    private fun Project.configureAndroidLibraryPublication(): String {
         val android = extensions.getByType<BaseExtension>()
 
         val sourcesJar = tasks.register<Jar>("sourcesJar") {
@@ -85,7 +95,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
         return PUBLICATION_NAME
     }
 
-    private fun Project.configurePublication(): String {
+    private fun Project.configureJavaLibraryPublication(): String {
         java {
             withSourcesJar()
             withJavadocJar()

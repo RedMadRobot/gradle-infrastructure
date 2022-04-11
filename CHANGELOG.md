@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+
+- **publish:** Check if a publication can be configured automatically for the project
+
 ## [0.15] (2022-01-20)
 
 ### Added
