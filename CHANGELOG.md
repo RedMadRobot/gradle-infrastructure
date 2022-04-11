@@ -7,11 +7,14 @@
 
 ### Changed
 
+- **android:** Default target API changed to 32
 - Revert change from **0.15** when `isRunningOnCi` were made extension on `Project`
 
 ### Dependencies
 
-- Detekt 1.19.0 -> 1.20.0
+- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-1-0) `7.0.4` → `7.1.3`
+- [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v2.5.1) `2.4.6` → `2.5.1`
+- [detekt](https://github.com/detekt/detekt/releases/tag/v1.20.0) `1.19.0` → `1.20.0`
 
 ## [0.15] (2022-01-20)
 

@@ -19,7 +19,7 @@ internal abstract class AndroidOptionsImpl : AndroidOptions, WithDefaults<Androi
             .convention(AndroidOptions.DEFAULT_TARGET_API)
             .finalizeValueOnRead()
         compileSdk
-            .convention(targetSdk.map { "android-$it" })
+            .convention(targetSdk.map(Int::toString))
             .finalizeValueOnRead()
         buildToolsVersion
             .finalizeValueOnRead()

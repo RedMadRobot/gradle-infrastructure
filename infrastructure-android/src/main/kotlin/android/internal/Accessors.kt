@@ -23,7 +23,7 @@ internal fun <T : CommonExtension<*, *, *, *>> Project.androidFinalizeDsl(
     configure: T.() -> Unit,
 ) {
     extensions.getByName<AndroidComponentsExtension<T, *, *>>("androidComponents")
-        .finalizeDsl { it.configure() }
+        .finalizeDsl(configure)
 }
 
 internal val AndroidOptions.test: TestOptions
