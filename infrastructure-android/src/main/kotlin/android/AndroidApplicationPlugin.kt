@@ -3,6 +3,7 @@
 package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.android.internal.projectProguardFiles
@@ -24,7 +25,7 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
         applyBaseAndroidPlugin("com.android.application")
 
         configureApp()
-        finalizeApp(configPlugin.androidOptions)
+        finalizeApp(configPlugin.androidOptions, configPlugin.staticAnalyzerSpec)
     }
 }
 
@@ -71,9 +72,15 @@ private fun Project.configureApp() = android<ApplicationExtension> {
 
 private fun Project.finalizeApp(
     androidOptions: AndroidOptions,
+    staticAnalyzerSpec: StaticAnalyzerSpec,
 ) = androidFinalizeDsl<ApplicationExtension> {
     defaultConfig {
         targetSdk = androidOptions.targetSdk.get()
+    }
+
+    lint {
+        xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile
+        htmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.html").get().asFile
     }
 }
 

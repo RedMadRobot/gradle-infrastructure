@@ -8,6 +8,8 @@
 ### Changed
 
 - **android:** Default target API changed to 32
+- **android:** Lint results location now configured only for `application` modules.
+  Lint running will no longer conflict in `android-library` modules (#102)
 - Revert change from **0.15** when `isRunningOnCi` were made extension on `Project`
 
 ### Dependencies
