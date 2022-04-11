@@ -3,6 +3,7 @@
 ### Added
 
 - **publish:** Check if a publication can be configured automatically for the project
+- **android:** Add files from `proguard/` directory to `consumerProguardFiles` in `android-library` modules (#101)
 
 ## [0.15] (2022-01-20)
 
