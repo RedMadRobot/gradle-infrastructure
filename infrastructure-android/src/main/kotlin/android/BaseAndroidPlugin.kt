@@ -64,6 +64,12 @@ private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
         renderScript = false
         shaders = false
     }
+
+    lint {
+        checkDependencies = true
+        abortOnError = true
+        warningsAsErrors = true
+    }
 }
 
 private fun Project.applyAndroidOptions(
@@ -71,7 +77,7 @@ private fun Project.applyAndroidOptions(
     jvmTarget: Provider<JavaVersion>,
     staticAnalyzerSpec: StaticAnalyzerSpec,
 ) = androidFinalizeDsl {
-    compileSdkPreview = options.compileSdk.get()
+    setCompileSdkVersion(options.compileSdk.get())
     options.buildToolsVersion.orNull?.let { buildToolsVersion = it }
 
     defaultConfig {
@@ -96,13 +102,20 @@ private fun Project.applyAndroidOptions(
     }
 
     lint {
-        isCheckDependencies = true
-        isAbortOnError = true
-        isWarningsAsErrors = true
         xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile
         htmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.html").get().asFile
         lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
-        baselineFile = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
+        baseline = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
+    }
+}
+
+/** Universal function to set compile SDK even if it is preview version. */
+private fun CommonExtension<*, *, *, *>.setCompileSdkVersion(version: String) {
+    val intVersion = version.toIntOrNull()
+    if (intVersion != null) {
+        compileSdk = intVersion
+    } else {
+        compileSdkPreview = version
     }
 }
 

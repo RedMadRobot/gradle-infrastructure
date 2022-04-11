@@ -13,8 +13,8 @@ public interface AndroidOptions {
 
     /**
      * Compile Android SDK to use across all android modules.
-     * Format: `android-XX` where `XX` is required API level.
-     * Uses [targetSdk] as API level if not configured.
+     * It can be version number ("33") or version code ("T").
+     * Uses [targetSdk] as compile SDK if not configured.
      */
     public val compileSdk: Property<String>
 
@@ -35,6 +35,6 @@ public interface AndroidOptions {
 
     public companion object {
         internal const val DEFAULT_MIN_API = 21
-        internal const val DEFAULT_TARGET_API = 31
+        internal const val DEFAULT_TARGET_API = 32
     }
 }
