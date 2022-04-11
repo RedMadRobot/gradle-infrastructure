@@ -5,6 +5,7 @@ package com.redmadrobot.build.android
 import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidFinalizeDsl
+import com.redmadrobot.build.android.internal.projectProguardFiles
 import com.redmadrobot.build.kotlin.internal.kotlin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
@@ -25,6 +26,11 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
         val androidOptions = configPlugin.androidOptions
 
         android<LibraryExtension> {
+            defaultConfig {
+                // Add all files from 'proguard' dir
+                consumerProguardFiles.addAll(projectProguardFiles())
+            }
+
             buildFeatures {
                 buildConfig = false
                 resValues = false

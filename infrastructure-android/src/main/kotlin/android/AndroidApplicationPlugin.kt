@@ -5,6 +5,7 @@ package com.redmadrobot.build.android
 import com.android.build.api.dsl.ApplicationExtension
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidFinalizeDsl
+import com.redmadrobot.build.android.internal.projectProguardFiles
 import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
 import com.redmadrobot.build.dsl.BUILD_TYPE_RELEASE
@@ -33,10 +34,7 @@ private fun Project.configureApp() = android<ApplicationExtension> {
         resourceConfigurations.add("ru")
 
         // Collect proguard rules from 'proguard' dir
-        setProguardFiles(
-            fileTree("proguard").files.filter { file -> file.extension == "pro" } +
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-        )
+        setProguardFiles(projectProguardFiles() + getDefaultProguardFile("proguard-android-optimize.txt"))
 
         buildConfigField("boolean", VAR_LOCK_ORIENTATION, "true")
         buildConfigField("boolean", VAR_CRASH_REPORTS_ENABLED, "true")

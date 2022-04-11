@@ -204,8 +204,6 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 
 ## Android Plugins
 
-> These plugins require `infrastructure-android` to use instead of `infrastructure`.
-
 ### application and android-library
 
 Common configurations for Android libraries and application.
@@ -219,7 +217,8 @@ Both:
 
 Library:
 - Applies plugin `com.android.library`
-- Disables `buildConfig` and `resValues` [build-features]
+- Adds all proguard files from `proguard` folder as `consumerProguardFiles`
+- Disables `buildConfig`, `androidResources` and `resValues` [build-features]
 - Enables [explicit API mode][explicit-api]
 
 Application:
@@ -229,7 +228,7 @@ Application:
 - Adds `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` BuildConfig variables which `false` only for `debug` build type
 - Configures Android Lint [default options][lint-options]
 
-#### QA build type name confguration
+#### QA build type name configuration
 
 By default, for QA builds used name "qa", but you can configure `BUILD_TYPE_QA` via `gradle.properties`:
 
