@@ -56,9 +56,7 @@ private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
     compileSdk = -1
 
     // Set NDK version from env variable if exists
-    val requestedNdkVersion = providers.environmentVariable("ANDROID_NDK_VERSION")
-        .forUseAtConfigurationTime()
-        .orNull
+    val requestedNdkVersion = System.getenv("ANDROID_NDK_VERSION")
     if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
 
     buildFeatures {

@@ -5,6 +5,10 @@
 - **publish:** Check if a publication can be configured automatically for the project
 - **android:** Add files from `proguard/` directory to `consumerProguardFiles` in `android-library` modules (#101)
 
+### Changed
+
+- Revert change from **0.15** when `isRunningOnCi` were made extension on `Project`
+
 ### Dependencies
 
 - Detekt 1.19.0 -> 1.20.0
