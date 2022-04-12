@@ -1,10 +1,12 @@
 package com.redmadrobot.build.android
 
 import com.redmadrobot.build.WithDefaults
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.TestOptionsImpl
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.create
 
+@OptIn(InternalGradleInfrastructureApi::class)
 @Suppress("LeakingThis")
 internal abstract class AndroidOptionsImpl : AndroidOptions, WithDefaults<AndroidOptionsImpl> {
 

@@ -6,6 +6,7 @@ import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.android.internal.projectProguardFiles
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.kotlin
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
@@ -21,6 +22,7 @@ private const val ARG_EXPLICIT_API = "-Xexplicit-api"
  */
 public class AndroidLibraryPlugin : BaseAndroidPlugin() {
 
+    @InternalGradleInfrastructureApi
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.library")
         val androidOptions = configPlugin.androidOptions

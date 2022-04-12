@@ -1,6 +1,7 @@
 package com.redmadrobot.build.kotlin
 
 import com.redmadrobot.build.InfrastructurePlugin
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.java
 import com.redmadrobot.build.kotlin.internal.kotlin
@@ -19,6 +20,7 @@ import org.gradle.kotlin.dsl.withType
  */
 public class KotlinLibraryPlugin : InfrastructurePlugin() {
 
+    @InternalGradleInfrastructureApi
     override fun Project.configure() {
         apply(plugin = "kotlin")
         val configPlugin = plugins.apply(KotlinConfigPlugin::class)
@@ -39,6 +41,7 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
     }
 }
 
+@OptIn(InternalGradleInfrastructureApi::class)
 private fun Project.configureKotlinTest(options: TestOptions) {
     tasks.withType<Test>().configureEach { setTestOptions(options) }
 }

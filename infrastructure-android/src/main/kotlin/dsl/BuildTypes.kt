@@ -1,6 +1,7 @@
 package com.redmadrobot.build.dsl
 
 import com.android.build.api.dsl.BuildType
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.findStringProperty
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
@@ -20,6 +21,7 @@ public var BUILD_TYPE_QA: String = "qa"
 
 private var qaBuildTypeFinalized: Boolean = false
 
+@OptIn(InternalGradleInfrastructureApi::class)
 internal fun Project.finalizeQaBuildType() {
     if (qaBuildTypeFinalized) return
     BUILD_TYPE_QA = findStringProperty("redmadrobot.android.build.type.qa") ?: BUILD_TYPE_QA

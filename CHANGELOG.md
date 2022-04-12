@@ -13,6 +13,10 @@
 - **publish:** Migrate android-library publication to the [new publishing API](https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/LibraryPublishing) introduced in AGP 7.1
 - Revert change from **0.15** when `isRunningOnCi` were made extension on `Project`
 
+### Housekeeping
+
+- Added `@InternalGradleInfrastructureApi` annotation to all API that not intended for public use
+
 ### Dependencies
 
 - [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-1-0) `7.0.4` → `7.1.3`
