@@ -2,6 +2,7 @@ package com.redmadrobot.build.android
 
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.KotlinConfigPlugin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
@@ -25,6 +26,7 @@ public open class AndroidConfigPlugin : InfrastructurePlugin() {
     internal val staticAnalyzerSpec: StaticAnalyzerSpec
         get() = redmadrobotExtension
 
+    @InternalGradleInfrastructureApi
     override fun Project.configure() {
         val kotlinConfigPlugin = plugins.apply(KotlinConfigPlugin::class)
         androidOptions = createExtension("android")

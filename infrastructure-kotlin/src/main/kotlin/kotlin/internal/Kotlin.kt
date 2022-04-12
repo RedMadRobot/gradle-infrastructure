@@ -3,10 +3,12 @@ package com.redmadrobot.build.kotlin.internal
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.dsl.isRunningOnCi
 import com.redmadrobot.build.dsl.kotlinCompile
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
 
+@InternalGradleInfrastructureApi
 public fun InfrastructurePlugin.configureKotlin(jvmTargetProperty: Provider<JavaVersion>) {
     val warningsAsErrors = project.getWarningsAsErrorsProperty()
     project.kotlinCompile {

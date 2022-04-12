@@ -11,6 +11,7 @@ import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
 import com.redmadrobot.build.dsl.BUILD_TYPE_RELEASE
 import com.redmadrobot.build.dsl.finalizeQaBuildType
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import org.gradle.api.Project
 
 /**
@@ -21,6 +22,7 @@ import org.gradle.api.Project
  */
 public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
+    @InternalGradleInfrastructureApi
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.application")
 

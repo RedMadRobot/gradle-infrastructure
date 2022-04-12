@@ -7,6 +7,7 @@ import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.ChangeType
 import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.detekt.DetektPlugin.Companion.BASELINE_KEYWORD
 import com.redmadrobot.build.detekt.internal.*
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.Project
@@ -22,6 +23,7 @@ import org.gradle.kotlin.dsl.*
  */
 public class DetektPlugin : InfrastructurePlugin() {
 
+    @InternalGradleInfrastructureApi
     override fun Project.configure() {
         apply(plugin = "io.gitlab.arturbosch.detekt")
 

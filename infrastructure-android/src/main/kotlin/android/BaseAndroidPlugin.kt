@@ -8,6 +8,7 @@ import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.android.internal.test
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.JavaVersion
@@ -24,12 +25,13 @@ import org.gradle.kotlin.dsl.repositories
  * @see AndroidLibraryPlugin
  * @see AndroidApplicationPlugin
  */
-public abstract class BaseAndroidPlugin : InfrastructurePlugin() {
+public abstract class BaseAndroidPlugin internal constructor() : InfrastructurePlugin() {
 
     protected val configPlugin: AndroidConfigPlugin
         get() = project.plugins.getPlugin(AndroidConfigPlugin::class)
 
     /** Should be called from [configure] in implementation. */
+    @InternalGradleInfrastructureApi
     protected fun Project.applyBaseAndroidPlugin(pluginId: String) {
         val configPlugin = plugins.apply(AndroidConfigPlugin::class)
         apply {
@@ -72,6 +74,7 @@ private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
     }
 }
 
+@OptIn(InternalGradleInfrastructureApi::class)
 private fun Project.applyAndroidOptions(
     options: AndroidOptions,
     jvmTarget: Provider<JavaVersion>,

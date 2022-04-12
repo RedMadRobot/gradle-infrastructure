@@ -1,12 +1,14 @@
 package com.redmadrobot.build.kotlin
 
 import com.redmadrobot.build.WithDefaults
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.setFinalValue
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.testing.TestFrameworkOptions
 import org.gradle.api.tasks.testing.junit.JUnitOptions
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 
+@InternalGradleInfrastructureApi
 @Suppress("LeakingThis")
 public abstract class TestOptionsImpl : TestOptions, WithDefaults<TestOptionsImpl> {
 

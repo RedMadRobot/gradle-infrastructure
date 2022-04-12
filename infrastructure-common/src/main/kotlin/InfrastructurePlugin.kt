@@ -1,5 +1,6 @@
 package com.redmadrobot.build
 
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.findByName
 import com.redmadrobot.build.internal.parents
 import org.gradle.api.Plugin
@@ -13,6 +14,7 @@ import org.gradle.api.plugins.ExtensionContainer
  */
 public abstract class InfrastructurePlugin : Plugin<Project> {
 
+    @InternalGradleInfrastructureApi
     public lateinit var project: Project
         private set
 
@@ -20,19 +22,23 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
         private set
 
     @PublishedApi
+    @InternalGradleInfrastructureApi
     internal val redmadrobotExtensions: Sequence<RedmadrobotExtensionImpl>
         get() = project.parents.mapNotNull { it.extensions.redmadrobot }
 
     /** @see configure */
+    @OptIn(InternalGradleInfrastructureApi::class)
     final override fun apply(target: Project) {
         project = target
         redmadrobotExtension = project.extensions.obtainRedmadrobotExtension()
         target.configure()
     }
 
+    @InternalGradleInfrastructureApi
     protected abstract fun Project.configure()
 
     /** Creates an extension for the plugin in namespace 'redmadrobot' and returns it. */
+    @InternalGradleInfrastructureApi
     protected inline fun <reified T : WithDefaults<T>> createExtension(name: String): T {
         val defaults = redmadrobotExtensions
             .mapNotNull { it.extensions.findByName<T>(name) }
@@ -40,6 +46,7 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
         return (redmadrobotExtension as ExtensionAware).extensions.createWithDefaults(name, defaults)
     }
 
+    @InternalGradleInfrastructureApi
     private fun ExtensionContainer.obtainRedmadrobotExtension(): RedmadrobotExtension {
         return redmadrobot
             ?: createWithDefaults(RedmadrobotExtension.NAME, redmadrobotExtensions.firstOrNull())

@@ -3,6 +3,7 @@ package com.redmadrobot.build.publish
 import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.dsl.isReleaseVersion
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.publish.internal.isPluginAutomatedPublishing
 import com.redmadrobot.build.publish.internal.java
 import com.redmadrobot.build.publish.internal.publishing
@@ -19,6 +20,7 @@ import org.gradle.plugins.signing.Sign
  */
 public open class PublishPlugin : InfrastructurePlugin() {
 
+    @InternalGradleInfrastructureApi
     override fun Project.configure() {
         apply(plugin = "maven-publish")
         val configPlugin = plugins.apply(PublishConfigPlugin::class)
