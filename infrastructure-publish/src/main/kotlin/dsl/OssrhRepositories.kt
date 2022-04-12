@@ -54,7 +54,10 @@ public fun RepositoryHandler.ossrhSnapshots(
     }
 }
 
-/** OSSRH hosts. */
+/**
+ * OSSRH hosts.
+ * @property value The host address
+ */
 public enum class OssrhHost(public val value: String) {
 
     /** Host used since February 2021. */

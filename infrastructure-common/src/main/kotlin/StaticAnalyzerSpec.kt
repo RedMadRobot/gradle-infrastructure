@@ -2,6 +2,7 @@ package com.redmadrobot.build
 
 import org.gradle.api.file.DirectoryProperty
 
+/** Options used for static analyzers' configurations. */
 public interface StaticAnalyzerSpec {
 
     /** Directory where stored configs for static analyzers. */

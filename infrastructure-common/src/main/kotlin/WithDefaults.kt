@@ -8,6 +8,7 @@ import org.gradle.kotlin.dsl.create
  * to make it possible inherit defaults from parent project.
  */
 public interface WithDefaults<T> {
+    /** Sets the given [defaults] for this instance. */
     public fun setDefaults(defaults: T)
 }
 

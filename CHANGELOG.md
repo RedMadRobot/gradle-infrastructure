@@ -16,6 +16,7 @@
 ### Housekeeping
 
 - Added `@InternalGradleInfrastructureApi` annotation to all API that not intended for public use
+- Added missing KDocs for all public classes
 
 ### Dependencies
 

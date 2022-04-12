@@ -128,7 +128,10 @@ public open class PublishPlugin : InfrastructurePlugin() {
     }
 
     public companion object {
+        /** The name used for publication by default. */
         public const val PUBLICATION_NAME: String = "maven"
+
+        /** The name used in `com.gradle.plugin-publish` plugin for publications by default. */
         public const val PLUGIN_PUBLICATION_NAME: String = "pluginMaven"
     }
 }
