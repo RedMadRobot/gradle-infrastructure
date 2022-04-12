@@ -18,6 +18,8 @@
 - [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-1-0) `7.0.4` → `7.1.3`
 - [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v2.5.1) `2.4.6` → `2.5.1`
 - [detekt](https://github.com/detekt/detekt/releases/tag/v1.20.0) `1.19.0` → `1.20.0`
+- [plugin-publish-plugin](https://plugins.gradle.org/plugin/com.gradle.plugin-publish/0.21.0) `0.19.0` → `0.21.0`
+- [JGit](https://projects.eclipse.org/projects/technology.jgit/releases/6.1.0) `6.0.0` → `6.1.0`
 
 ## [0.15] (2022-01-20)
 
