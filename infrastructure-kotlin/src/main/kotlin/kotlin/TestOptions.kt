@@ -4,6 +4,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.testing.junit.JUnitOptions
 import org.gradle.api.tasks.testing.junitplatform.JUnitPlatformOptions
 
+/** Options used to configure tests. */
 public interface TestOptions {
 
     /** Flag for using Junit Jupiter Platform. Use functions [useJunit] or [useJunitPlatform]. */

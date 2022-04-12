@@ -3,6 +3,7 @@ package com.redmadrobot.build.android
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.TaskProvider
 
+/** Options for android projects. */
 public interface AndroidOptions {
 
     /** Minimal Android SDK to use across all android modules. */

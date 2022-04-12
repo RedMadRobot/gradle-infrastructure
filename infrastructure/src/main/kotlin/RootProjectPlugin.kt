@@ -7,6 +7,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.plugin
 
+/** Deprecated. Use config plugins instead. */
 @Deprecated("Use config plugins instead.")
 public class RootProjectPlugin : Plugin<Project> {
 

@@ -3,12 +3,13 @@ package com.redmadrobot.build.publish
 import org.gradle.api.provider.Property
 import org.gradle.api.publish.maven.MavenPom
 
+/** Options used for publishing configuration. */
 public interface PublishingOptions {
 
     /**
      * Enables artifacts signing before publication.
      *
-     * By default tries to use gpg-agent to sign artifacts, but you can disable it with setting
+     * By default, tries to use gpg-agent to sign artifacts, but you can disable it with setting
      * [useGpgAgent] to false.
      * If you don't use gpg-agent, requires signatory credentials to be configured in `gradle.properties`.
      * Read more: [Signing Plugin](https://docs.gradle.org/current/userguide/signing_plugin.html#signing_plugin)
@@ -19,7 +20,7 @@ public interface PublishingOptions {
 
     /**
      * Use gpg-agent to sign artifacts. Has effect only if [signArtifacts] is `true`.
-     * By default is `true`.
+     * By default, is `true`.
      */
     public val useGpgAgent: Property<Boolean>
 

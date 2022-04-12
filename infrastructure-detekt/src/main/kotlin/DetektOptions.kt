@@ -2,6 +2,7 @@ package com.redmadrobot.build.detekt
 
 import org.gradle.api.provider.Provider
 
+/** Options for detekt. */
 public interface DetektOptions {
 
     /** Options for detektDiff task. */
@@ -14,6 +15,7 @@ public interface DetektOptions {
     )
 }
 
+/** Options to enable detekt on diffs. */
 public class DetektDiffOptions {
 
     /** Base branch to compare changes. */
