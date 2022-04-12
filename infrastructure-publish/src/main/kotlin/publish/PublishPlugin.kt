@@ -1,6 +1,6 @@
 package com.redmadrobot.build.publish
 
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.dsl.isReleaseVersion
 import com.redmadrobot.build.publish.internal.isPluginAutomatedPublishing
@@ -9,7 +9,6 @@ import com.redmadrobot.build.publish.internal.publishing
 import com.redmadrobot.build.publish.internal.signing
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.plugins.signing.Sign
 
@@ -24,25 +23,25 @@ public open class PublishPlugin : InfrastructurePlugin() {
         apply(plugin = "maven-publish")
         val configPlugin = plugins.apply(PublishConfigPlugin::class)
 
+        val publicationName = when {
+            plugins.hasPlugin("com.android.library") -> configureAndroidLibraryPublication()
+            plugins.hasPlugin("java-gradle-plugin") && isPluginAutomatedPublishing -> configurePluginPublication()
+            plugins.hasPlugin("org.gradle.version-catalog") -> configureVersionCatalogPublication()
+            plugins.hasPlugin("java") -> configureJavaLibraryPublication()
+
+            else -> {
+                logger.warn(
+                    """
+                    Can not automatically configure publishing for the project ${project.name}.
+                    Project type has not recognized.
+                    """.trimIndent()
+                )
+                return
+            }
+        }
+
         // Do it after project evaluate to be able to access publications created later
         afterEvaluate {
-            val publicationName = when {
-                plugins.hasPlugin("com.android.library") -> configureAndroidLibraryPublication()
-                plugins.hasPlugin("java-gradle-plugin") && isPluginAutomatedPublishing -> configurePluginPublication()
-                plugins.hasPlugin("org.gradle.version-catalog") -> configureVersionCatalogPublication()
-                plugins.hasPlugin("java") -> configureJavaLibraryPublication()
-
-                else -> {
-                    logger.warn(
-                        """
-                        Can not automatically configure publishing for the project ${project.name}.
-                        Project type has not recognized.
-                        """.trimIndent()
-                    )
-                    return@afterEvaluate
-                }
-            }
-
             val options = configPlugin.publishingOptions
             publishing.publications.getByName<MavenPublication>(publicationName) {
                 pom {
@@ -59,17 +58,20 @@ public open class PublishPlugin : InfrastructurePlugin() {
     }
 
     private fun Project.configureAndroidLibraryPublication(): String {
-        val android = extensions.getByType<BaseExtension>()
-
-        val sourcesJar = tasks.register<Jar>("sourcesJar") {
-            archiveClassifier.set("sources")
-            from(android.sourceSets["main"].java.srcDirs)
+        extensions.configure<LibraryExtension>("android") {
+            publishing {
+                singleVariant("release") {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
+            }
         }
 
         publishing {
             publications.create<MavenPublication>(PUBLICATION_NAME) {
-                from(components["release"])
-                artifact(sourcesJar.get())
+                afterEvaluate {
+                    from(components["release"])
+                }
             }
         }
 

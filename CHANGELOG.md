@@ -10,6 +10,7 @@
 - **android:** Default target API changed to 32
 - **android:** Lint results location now configured only for `application` modules.
   Lint running will no longer conflict in `android-library` modules (#102)
+- **publish:** Migrate android-library publication to the [new publishing API](https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/LibraryPublishing) introduced in AGP 7.1
 - Revert change from **0.15** when `isRunningOnCi` were made extension on `Project`
 
 ### Dependencies
