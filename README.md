@@ -1,5 +1,7 @@
 # Gradle Infrastructure <GitHub path="RedMadRobot/gradle-infrastructure"/>
-[![Version](https://img.shields.io/maven-central/v/com.redmadrobot.build/infrastructure?style=flat-square)][mavenCentral] [![Build Status](https://img.shields.io/github/workflow/status/RedMadRobot/gradle-infrastructure/CI/main?style=flat-square)][ci] [![License](https://img.shields.io/github/license/RedMadRobot/gradle-infrastructure?style=flat-square)][license]
+[![Version](https://img.shields.io/maven-central/v/com.redmadrobot.build/infrastructure-common?style=flat-square)][mavenCentral]
+[![Build Status](https://img.shields.io/github/workflow/status/RedMadRobot/gradle-infrastructure/CI/main?style=flat-square)][ci]
+[![License](https://img.shields.io/github/license/RedMadRobot/gradle-infrastructure?style=flat-square)][license]
 
 Small plugins to reduce boilerplate in Gradle build scripts.
 
