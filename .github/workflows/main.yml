@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]
   pull_request:
-    branches: [main, develop]
+    branches: [develop]
 
 jobs:
   check:
@@ -31,7 +31,7 @@ jobs:
     name: Publish
     needs: check
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
+    if: ${{ github.ref == 'refs/heads/develop' }}
 
     steps:
       - name: Checkout sources
@@ -56,7 +56,7 @@ jobs:
     name: Verify samples
     needs: check
     runs-on: ubuntu-latest
-    if: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+    if: ${{ github.ref != 'refs/heads/develop' }}
     strategy:
       matrix:
         sample: ['android-application', 'android-application-multi']
