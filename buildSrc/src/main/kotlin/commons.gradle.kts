@@ -17,7 +17,7 @@ kotlinCompile {
 publishing {
     repositories {
         if (isRunningOnCi) githubPackages("RedMadRobot/gradle-infrastructure")
-        if (isReleaseVersion && credentialsExist("ossrh")) ossrh(host = OssrhHost.LEGACY)
+        if (isReleaseVersion && credentialsExist("ossrh")) ossrh()
     }
 }
 
