@@ -2,7 +2,7 @@ package com.redmadrobot.build.dsl
 
 import com.android.build.api.dsl.BuildType
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
-import com.redmadrobot.build.kotlin.internal.findStringProperty
+import com.redmadrobot.build.internal.findStringProperty
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 

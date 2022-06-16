@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+
+- Ability to disable automatic repositories adding using project property `redmadrobot.add.repositories` (#104)
+
 ### Fixed
 
 - Extension `test` will no longer expose internal type `TestOptionsImpl` (#105)

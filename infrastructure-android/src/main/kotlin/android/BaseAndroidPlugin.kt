@@ -9,6 +9,7 @@ import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
+import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.JavaVersion
@@ -18,7 +19,6 @@ import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getPlugin
-import org.gradle.kotlin.dsl.repositories
 
 /**
  * Base plugin with common configurations for both application and library modules.
@@ -27,6 +27,7 @@ import org.gradle.kotlin.dsl.repositories
  */
 public abstract class BaseAndroidPlugin internal constructor() : InfrastructurePlugin() {
 
+    @InternalGradleInfrastructureApi
     protected val configPlugin: AndroidConfigPlugin
         get() = project.plugins.getPlugin(AndroidConfigPlugin::class)
 
@@ -120,8 +121,9 @@ private fun CommonExtension<*, *, *, *>.setCompileSdkVersion(version: String) {
     }
 }
 
+@OptIn(InternalGradleInfrastructureApi::class)
 private fun Project.configureRepositories() {
-    repositories {
+    addRepositoriesIfNeed {
         mavenCentral()
         google()
     }

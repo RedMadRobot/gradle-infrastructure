@@ -2,6 +2,7 @@ package com.redmadrobot.build.kotlin
 
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
+import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.java
 import com.redmadrobot.build.kotlin.internal.kotlin
@@ -9,7 +10,6 @@ import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.repositories
 import org.gradle.kotlin.dsl.withType
 
 /**
@@ -46,8 +46,9 @@ private fun Project.configureKotlinTest(options: TestOptions) {
     tasks.withType<Test>().configureEach { setTestOptions(options) }
 }
 
+@OptIn(InternalGradleInfrastructureApi::class)
 private fun Project.configureRepositories() {
-    repositories {
+    addRepositoriesIfNeed {
         mavenCentral()
     }
 }
