@@ -23,6 +23,6 @@ public open class KotlinConfigPlugin : InfrastructurePlugin() {
 
     @InternalGradleInfrastructureApi
     override fun Project.configure() {
-        testOptions = createExtension("test")
+        testOptions = createExtension("test", publicType = TestOptions::class)
     }
 }

@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Fixed
+
+- Extension `test` will no longer expose internal type `TestOptionsImpl` (#105)
+
 ## [0.16] (2022-04-25)
 
 ### Added

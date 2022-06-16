@@ -2,6 +2,7 @@ package com.redmadrobot.build
 
 import org.gradle.api.plugins.ExtensionContainer
 import org.gradle.kotlin.dsl.create
+import kotlin.reflect.KClass
 
 /**
  * All extensions in namespace 'redmadrobot' should implement this interface
@@ -17,7 +18,8 @@ public interface WithDefaults<T> {
 internal inline fun <reified T : WithDefaults<T>> ExtensionContainer.createWithDefaults(
     name: String,
     defaults: T?,
+    publicType: KClass<in T>? = null,
 ): T {
-    return create<T>(name)
+    return if (publicType == null) create(name) else (create(publicType, name, T::class) as T)
         .apply { if (defaults != null) setDefaults(defaults) }
 }

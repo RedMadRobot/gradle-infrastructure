@@ -2,6 +2,7 @@ package com.redmadrobot.build.android
 
 import com.redmadrobot.build.WithDefaults
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
+import com.redmadrobot.build.kotlin.TestOptions
 import com.redmadrobot.build.kotlin.TestOptionsImpl
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.create
@@ -29,7 +30,12 @@ internal abstract class AndroidOptionsImpl : AndroidOptions, WithDefaults<Androi
             .convention { taskProvider -> taskProvider.name.endsWith("ReleaseUnitTest") }
             .finalizeValueOnRead()
 
-        testOptions = (this as ExtensionAware).extensions.create("test")
+        testOptions = (this as ExtensionAware).extensions
+            .create(
+                publicType = TestOptions::class,
+                name = "test",
+                instanceType = TestOptionsImpl::class,
+            ) as TestOptionsImpl
     }
 
     override fun setDefaults(defaults: AndroidOptionsImpl) {

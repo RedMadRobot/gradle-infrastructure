@@ -7,6 +7,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtensionContainer
+import kotlin.reflect.KClass
 
 /**
  * Base plugin class.
@@ -39,11 +40,14 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
 
     /** Creates an extension for the plugin in namespace 'redmadrobot' and returns it. */
     @InternalGradleInfrastructureApi
-    protected inline fun <reified T : WithDefaults<T>> createExtension(name: String): T {
+    protected inline fun <reified T : WithDefaults<T>> createExtension(
+        name: String,
+        publicType: KClass<in T>? = null,
+    ): T {
         val defaults = redmadrobotExtensions
             .mapNotNull { it.extensions.findByName<T>(name) }
             .firstOrNull()
-        return (redmadrobotExtension as ExtensionAware).extensions.createWithDefaults(name, defaults)
+        return (redmadrobotExtension as ExtensionAware).extensions.createWithDefaults(name, defaults, publicType)
     }
 
     @InternalGradleInfrastructureApi
