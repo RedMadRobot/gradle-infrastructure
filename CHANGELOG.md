@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.16.1] (2022-06-17)
+
 ### Added
 
 - Ability to disable automatic repositories adding using project property `redmadrobot.add.repositories` (#104)

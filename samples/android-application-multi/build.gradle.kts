@@ -1,5 +1,5 @@
 plugins {
-    id("com.redmadrobot.android-config") version "0.16.1-SNAPSHOT"
+    id("com.redmadrobot.android-config") version "0.16.1"
 }
 
 // Common configurations for all modules
