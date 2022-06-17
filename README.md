@@ -483,7 +483,7 @@ For major changes, please open an issue first to discuss what you would like to 
 [redmadrobot-android-ktx]: https://github.com/RedMadRobot/redmadrobot-android-ktx
 [mapmemory]: https://github.com/RedMadRobot/mapmemory
 
-[mavenCentral]: https://search.maven.org/artifact/com.redmadrobot.build/infrastructure
+[mavenCentral]: https://search.maven.org/artifact/com.redmadrobot.build/infrastructure-common
 [ci]: https://github.com/RedMadRobot/gradle-infrastructure/actions
 [license]: LICENSE
 
