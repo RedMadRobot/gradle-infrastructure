@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Fixed
+
+- Defaults from parent project are not applied to project (#107)
+
 ## [0.16.1] (2022-06-17)
 
 ### Added

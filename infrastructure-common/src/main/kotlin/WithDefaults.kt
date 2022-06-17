@@ -20,6 +20,10 @@ internal inline fun <reified T : WithDefaults<T>> ExtensionContainer.createWithD
     defaults: T?,
     publicType: KClass<in T>? = null,
 ): T {
-    return if (publicType == null) create(name) else (create(publicType, name, T::class) as T)
-        .apply { if (defaults != null) setDefaults(defaults) }
+    val extension = if (publicType == null) {
+        create(name)
+    } else {
+        create(publicType, name, T::class) as T
+    }
+    return extension.apply { if (defaults != null) setDefaults(defaults) }
 }
