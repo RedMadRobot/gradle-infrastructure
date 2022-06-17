@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.16.2] (2022-06-17)
+
 ### Fixed
 
 - Defaults from parent project are not applied to project (#107)
@@ -512,6 +514,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.16.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.1..v0.16.2
 [0.16.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16..v0.16.1
 [0.16]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.15..v0.16
 [0.15]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.14..v0.15
