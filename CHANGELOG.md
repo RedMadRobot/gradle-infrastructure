@@ -2,6 +2,7 @@
 
 ### Changed
 
+- Default `minSdk` changed from `21` to `23`
 - **android:** Change target JDK for plugins from 8 to 11
 
 ### Dependencies
