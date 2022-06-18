@@ -11,4 +11,4 @@ androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-grad
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.20.0"
 kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
 pluginPublish = "com.gradle.publish:plugin-publish-plugin:1.0.0-rc-3"
-jgit = "org.eclipse.jgit:org.eclipse.jgit:6.1.0.202203080745-r"
+jgit = "org.eclipse.jgit:org.eclipse.jgit:6.2.0.202206071550-r"
