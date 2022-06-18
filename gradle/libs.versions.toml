@@ -1,5 +1,5 @@
 [versions]
-infrastructure = "0.15"
+infrastructure = "0.16.2"
 
 [libraries]
 infrastructure-kotlin = { module = "com.redmadrobot.build:infrastructure-kotlin", version.ref = "infrastructure" }
