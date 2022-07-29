@@ -25,6 +25,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
   - [Share sources between build types](#share-sources-between-build-types)
   - [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files)
   - [Configure JUnit test execution options](#configure-junit-test-execution-options)
+  - [Automatically added repositories](#automatically-added-repositories)
 - [Samples](#samples)
 - [Troubleshooting](#troubleshooting)
   - [Tests failed - `No value has been specified for property 'localResourcesFile'`](#tests-failed---no-value-has-been-specified-for-property-localresourcesfile)
@@ -103,7 +104,7 @@ Common configurations for pure Kotlin libraries.
 
 - Applies plugin `kotlin`
 - Specifies `jvmTarget` 1.8
-- Adds repository `mavenCentral`
+- Adds repository `mavenCentral` (see [Automatically added repositories](#automatically-added-repositories))
 - Enables [explicit API mode][explicit-api]
 
 ### publish
@@ -192,7 +193,7 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 
 ### detekt
 
-- Adds repository `mavenCentral`
+- Adds repository `mavenCentral` (see [Automatically added repositories](#automatically-added-repositories))
 - Applies `detekt` plugin with `detekt-formatting`
 - Configures additional tasks:
     - `detektAll` - Runs Detekt over the whole codebase
@@ -214,7 +215,7 @@ Both:
 - Specifies `jvmTarget` and `compatibility` 1.8
 - Specifies default compile, min and target SDK
 - Disables `aidl`, `renderScript` and `shaders` [build-features]
-- Adds repositories `mavenCentral` and `google`
+- Adds repositories `mavenCentral` and `google` (see [Automatically added repositories](#automatically-added-repositories))
 - Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)
 
 Library:
@@ -369,6 +370,20 @@ redmadrobot {
         useJunit()
     }
 }
+```
+
+### Automatically added repositories
+
+Infrastructure plugins automatically add repositories required to make project work:
+
+- **kotlin** plugin adds `mavenCentral` repo
+- **detekt** plugin adds `mavenCentral` repo
+- **android** plugins add `mavenCentral` and `google` repos
+
+In the case you don't want these repositories to be added automatically, you can disable this behavior via flag in `gradle.properties`:
+
+```properties
+redmadrobot.add.repositories=false
 ```
 
 ## Samples
