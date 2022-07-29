@@ -11,6 +11,7 @@
 - [Kotlin Gradle Plugin](https://kotlinlang.org/docs/whatsnew17.html#updates-in-the-kotlin-gradle-plugin-api) `1.6.10` → `1.7.10`
 - [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-2-0) `7.1.3` -> `7.2.1`
 - [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v2.5.6) `2.5.1` → `2.5.6`
+- [Detekt](https://github.com/detekt/detekt/releases/tag/v1.21.0) `1.20.0` → `1.21.0`
 - [JGit](https://projects.eclipse.org/projects/technology.jgit/releases/6.2.0) `6.1.0` → `6.2.0`
 
 ## [0.16.2] (2022-06-17)
