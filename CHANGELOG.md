@@ -534,6 +534,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.17]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.2..v0.17
 [0.16.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.1..v0.16.2
 [0.16.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16..v0.16.1
 [0.16]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.15..v0.16
