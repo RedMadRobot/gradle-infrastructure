@@ -3,6 +3,7 @@
 ### Changed
 
 - Default `minSdk` changed from `21` to `23`
+- Update Gradle to 7.5
 - **android:** Change target JDK for plugins from 8 to 11
 
 ### Dependencies
