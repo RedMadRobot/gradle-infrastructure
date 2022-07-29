@@ -1,10 +1,12 @@
 ## [Unreleased]
 
+## [0.17] (2022-07-29)
+
 ### Changed
 
-- Default `minSdk` changed from `21` to `23`
-- Update Gradle to 7.5
+- **android:** Default `minSdk` changed from `21` to `23` (**POTENTIALLY BREAKING CHANGE**)
 - **android:** Change target JDK for plugins from 8 to 11
+- Update Gradle to 7.5
 
 ### Fixed
 
