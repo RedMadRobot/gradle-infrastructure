@@ -6,6 +6,10 @@
 - Update Gradle to 7.5
 - **android:** Change target JDK for plugins from 8 to 11
 
+### Fixed
+
+- Make flag `redmadrobot.add.repositories` work also for `com.redmadrobot.detekt` plugin (#104)
+
 ### Dependencies
 
 - [Kotlin Gradle Plugin](https://kotlinlang.org/docs/whatsnew17.html#updates-in-the-kotlin-gradle-plugin-api) `1.6.10` → `1.7.10`

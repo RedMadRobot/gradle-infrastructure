@@ -8,6 +8,7 @@ import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.FilterParams
 import com.redmadrobot.build.detekt.DetektPlugin.Companion.BASELINE_KEYWORD
 import com.redmadrobot.build.detekt.internal.*
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
+import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.Project
@@ -41,8 +42,9 @@ public class DetektPlugin : InfrastructurePlugin() {
     }
 }
 
+@OptIn(InternalGradleInfrastructureApi::class)
 private fun Project.configureDependencies() {
-    repositories {
+    addRepositoriesIfNeed {
         mavenCentral()
     }
 
