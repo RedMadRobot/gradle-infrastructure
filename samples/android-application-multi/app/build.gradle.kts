@@ -17,7 +17,7 @@ android {
 
 dependencies {
     // Align Kotlin version across all dependencies
-    implementation(platform(kotlin("bom", version = "1.6.10")))
+    implementation(platform(kotlin("bom", version = "1.8.10")))
 
     // Kotlin components can be added without version specifying
     implementation(kotlin("stdlib-jdk8"))
