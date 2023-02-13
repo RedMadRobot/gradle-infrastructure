@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Changed
+
+- Update Gradle to 7.6.1
+
 ## [0.17] (2022-07-29)
 
 ### Changed
