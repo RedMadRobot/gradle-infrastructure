@@ -27,5 +27,5 @@ repositories {
 
 dependencies {
     api(projects.infrastructureCommon)
-    api(libs.kotlinGradle)
+    compileOnlyApi(libs.kotlinGradle) // Should be provided by project
 }

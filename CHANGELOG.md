@@ -1,5 +1,39 @@
 ## [Unreleased]
 
+### Kotlin Gradle Plugin and Android Gradle Plugin removed from transitive dependencies
+
+> :warning: **BREAKING CHANGE!**
+
+It should be simple to change KGP and APG versions, no matter what versions were used on gradle-infrastructure compilation. Previously it was hard to update gradle-infrastructure without updating AGP and KGP, and also it was hard to downgrade AGP or KGP if it was needed.
+
+Since now, KGP and AGP removed from transitive dependencies, and you should add it to your project manually. You can use two different approaches to do it:
+
+1. Add AGP and KGP to top-level `build.gradle.kts` with `apply false`
+   ```kotlin
+   // (root)/build.gradle.kts
+
+   plugins {
+       // Use `apply false` in the top-level build.gradle file to add a Gradle 
+       // plugin as a build dependency but not apply it to the current (root) project.
+       // Here you can specify desired AGP and KGP versions to use.
+       id("com.android.application") version "7.4.2" apply false
+       id("org.jetbrains.kotlin.android") version "1.8.10" apply false
+   }
+   ```
+
+2. If you have `buildSrc` or some other module containing build logic, you can add AGP and KGP to `dependencies` of this module:
+   ```kotlin
+   // (root)/buildSrc/build.gradle.kts
+   
+   dependencies {
+       // Here you can specify desired AGP and KGP versions to use.
+       implementation(kotlin("gradle-plugin", version = "1.8.10"))
+       implementation("com.android.tools.build:gradle:7.4.2")
+   }
+   ```
+
+Minimal required AGP and KGP will always be specified in README.
+
 ### Changed
 
 - Update Gradle to 7.6.1
