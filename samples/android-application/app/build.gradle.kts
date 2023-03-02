@@ -9,6 +9,8 @@ plugins {
 // Plugin "com.redmadrobot.application" configures build types, SDK versions, proguard and so on.
 // We only should configure applicationId and version name and code.
 android {
+    namespace = "com.redmadrobot.samples"
+
     defaultConfig {
         applicationId = "com.redmadrobot.samples"
         versionCode = 1
