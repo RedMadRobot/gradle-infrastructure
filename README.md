@@ -19,6 +19,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 - [Android Plugins](#android-plugins)
   - [application and android-library](#application-and-android-library)
 - [Usage](#usage)
+  - [Add KGP and AGP to build dependencies](#add-kgp-and-agp-to-build-dependencies)
   - [Configuration](#configuration)
   - [Align version of all Kotlin libraries](#align-version-of-all-kotlin-libraries)
   - [Warnings as errors](#warnings-as-errors)
@@ -61,6 +62,9 @@ plugins {
     id("com.redmadrobot.android-library") version "0.17"
 }
 ```
+
+> For `kotlin-library` and android-related plugins, you should also add Kotlin Gradle Plugin or Android Gradle Plugin to project build dependencies.\
+> [Read more...](#add-kgp-and-agp-to-build-dependencies)
 
 If you want to configure subprojects from root project, you can apply `*-config` plugins to root project.
 This way subprojects will use configs from parent projects as defaults.
@@ -241,6 +245,47 @@ redmadrobot.android.build.type.qa=staging
 ```
 
 ## Usage
+
+### Add KGP and AGP to build dependencies
+
+> Starting from gradle-infrastructure **0.18** KGP and AGP removed from transitive dependencies, so you should manually
+> add it to project build dependencies.
+
+`kotlin-library` plugin requires Kotlin Gradle Plugin to work.
+Android-related plugins requires both KGP and AGP.
+
+You can use two different approaches to add plugin as a build dependency:
+
+1. Add needed plugins to top-level `build.gradle.kts` with `apply false`:
+   ```kotlin
+   // (root)/build.gradle.kts
+
+   plugins {
+       // Use `apply false` in the top-level build.gradle file to add a Gradle 
+       // plugin as a build dependency but not apply it to the current (root) project.
+       // Here you can specify desired AGP and KGP versions to use.
+       id("com.android.application") version "7.4.2" apply false
+       id("org.jetbrains.kotlin.android") version "1.8.10" apply false
+   }
+   ```
+
+2. If you have `buildSrc` or some other module containing build logic, you can add plugins to `dependencies` of this
+   module:
+   ```kotlin
+   // (root)/buildSrc/build.gradle.kts
+   
+   dependencies {
+       // Here you can specify desired AGP and KGP versions to use.
+       implementation(kotlin("gradle-plugin", version = "1.8.10"))
+       implementation("com.android.tools.build:gradle:7.4.2")
+   }
+   ```
+
+**Versions compatibility:**
+
+| gradle-infrastructure | Minimal KGP version | Minimal AGP version |
+|-----------------------|---------------------|---------------------|
+| 0.18                  | 1.7.10              | 7.1.0               |
 
 ### Configuration
 
