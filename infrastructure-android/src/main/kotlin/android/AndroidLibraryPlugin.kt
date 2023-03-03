@@ -4,7 +4,6 @@ package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.android.internal.android
-import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.android.internal.projectProguardFiles
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.kotlin
@@ -25,7 +24,6 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
     @InternalGradleInfrastructureApi
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.library")
-        val androidOptions = configPlugin.androidOptions
 
         android<LibraryExtension> {
             defaultConfig {
@@ -37,11 +35,6 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
                 buildConfig = false
                 resValues = false
                 androidResources = false
-            }
-        }
-        androidFinalizeDsl<LibraryExtension> {
-            defaultConfig {
-                targetSdk = androidOptions.targetSdk.get()
             }
         }
 

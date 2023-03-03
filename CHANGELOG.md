@@ -36,7 +36,12 @@ Minimal required AGP and KGP will always be specified in README.
 
 ### Changed
 
-- **android:** Default `targetSdk` changed from `32` to `33` (**POTENTIALLY BREAKING CHANGE**)
+**BREAKING CHANGES:**
+- **android:** Minimal required AGP version is `7.4.0`
+- **android:** Default `targetSdk` changed from `32` to `33`
+- **android:** Don't set `targetSdk` in library modules. This field is deprecated and doesn't take any effect since AGP 7.4 ([b/230625468](https://issuetracker.google.com/issues/230625468#comment5))
+
+Other changes:
 - Change target JDK for all plugins from 8 to 11
 - Update Gradle to 7.6.1
 
