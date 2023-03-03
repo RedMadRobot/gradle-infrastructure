@@ -42,6 +42,7 @@ Minimal required AGP and KGP will always be specified in README.
 - **android:** Don't set `targetSdk` in library modules. This field is deprecated and doesn't take any effect since AGP 7.4 ([b/230625468](https://issuetracker.google.com/issues/230625468#comment5))
 
 Other changes:
+- **android:** Removed workaround for [b/215407138](https://issuetracker.google.com/issues/215407138) that is fixed in AGP 7.4
 - Change target JDK for all plugins from 8 to 11
 - Update Gradle to 7.6.1
 
