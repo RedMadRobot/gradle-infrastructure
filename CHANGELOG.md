@@ -44,6 +44,7 @@ Minimal required AGP and KGP will always be specified in README.
 
 Other changes:
 - **android:** Removed workaround for [b/215407138](https://issuetracker.google.com/issues/215407138) that is fixed in AGP 7.4
+- **publish:** More detailed description for the case when plugin cannot recognize project type (#116)
 - Change target JDK for all plugins from 8 to 11
 - Update Gradle to 7.6.1
 

@@ -35,7 +35,7 @@ public open class PublishPlugin : InfrastructurePlugin() {
                 logger.warn(
                     """
                     Can not automatically configure publishing for the project ${project.name}.
-                    Project type has not recognized.
+                    Make sure you have applied plugin 'com.redmadrobot.publish' after other plugins.
                     """.trimIndent()
                 )
                 return
