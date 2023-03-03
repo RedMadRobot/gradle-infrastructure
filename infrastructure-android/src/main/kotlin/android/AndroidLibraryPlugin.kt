@@ -4,7 +4,6 @@ package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.android.internal.android
-import com.redmadrobot.build.android.internal.androidFinalizeDsl
 import com.redmadrobot.build.android.internal.projectProguardFiles
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.kotlin
@@ -25,7 +24,6 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
     @InternalGradleInfrastructureApi
     override fun Project.configure() {
         applyBaseAndroidPlugin("com.android.library")
-        val androidOptions = configPlugin.androidOptions
 
         android<LibraryExtension> {
             defaultConfig {
@@ -39,11 +37,6 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
                 androidResources = false
             }
         }
-        androidFinalizeDsl<LibraryExtension> {
-            defaultConfig {
-                targetSdk = androidOptions.targetSdk.get()
-            }
-        }
 
         // Enable Explicit API mode for libraries by default
         if (kotlin.explicitApi == null) kotlin.explicitApi()
@@ -53,6 +46,12 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
     }
 }
 
+// Workaround to configure Explicit API mode in android library modules
+// Related issues:
+// https://youtrack.jetbrains.com/issue/KT-37652
+// https://issuetracker.google.com/issues/167819676
+// https://issuetracker.google.com/issues/168371736
+// TODO: Remove when the issue will be fixed
 private fun Project.configureExplicitApi(mode: ExplicitApiMode?) {
     if (mode == null) return
 

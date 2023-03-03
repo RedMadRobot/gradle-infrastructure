@@ -4,10 +4,6 @@ plugins {
 
 description = "Small plugins to reduce boilerplate in Android projects' Gradle build scripts."
 
-redmadrobot {
-    jvmTarget.set(JavaVersion.VERSION_11)
-}
-
 gradlePlugin {
     plugins {
         register("android-config") {

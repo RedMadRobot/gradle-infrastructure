@@ -285,7 +285,8 @@ You can use two different approaches to add plugin as a build dependency:
 
 | gradle-infrastructure | Minimal KGP version | Minimal AGP version |
 |-----------------------|---------------------|---------------------|
-| 0.18                  | 1.7.10              | 7.1.0               |
+| 0.18                  | 1.7.10              | 7.4.0               |
+| 0.17                  | 1.7.10              | 7.1.0               |
 
 ### Configuration
 
