@@ -14,16 +14,13 @@ internal fun <T : CommonExtension<*, *, *, *>> Project.android(configure: T.() -
     extensions.configure("android", configure)
 }
 
-@JvmName("androidFinalizeDslCommon")
-internal fun Project.androidFinalizeDsl(configure: CommonExtension<*, *, *, *>.() -> Unit) {
-    androidFinalizeDsl<CommonExtension<*, *, *, *>>(configure)
+@JvmName("androidComponentsCommon")
+internal fun Project.androidComponents(configure: AndroidComponentsExtension<*, *, *>.() -> Unit) {
+    androidComponents<AndroidComponentsExtension<*, *, *>>(configure)
 }
 
-internal fun <T : CommonExtension<*, *, *, *>> Project.androidFinalizeDsl(
-    configure: T.() -> Unit,
-) {
-    extensions.getByName<AndroidComponentsExtension<T, *, *>>("androidComponents")
-        .finalizeDsl(configure)
+internal fun <T : AndroidComponentsExtension<*, *, *>> Project.androidComponents(configure: T.() -> Unit) {
+    extensions.configure("androidComponents", configure)
 }
 
 internal val AndroidOptions.test: TestOptions

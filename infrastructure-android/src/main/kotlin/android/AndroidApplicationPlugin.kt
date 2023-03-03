@@ -3,9 +3,10 @@
 package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
-import com.redmadrobot.build.android.internal.androidFinalizeDsl
+import com.redmadrobot.build.android.internal.androidComponents
 import com.redmadrobot.build.android.internal.projectProguardFiles
 import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
@@ -27,7 +28,9 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
         applyBaseAndroidPlugin("com.android.application")
 
         configureApp()
-        finalizeApp(configPlugin.androidOptions, configPlugin.staticAnalyzerSpec)
+        androidComponents<ApplicationAndroidComponentsExtension> {
+            finalizeDsl { it.finalizeApp(configPlugin.androidOptions, configPlugin.staticAnalyzerSpec) }
+        }
     }
 }
 
@@ -69,10 +72,10 @@ private fun Project.configureApp() = android<ApplicationExtension> {
     }
 }
 
-private fun Project.finalizeApp(
+private fun ApplicationExtension.finalizeApp(
     androidOptions: AndroidOptions,
     staticAnalyzerSpec: StaticAnalyzerSpec,
-) = androidFinalizeDsl<ApplicationExtension> {
+) {
     defaultConfig {
         targetSdk = androidOptions.targetSdk.get()
     }

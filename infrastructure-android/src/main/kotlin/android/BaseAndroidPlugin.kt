@@ -6,7 +6,7 @@ import com.android.build.api.dsl.CommonExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
-import com.redmadrobot.build.android.internal.androidFinalizeDsl
+import com.redmadrobot.build.android.internal.androidComponents
 import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
@@ -46,7 +46,17 @@ public abstract class BaseAndroidPlugin internal constructor() : InfrastructureP
 
         configureKotlin(configPlugin.jvmTarget)
         configureAndroid()
-        applyAndroidOptions(configPlugin.androidOptions, configPlugin.jvmTarget, configPlugin.staticAnalyzerSpec)
+        androidComponents {
+            finalizeDsl { extension ->
+                extension.applyAndroidOptions(
+                    options = configPlugin.androidOptions,
+                    jvmTarget = configPlugin.jvmTarget,
+                    staticAnalyzerSpec = configPlugin.staticAnalyzerSpec,
+                )
+                filterTestTaskDependencies(configPlugin.androidOptions)
+            }
+        }
+
         configureRepositories()
     }
 }
@@ -70,11 +80,11 @@ private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
 }
 
 @OptIn(InternalGradleInfrastructureApi::class)
-private fun Project.applyAndroidOptions(
+private fun CommonExtension<*, *, *, *>.applyAndroidOptions(
     options: AndroidOptions,
     jvmTarget: Provider<JavaVersion>,
     staticAnalyzerSpec: StaticAnalyzerSpec,
-) = androidFinalizeDsl {
+) {
     setCompileSdkVersion(options.compileSdk.get())
     options.buildToolsVersion.orNull?.let { buildToolsVersion = it }
 
@@ -85,14 +95,6 @@ private fun Project.applyAndroidOptions(
     compileOptions {
         sourceCompatibility = jvmTarget.get()
         targetCompatibility = jvmTarget.get()
-    }
-
-    afterEvaluate {
-        // Filter unit tests to be run with 'test' task
-        tasks.named("test") {
-            val testTasksFilter = options.testTasksFilter.get()
-            setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
-        }
     }
 
     testOptions {
@@ -112,6 +114,16 @@ private fun CommonExtension<*, *, *, *>.setCompileSdkVersion(version: String) {
         compileSdk = intVersion
     } else {
         compileSdkPreview = version
+    }
+}
+
+/** Filter unit tests to be run with 'test' task. */
+private fun Project.filterTestTaskDependencies(options: AndroidOptions) {
+    afterEvaluate {
+        tasks.named("test") {
+            val testTasksFilter = options.testTasksFilter.get()
+            setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
+        }
     }
 }
 
