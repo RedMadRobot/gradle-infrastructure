@@ -33,9 +33,6 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
 private fun Project.configureApp() = android<ApplicationExtension> {
     defaultConfig {
-        // Keep only 'ru' resources by default
-        resourceConfigurations.add("ru")
-
         // Collect proguard rules from 'proguard' dir
         setProguardFiles(projectProguardFiles() + getDefaultProguardFile("proguard-android-optimize.txt"))
 
