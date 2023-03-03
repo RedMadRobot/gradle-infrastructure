@@ -46,6 +46,12 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
     }
 }
 
+// Workaround to configure Explicit API mode in android library modules
+// Related issues:
+// https://youtrack.jetbrains.com/issue/KT-37652
+// https://issuetracker.google.com/issues/167819676
+// https://issuetracker.google.com/issues/168371736
+// TODO: Remove when the issue will be fixed
 private fun Project.configureExplicitApi(mode: ExplicitApiMode?) {
     if (mode == null) return
 
