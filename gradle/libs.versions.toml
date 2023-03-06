@@ -12,3 +12,7 @@ detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.21.0"
 kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
 pluginPublish = "com.gradle.publish:plugin-publish-plugin:1.1.0"
 jgit = "org.eclipse.jgit:org.eclipse.jgit:6.2.0.202206071550-r"
+
+[plugins]
+versions = "com.github.ben-manes.versions:0.46.0"
+

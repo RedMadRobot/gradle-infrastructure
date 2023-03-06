@@ -6,7 +6,7 @@ import com.redmadrobot.build.dsl.setGitHubProject
 plugins {
     id("com.redmadrobot.detekt")
     id("com.redmadrobot.publish-config")
-    id("com.github.ben-manes.versions") version "0.39.0"
+    alias(libs.plugins.versions)
     `kotlin-dsl` apply false
 }
 
