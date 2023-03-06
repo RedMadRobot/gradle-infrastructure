@@ -49,6 +49,11 @@ Minimal required AGP and KGP will always be specified in README.
 - Change target JDK for all plugins from 8 to 11
 - Update Gradle to 7.6.1
 
+### Dependencies
+
+- [JGit](https://projects.eclipse.org/projects/technology.jgit/releases/6.4.0) `6.2.0` → `6.4.0`
+
+
 ## [0.17] (2022-07-29)
 
 ### Changed
