@@ -46,9 +46,12 @@ Minimal required AGP and KGP will always be specified in README.
 - **android:** Removed workaround for [b/215407138](https://issuetracker.google.com/issues/215407138) that is fixed in AGP 7.4
 - **publish:** More detailed description for the case when plugin cannot recognize project type (#116)
 - Change target JDK for all plugins from 8 to 11
-- Update Gradle to 7.6.1
+- Update Gradle to 8.0.2
 
 ### Dependencies
+
+infrastructure-kotlin:
+- [Kotlin](https://github.com/JetBrains/kotlin/releases/tag/v1.8.0) `1.7.10` → `1.8.10`
 
 infrastructure-android:
 - [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-4-0) `7.2.1` → `7.4.2` (:warning: Minimal required AGP version is `7.4.0`)
