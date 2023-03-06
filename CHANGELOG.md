@@ -37,7 +37,6 @@ Minimal required AGP and KGP will always be specified in README.
 ### BREAKING CHANGES
 
 - **android:** Fixed obfuscation on QA builds with AGP 7.2+ (#120)
-- **android:** Minimal required AGP version is `7.4.0`
 - **android:** Default `targetSdk` changed from `32` to `33`
 - **android:** Don't set `targetSdk` in library modules. This field is deprecated and doesn't take any effect since AGP 7.4 ([b/230625468](https://issuetracker.google.com/issues/230625468#comment5))
 - **android:** Removed default `resourceConfigurations`. Use `resourceConfigurations.add("ru")` if you want to keep old behavior (#115)
@@ -51,6 +50,12 @@ Minimal required AGP and KGP will always be specified in README.
 
 ### Dependencies
 
+infrastructure-android:
+- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-4-0) `7.2.1` → `7.4.2` (:warning: Minimal required AGP version is `7.4.0`)
+- [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v2.7.0) `2.5.6` → `2.7.0`
+
+infrastructure-detekt:
+- [Detekt](https://github.com/detekt/detekt/releases/tag/v1.22.0) `1.21.0` → `1.22.0`
 - [JGit](https://projects.eclipse.org/projects/technology.jgit/releases/6.4.0) `6.2.0` → `6.4.0`
 
 
@@ -69,7 +74,7 @@ Minimal required AGP and KGP will always be specified in README.
 ### Dependencies
 
 - [Kotlin Gradle Plugin](https://kotlinlang.org/docs/whatsnew17.html#updates-in-the-kotlin-gradle-plugin-api) `1.6.10` → `1.7.10`
-- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-2-0) `7.1.3` -> `7.2.1`
+- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin#7-2-0) `7.1.3` → `7.2.1`
 - [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v2.5.6) `2.5.1` → `2.5.6`
 - [Detekt](https://github.com/detekt/detekt/releases/tag/v1.21.0) `1.20.0` → `1.21.0`
 - [JGit](https://projects.eclipse.org/projects/technology.jgit/releases/6.2.0) `6.1.0` → `6.2.0`

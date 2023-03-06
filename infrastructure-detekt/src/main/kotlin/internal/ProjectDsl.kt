@@ -17,7 +17,7 @@ internal val Project.isKotlinAndroidProject: Boolean
 internal val Project.hasDetektPlugin: Boolean
     get() = plugins.hasPlugin<DetektPlugin>()
 
-@Suppress("DEPRECATION") // Is there the new API to get source sets for variants?
+@Suppress("DEPRECATION") // TODO: Migrate to new AGP variants API
 internal val BaseExtension.variants: DomainObjectSet<out com.android.build.gradle.api.BaseVariant>?
     get() = when (this) {
         is AppExtension -> applicationVariants
