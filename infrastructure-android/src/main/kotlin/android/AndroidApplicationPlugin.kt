@@ -2,18 +2,23 @@
 
 package com.redmadrobot.build.android
 
+import com.android.build.api.artifact.SingleArtifact
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.ApplicationVariant
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidComponents
 import com.redmadrobot.build.android.internal.projectProguardFiles
+import com.redmadrobot.build.android.task.MakeDebuggableTask
 import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
 import com.redmadrobot.build.dsl.BUILD_TYPE_QA
 import com.redmadrobot.build.dsl.BUILD_TYPE_RELEASE
 import com.redmadrobot.build.dsl.finalizeQaBuildType
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import org.gradle.api.Project
+import org.gradle.api.tasks.TaskContainer
+import org.gradle.kotlin.dsl.register
 
 /**
  * Plugin that applies default configurations for Android application project.
@@ -29,6 +34,7 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin() {
 
         configureApp()
         androidComponents<ApplicationAndroidComponentsExtension> {
+            onVariants(selector().withBuildType(BUILD_TYPE_QA)) { it.makeDebuggable(tasks) }
             finalizeDsl { it.finalizeApp(configPlugin.androidOptions, configPlugin.staticAnalyzerSpec) }
         }
     }
@@ -65,11 +71,28 @@ private fun Project.configureApp() = android<ApplicationExtension> {
         register(BUILD_TYPE_QA) {
             initWith(getByName(BUILD_TYPE_RELEASE))
             applicationIdSuffix = ".$BUILD_TYPE_QA"
-            isDebuggable = true
             matchingFallbacks += listOf(BUILD_TYPE_DEBUG, BUILD_TYPE_RELEASE)
             signingConfig = signingConfigs.findByName(BUILD_TYPE_DEBUG)
+
+            // We can not use isDebuggable = true here, so set DEBUG field ourselves.
+            // See `makeDebuggable` for more information
+            buildConfigField(type = "boolean", name = "DEBUG", value = "true")
         }
     }
+}
+
+// NOTE: Since AGP 7.2.0 debuggable builds can not be obfuscated by default, so we should
+// set isDebuggable to `false` and manually set "debuggable" flag in manifest
+// See: https://issuetracker.google.com/issues/238655204
+private fun ApplicationVariant.makeDebuggable(tasks: TaskContainer) {
+    val makeDebuggableTask = tasks.register<MakeDebuggableTask>("make${name.capitalize()}Debuggable")
+
+    artifacts.use(makeDebuggableTask)
+        .wiredWithFiles(
+            taskInput = { it.mergedManifest },
+            taskOutput = { it.debuggableManifest },
+        )
+        .toTransform(SingleArtifact.MERGED_MANIFEST)
 }
 
 private fun ApplicationExtension.finalizeApp(

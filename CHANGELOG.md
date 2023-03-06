@@ -34,15 +34,16 @@ Since now, KGP and AGP removed from transitive dependencies, and you should add 
 
 Minimal required AGP and KGP will always be specified in README.
 
-### Changed
+### BREAKING CHANGES
 
-**BREAKING CHANGES:**
+- **android:** Fixed obfuscation on QA builds with AGP 7.2+ (#120)
 - **android:** Minimal required AGP version is `7.4.0`
 - **android:** Default `targetSdk` changed from `32` to `33`
 - **android:** Don't set `targetSdk` in library modules. This field is deprecated and doesn't take any effect since AGP 7.4 ([b/230625468](https://issuetracker.google.com/issues/230625468#comment5))
 - **android:** Removed default `resourceConfigurations`. Use `resourceConfigurations.add("ru")` if you want to keep old behavior (#115)
 
-Other changes:
+### Other changes
+
 - **android:** Removed workaround for [b/215407138](https://issuetracker.google.com/issues/215407138) that is fixed in AGP 7.4
 - **publish:** More detailed description for the case when plugin cannot recognize project type (#116)
 - Change target JDK for all plugins from 8 to 11
