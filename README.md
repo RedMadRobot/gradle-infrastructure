@@ -12,6 +12,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Installation](#installation)
+  - [Compatibility](#compatibility)
 - [Plugins](#plugins)
   - [kotlin-library](#kotlin-library)
   - [publish](#publish)
@@ -97,6 +98,13 @@ android {
 ```
 
 *Look at [samples](#samples) for quick start.*
+
+### Compatibility
+
+| gradle-infrastructure | Minimal Gradle version | Minimal KGP version | Minimal AGP version |
+|----------------------:|:----------------------:|:-------------------:|:-------------------:|
+|              **0.18** |          7.5           |       1.7.10        |        7.4.0        |
+|              **0.17** |          7.2           |       1.7.10        |        7.1.0        |
 
 ## Plugins
 
@@ -281,12 +289,7 @@ You can use two different approaches to add plugin as a build dependency:
    }
    ```
 
-**Versions compatibility:**
-
-| gradle-infrastructure | Minimal KGP version | Minimal AGP version |
-|-----------------------|---------------------|---------------------|
-| 0.18                  | 1.7.10              | 7.4.0               |
-| 0.17                  | 1.7.10              | 7.1.0               |
+See [compatibility table](#compatibility) to check what versions are compatible with `gradle-infrastructure`.
 
 ### Configuration
 
@@ -304,7 +307,7 @@ redmadrobot {
 
 ### Align version of all Kotlin libraries
 
-> It is not a part of **gradle-infrastructure** but it is important to know.
+> It is not a part of **gradle-infrastructure**, but it is important to know.
 
 To align the Kotlin version for all dependencies including transitive ones, use `kotlin-bom`:
 
@@ -314,7 +317,7 @@ dependencies {
     implementation(platform(kotlin("bom", version = "1.8.10")))
 
     // Now you can add Kotlin components without version
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
     testImplementation(kotlin("test-junit5"))
 }
 ```
@@ -327,7 +330,7 @@ kotlin.coreLibrariesVersion = "1.8.10"
 
 dependencies {
     // Now you can add Kotlin components without version
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
     testImplementation(kotlin("test-junit5"))
 }
 ```
