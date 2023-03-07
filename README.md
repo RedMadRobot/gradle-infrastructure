@@ -107,7 +107,7 @@ android {
 Common configurations for pure Kotlin libraries.
 
 - Applies plugin `kotlin`
-- Specifies `jvmTarget` 1.8
+- Specifies `jvmTarget` 11
 - Adds repository `mavenCentral` (see [Automatically added repositories](#automatically-added-repositories))
 - Enables [explicit API mode][explicit-api]
 
@@ -216,7 +216,7 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 Common configurations for Android libraries and application.
 
 Both:
-- Specifies `jvmTarget` and `compatibility` 1.8
+- Specifies `jvmTarget` and `compatibility` 11
 - Specifies default compile, min and target SDK
 - Disables `aidl`, `renderScript` and `shaders` [build-features]
 - Adds repositories `mavenCentral` and `google` (see [Automatically added repositories](#automatically-added-repositories))

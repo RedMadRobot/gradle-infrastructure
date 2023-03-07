@@ -14,7 +14,7 @@ internal abstract class RedmadrobotExtensionImpl @Inject constructor(
 
     init {
         jvmTarget
-            .convention(JavaVersion.VERSION_1_8)
+            .convention(JavaVersion.VERSION_11)
             .finalizeValueOnRead()
         configsDir
             .convention(layout.projectDirectory.dir(StaticAnalyzerSpec.DEFAULT_CONFIGS_DIR))

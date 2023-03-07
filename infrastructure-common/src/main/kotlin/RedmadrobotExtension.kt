@@ -8,7 +8,7 @@ public interface RedmadrobotExtension : StaticAnalyzerSpec {
 
     /**
      * JVM version to be used as a target by Kotlin and Java compilers.
-     * By default, used 1.8.
+     * By default, used Java 11.
      */
     public val jvmTarget: Property<JavaVersion>
 

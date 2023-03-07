@@ -40,12 +40,12 @@ Minimal required AGP and KGP will always be specified in README.
 - **android:** Default `targetSdk` changed from `32` to `33`
 - **android:** Don't set `targetSdk` in library modules. This field is deprecated and doesn't take any effect since AGP 7.4 ([b/230625468](https://issuetracker.google.com/issues/230625468#comment5))
 - **android:** Removed default `resourceConfigurations`. Use `resourceConfigurations.add("ru")` if you want to keep old behavior (#115)
+- Change default target JVM from 1.8 to 11 (property `redmadrobot.jvmTarget`)
 
 ### Other changes
 
 - **android:** Removed workaround for [b/215407138](https://issuetracker.google.com/issues/215407138) that is fixed in AGP 7.4
 - **publish:** More detailed description for the case when plugin cannot recognize project type (#116)
-- Change target JDK for all plugins from 8 to 11
 - Update Gradle to 8.0.2
 
 ### Dependencies
@@ -500,7 +500,7 @@ There are extension-functions to cover common configuration use-cases.
 redmadrobot {
     publishing {
         pom {
-            // Configure <url>, <scm> and <issueManagement> tags for GitHub project by it's name
+            // Configure <url>, <scm> and <issueManagement> tags for GitHub project by its name
             setGitHubProject("RedMadRobot/gradle-infrastructure")
             
             licenses { 
