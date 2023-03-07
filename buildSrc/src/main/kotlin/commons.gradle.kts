@@ -1,4 +1,5 @@
 import com.redmadrobot.build.dsl.*
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     id("com.redmadrobot.kotlin-library")
@@ -7,10 +8,10 @@ plugins {
 
 // Keep gradle-infrastructure compatible with older versions of Gradle.
 kotlinCompile {
-    kotlinOptions {
-        apiVersion = "1.4"
-        languageVersion = "1.4"
-        freeCompilerArgs += "-Xuse-ir" // Needed as long as languageVersion is less than 1.5
+    compilerOptions {
+        apiVersion.set(KotlinVersion.KOTLIN_1_4)
+        languageVersion.set(KotlinVersion.KOTLIN_1_4)
+        freeCompilerArgs.add("-Xuse-ir") // Needed as long as languageVersion is less than 1.5
     }
 }
 

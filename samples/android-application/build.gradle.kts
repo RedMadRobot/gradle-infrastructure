@@ -5,9 +5,3 @@ plugins {
 
     id("com.redmadrobot.android-config") version "0.18-SNAPSHOT"
 }
-
-redmadrobot {
-    android {
-        targetSdk.set(33)
-    }
-}

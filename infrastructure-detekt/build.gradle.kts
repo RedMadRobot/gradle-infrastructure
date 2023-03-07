@@ -11,13 +11,9 @@ gradlePlugin {
             displayName = "Infrastructure Detekt Plugin"
             description = project.description
             implementationClass = "com.redmadrobot.build.detekt.DetektPlugin"
+            tags("detekt")
         }
     }
-}
-
-repositories {
-    mavenCentral()
-    google()
 }
 
 dependencies {

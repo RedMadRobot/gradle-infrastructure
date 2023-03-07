@@ -11,18 +11,16 @@ gradlePlugin {
             displayName = "Infrastructure Kotlin Plugin config"
             description = "Configs for com.redmadrobot.kotlin-library"
             implementationClass = "com.redmadrobot.build.kotlin.KotlinConfigPlugin"
+            tags("kotlin")
         }
         register("kotlin-library") {
             id = "com.redmadrobot.kotlin-library"
             displayName = "Infrastructure Kotlin Plugin"
             description = project.description
             implementationClass = "com.redmadrobot.build.kotlin.KotlinLibraryPlugin"
+            tags("kotlin", "library")
         }
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {

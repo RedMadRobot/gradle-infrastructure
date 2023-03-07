@@ -7,6 +7,7 @@ dependencies {
     api(libs.infrastructure.kotlin)
     api(libs.infrastructure.publish)
     api(libs.pluginPublish)
+    api(libs.kotlinGradle)
 }
 
 repositories {
