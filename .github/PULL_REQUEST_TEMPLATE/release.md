@@ -1,5 +1,3 @@
-# vX.X.X
-
 ## Release Notes
 
 ADD RELEASE NOTES HERE
@@ -26,3 +24,4 @@ After:
 
 - [ ] Bump version in `develop` branch, add `-SNAPSHOT` to it
 - [ ] Change infrastructure version in samples
+- [ ] Rename and close milestone. Create new milestone with name `Next`
