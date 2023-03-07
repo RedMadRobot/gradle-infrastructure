@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.18] (2023-03-07)
+
 ### Kotlin Gradle Plugin and Android Gradle Plugin removed from transitive dependencies
 
 > :warning: **BREAKING CHANGE!**
@@ -596,6 +598,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.18]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.17..v0.18
 [0.17]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.2..v0.17
 [0.16.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.1..v0.16.2
 [0.16.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16..v0.16.1
