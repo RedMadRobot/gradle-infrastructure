@@ -7,6 +7,7 @@ import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidComponents
+import com.redmadrobot.build.android.internal.ifPresent
 import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
@@ -86,7 +87,7 @@ private fun CommonExtension<*, *, *, *>.applyAndroidOptions(
     staticAnalyzerSpec: StaticAnalyzerSpec,
 ) {
     setCompileSdkVersion(options.compileSdk.get())
-    options.buildToolsVersion.orNull?.let { buildToolsVersion = it }
+    options.buildToolsVersion.ifPresent { buildToolsVersion = it }
 
     defaultConfig {
         minSdk = options.minSdk.get()
