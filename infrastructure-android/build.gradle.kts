@@ -30,12 +30,6 @@ gradlePlugin {
     }
 }
 
-repositories {
-    mavenCentral()
-    google()
-    gradlePluginPortal()
-}
-
 dependencies {
     api(projects.infrastructureKotlin)
 

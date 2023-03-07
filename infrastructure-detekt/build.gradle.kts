@@ -16,11 +16,6 @@ gradlePlugin {
     }
 }
 
-repositories {
-    mavenCentral()
-    google()
-}
-
 dependencies {
     api(projects.infrastructureCommon)
 

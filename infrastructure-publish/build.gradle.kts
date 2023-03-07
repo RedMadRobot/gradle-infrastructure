@@ -23,10 +23,6 @@ gradlePlugin {
     }
 }
 
-repositories {
-    google()
-}
-
 dependencies {
     api(projects.infrastructureCommon)
 

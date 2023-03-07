@@ -23,10 +23,6 @@ gradlePlugin {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     api(projects.infrastructureCommon)
     compileOnlyApi(libs.kotlinGradle) // Should be provided by project
