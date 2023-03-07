@@ -10,7 +10,7 @@ android {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
     // ...
     // Dependencies for the module here
     // ...

@@ -22,7 +22,7 @@ dependencies {
     implementation(platform(kotlin("bom", version = "1.8.10")))
 
     // Kotlin components can be added without version specifying
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
 
     implementation(project(":module1"))
     implementation(project(":module2"))
