@@ -41,6 +41,7 @@ internal abstract class CollectGitDiffFilesTask : DefaultTask() {
         val filterParams = filterParams.getOrElse(FilterParams())
 
         val changedFilesPaths = repository.findAllChangedFiles(branch)
+            .asSequence()
             .filter { entry ->
                 filterParams.changeTypes.isEmpty() ||
                     entry.changeType.toInnerChangeType() in filterParams.changeTypes
@@ -51,6 +52,7 @@ internal abstract class CollectGitDiffFilesTask : DefaultTask() {
                     filterParams.fileExtensions.any(path::endsWith)
             }
             .map(::File)
+            .toList()
 
         outputFiles.setFrom(changedFilesPaths)
     }

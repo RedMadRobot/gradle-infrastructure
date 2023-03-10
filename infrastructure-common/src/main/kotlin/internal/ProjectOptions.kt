@@ -6,6 +6,6 @@ import org.gradle.kotlin.dsl.repositories
 
 @InternalGradleInfrastructureApi
 public fun Project.addRepositoriesIfNeed(block: RepositoryHandler.() -> Unit) {
-    val addRepositories = findBooleanProperty("redmadrobot.add.repositories") ?: true
+    val addRepositories = findBooleanProperty("redmadrobot.add.repositories") != false
     if (addRepositories) repositories(block)
 }
