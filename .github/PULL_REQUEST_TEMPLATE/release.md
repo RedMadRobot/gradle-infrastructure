@@ -25,3 +25,4 @@ After:
 - [ ] Bump version in `develop` branch, add `-SNAPSHOT` to it
 - [ ] Change infrastructure version in samples
 - [ ] Rename and close milestone. Create new milestone with name `Next`
+- [ ] Update infrastructure in this project
