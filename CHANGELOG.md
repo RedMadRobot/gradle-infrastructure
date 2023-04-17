@@ -1,7 +1,6 @@
 ## [Unreleased]
 
-### Other changes
-
+- Fix compatibility with Gradle lower than 8.0 (#127)
 - Update Gradle to 8.1
 
 ## [0.18] (2023-03-07)
