@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.18.1] (2023-04-18)
+
 - Fix compatibility with Gradle lower than 8.0 (#127)
 - Update Gradle to 8.1
 
@@ -601,6 +603,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.18.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18..v0.18.1
 [0.18]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.17..v0.18
 [0.17]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.2..v0.17
 [0.16.2]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.1..v0.16.2
