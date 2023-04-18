@@ -1,5 +1,5 @@
 [versions]
-infrastructure = "0.18"
+infrastructure = "0.18.1"
 
 [libraries]
 infrastructure-kotlin = { module = "com.redmadrobot.build:infrastructure-kotlin", version.ref = "infrastructure" }
@@ -15,4 +15,3 @@ jgit = "org.eclipse.jgit:org.eclipse.jgit:6.4.0.202211300538-r"
 
 [plugins]
 versions = "com.github.ben-manes.versions:0.46.0"
-
