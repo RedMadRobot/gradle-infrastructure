@@ -18,8 +18,13 @@ android {
 
 - Update Gradle to `8.8` (:warning: Minimal required Gradle version is `8.0`)
 - **android:** Remove the workaround for Explicit API enabling as the issue has been [fixed](https://youtrack.jetbrains.com/issue/KT-37652) in Kotlin 1.9
+- **kotlin:** Deprecate accessor `kotlinCompile`.
+  It is recommended to use `kotlin.compilerOptions { ... }` to configure compilation instead.
 
 ### Dependencies
+
+infrastructure-kotlin:
+- [Kotlin](https://kotlinlang.org/docs/whatsnew20.html) `1.8.10` → `2.0.0` (:warning: Minimal required Kotlin version is `1.9.0`)
 
 infrastructure-android:
 - [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) `7.4.2` → `8.5.0` (:warning: Minimal required AGP version is `8.4.0`)

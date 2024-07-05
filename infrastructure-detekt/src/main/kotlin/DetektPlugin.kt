@@ -203,7 +203,7 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
         val baseExtensions = extensions.getByType<BaseExtension>()
         baseExtensions.checkVariantExists(variantName) { existingVariants ->
             val candidates = existingVariants.joinToString(", ") { variant ->
-                "'${createDetektVariantTaskName(taskSuffix, variant.capitalize(), "All")}'"
+                "'${createDetektVariantTaskName(taskSuffix, variant, "All")}'"
             }
             "Task ${createDetektVariantTaskName(taskSuffix, variantName, "All")} not found in project. " +
                 "Some candidates are: $candidates"
@@ -218,12 +218,12 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
 }
 
 private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (List<String>) -> String) {
-    val requiredVariant = variants?.find { it.name.capitalize() == variantName }
+    val requiredVariant = variants?.find { it.name.capitalized() == variantName }
     checkNotNull(requiredVariant) { lazyMessage.invoke(variants?.map { it.name }.orEmpty()) }
 }
 
 private fun createDetektVariantTaskName(suffix: String, variantName: String, postfix: String = ""): String {
-    return "detekt$suffix$variantName$postfix"
+    return "detekt$suffix${variantName.capitalized()}$postfix"
 }
 
 private fun List<Project>.checkModulesContainDetekt(lazyMessage: (String) -> String) {
