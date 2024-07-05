@@ -9,8 +9,8 @@ androidTools-gradle = "com.android.tools.build:gradle:8.5.0"
 androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:3.0.1"
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.6"
 kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0"
-pluginPublish = "com.gradle.publish:plugin-publish-plugin:1.1.0"
+pluginPublish = "com.gradle.publish:plugin-publish-plugin:1.2.1"
 jgit = "org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r"
 
 [plugins]
-versions = "com.github.ben-manes.versions:0.46.0"
+versions = "com.github.ben-manes.versions:0.51.0"
