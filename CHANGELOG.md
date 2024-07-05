@@ -31,6 +31,10 @@ infrastructure-android:
 - [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v3.0.1)  `2.7.0` → `3.0.1`
 - Remove `com.android.tools:common` from dependencies
 
+infrastructure-detekt:
+- [Detekt](https://github.com/detekt/detekt/releases/tag/v1.23.6) `1.22.0` → `1.23.6`
+- [JGit](https://projects.eclipse.org/projects/technology.jgit/releases/6.10.0) `6.4.0` → `6.10.0`
+
 ## [0.18.1] (2023-04-18)
 
 - Fix compatibility with Gradle lower than 8.0 (#127)
