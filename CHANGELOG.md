@@ -1,5 +1,19 @@
 ## [Unreleased]
 
+### Stable `addSharedSourceSetRoot` extension
+
+Experimental extension `addSharedSourceSetRoot(...)` has been replaced with the new stable version:
+
+```kotlin
+android {
+    // The old way (Deprecated)
+    addSharedSourceSetRoot("debug", "qa")
+    
+    // The new way
+    sourceSets.addSharedSourceSetRoot("debug", "qa")
+}
+```
+
 ### Changes
 
 - Update Gradle to `8.8` (:warning: Minimal required Gradle version is `8.0`)

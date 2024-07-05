@@ -1,9 +1,21 @@
 package com.redmadrobot.build.dsl
 
 import com.android.build.api.dsl.AndroidSourceSet
-import com.android.build.api.dsl.CommonExtension
-import org.gradle.api.Incubating
-import org.gradle.kotlin.dsl.get
+import com.redmadrobot.build.android.internal.CommonExtension
+import org.gradle.api.NamedDomainObjectContainer
+
+/** Use `sourceSets.addSharedSourceSetRoot` instead. */
+@Deprecated(
+    "Use sourceSets.addSharedSourceSetRoot(...) instead.",
+    ReplaceWith("this.sourceSets.addSharedSourceSetRoot(variant1, variant2, name)")
+)
+public fun CommonExtension.addSharedSourceSetRoot(
+    variant1: String,
+    variant2: String,
+    name: String = "$variant1${variant2.replaceFirstChar { it.uppercaseChar() }}",
+) {
+    sourceSets.addSharedSourceSetRoot(variant1, variant2, name)
+}
 
 /**
  * Adds source set root with the given [name], shared between [variant1] and [variant2] source sets.
@@ -11,28 +23,24 @@ import org.gradle.kotlin.dsl.get
  * ```
  *  android {
  *      // Here we need to share sources between debug and QA builds
- *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
+ *      sourceSets.addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
  *
  *      // We can specify name for the source set root if need
- *      addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
+ *      sourceSets.addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
  *  }
  * ```
  */
-@Incubating
-public fun CommonExtension<*, *, *, *>.addSharedSourceSetRoot(
+public fun NamedDomainObjectContainer<out AndroidSourceSet>.addSharedSourceSetRoot(
     variant1: String,
     variant2: String,
-    name: String = "$variant1${variant2.capitalize()}",
+    name: String = "$variant1${variant2.replaceFirstChar { it.uppercaseChar() }}",
 ) {
-    val variant1SourceSets = sourceSets[variant1]
-    val variant2SourceSets = sourceSets[variant2]
     val root = "src/$name"
-
-    variant1SourceSets.addRoot(root)
-    variant2SourceSets.addRoot(root)
+    getByName(variant1).addRoot(root)
+    getByName(variant2).addRoot(root)
 }
 
-@Suppress("UnstableApiUsage")
+/** Works similar to [AndroidSourceSet.setRoot], but adds the new [path] to the existing roots. */
 private fun AndroidSourceSet.addRoot(path: String) {
     java.srcDirs("$path/java")
     kotlin.srcDirs("$path/java", "$path/kotlin")
