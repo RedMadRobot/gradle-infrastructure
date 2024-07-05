@@ -1,6 +1,9 @@
 ## [Unreleased]
 
+### Changes
+
 - Update Gradle to `8.8` (:warning: Minimal required Gradle version is `8.0`)
+- **android:** Remove the workaround for Explicit API enabling as the issue has been [fixed](https://youtrack.jetbrains.com/issue/KT-37652) in Kotlin 1.9
 
 ### Dependencies
 

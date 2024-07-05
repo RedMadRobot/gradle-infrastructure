@@ -8,10 +8,6 @@ import com.redmadrobot.build.android.internal.projectProguardFiles
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.kotlin.internal.kotlin
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-private const val ARG_EXPLICIT_API = "-Xexplicit-api"
 
 /**
  * Plugin that applies default configurations for Android library project.
@@ -39,27 +35,6 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
         }
 
         // Enable Explicit API mode for libraries by default
-        if (kotlin.explicitApi == null) kotlin.explicitApi()
-        afterEvaluate {
-            configureExplicitApi(kotlin.explicitApi)
-        }
+        kotlin.explicitApi()
     }
-}
-
-// Workaround to configure Explicit API mode in android library modules
-// Related issues:
-// https://youtrack.jetbrains.com/issue/KT-37652
-// https://issuetracker.google.com/issues/167819676
-// https://issuetracker.google.com/issues/168371736
-// TODO: Remove when the issue will be fixed
-private fun Project.configureExplicitApi(mode: ExplicitApiMode?) {
-    if (mode == null) return
-
-    tasks.matching { it is KotlinCompile && !it.name.contains("test", ignoreCase = true) }
-        .configureEach {
-            val options = (this as KotlinCompile).kotlinOptions
-            if (options.freeCompilerArgs.none { arg -> arg.startsWith(ARG_EXPLICIT_API) }) {
-                options.freeCompilerArgs += mode.toCompilerArg()
-            }
-        }
 }
