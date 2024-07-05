@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Update Gradle to `8.8` (:warning: Minimal required Gradle version is `8.0`)
+
 ## [0.18.1] (2023-04-18)
 
 - Fix compatibility with Gradle lower than 8.0 (#127)

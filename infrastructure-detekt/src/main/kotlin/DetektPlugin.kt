@@ -135,9 +135,9 @@ private fun Project.configureDetektDiffTask(
         )
 
         val findChangedFiles = tasks.register<CollectGitDiffFilesTask>("findChangedFiles") {
-            projectDir.set(layout.projectDirectory)
-            filterParams.set(changedFilesFilter)
-            branch.set(detektDiffOptions.baseBranch)
+            projectDir = layout.projectDirectory
+            filterParams = changedFilesFilter
+            branch = detektDiffOptions.baseBranch
         }
 
         detektTask(staticAnalyzerSpec, "detektDiff") {
@@ -155,18 +155,18 @@ private inline fun Project.detektTask(
     return tasks.register<Detekt>(name) {
         parallel = true
         config.setFrom(provider { staticAnalyzerSpec.configsDir.get().file("detekt/detekt.yml") })
-        baseline.set(provider { staticAnalyzerSpec.configsDir.getFileIfExists("detekt/baseline.xml") })
+        baseline = provider { staticAnalyzerSpec.configsDir.getFileIfExists("detekt/baseline.xml") }
         setSource(projectDir)
-        reportsDir.set(staticAnalyzerSpec.reportsDir.asFile)
+        reportsDir = staticAnalyzerSpec.reportsDir.asFile
         include("**/*.kt")
         include("**/*.kts")
         exclude("**/res/**")
         exclude("**/build/**")
         exclude("**/.*/**")
         reports {
-            xml.required.set(true)
-            txt.required.set(false)
-            html.required.set(false)
+            xml.required = true
+            txt.required = false
+            html.required = false
         }
         configure()
     }
@@ -178,9 +178,9 @@ private inline fun Project.detektCreateBaselineTask(
     crossinline configure: DetektCreateBaselineTask.() -> Unit,
 ): TaskProvider<DetektCreateBaselineTask> {
     return tasks.register<DetektCreateBaselineTask>(name) {
-        parallel.set(true)
+        parallel = true
         config.setFrom(provider { staticAnalyzerSpec.configsDir.get().file("detekt/detekt.yml") })
-        baseline.set(provider { staticAnalyzerSpec.configsDir.get().file("detekt/baseline.xml") })
+        baseline = provider { staticAnalyzerSpec.configsDir.get().file("detekt/baseline.xml") }
         setSource(projectDir)
         include("**/*.kt")
         include("**/*.kts")
