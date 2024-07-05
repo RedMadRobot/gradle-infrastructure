@@ -5,8 +5,8 @@ infrastructure = "0.18.1"
 infrastructure-kotlin = { module = "com.redmadrobot.build:infrastructure-kotlin", version.ref = "infrastructure" }
 infrastructure-detekt = { module = "com.redmadrobot.build:infrastructure-detekt", version.ref = "infrastructure" }
 infrastructure-publish = { module = "com.redmadrobot.build:infrastructure-publish", version.ref = "infrastructure" }
-androidTools-gradle = "com.android.tools.build:gradle:7.4.2"
-androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:2.7.0"
+androidTools-gradle = "com.android.tools.build:gradle:8.5.0"
+androidGradleCacheFix = "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:3.0.1"
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.22.0"
 kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
 pluginPublish = "com.gradle.publish:plugin-publish-plugin:1.1.0"

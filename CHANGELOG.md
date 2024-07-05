@@ -8,6 +8,8 @@
 ### Dependencies
 
 infrastructure-android:
+- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) `7.4.2` → `8.5.0` (:warning: Minimal required AGP version is `8.4.0`)
+- [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v3.0.1)  `2.7.0` → `3.0.1`
 - Remove `com.android.tools:common` from dependencies
 
 ## [0.18.1] (2023-04-18)
