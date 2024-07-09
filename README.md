@@ -116,7 +116,6 @@ android {
 Common configurations for pure Kotlin libraries.
 
 - Applies plugin `kotlin`
-- Specifies `jvmTarget` 11
 - Enables [explicit API mode][explicit-api]
 
 ### publish
@@ -223,7 +222,6 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 Common configurations for Android libraries and application.
 
 Both:
-- Specifies `jvmTarget` and `compatibility` 11
 - Specifies default compile, min and target SDK
 - Disables `shaders` [build-features] by default
 - Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)

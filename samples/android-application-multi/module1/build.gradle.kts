@@ -1,5 +1,6 @@
 plugins {
     id("com.redmadrobot.android-library")
+    convention.jvm
 }
 
 android {

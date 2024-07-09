@@ -4,7 +4,6 @@ import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
-import com.redmadrobot.build.kotlin.internal.java
 import com.redmadrobot.build.kotlin.internal.kotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Project
@@ -28,16 +27,9 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
         // Enable Explicit API mode for libraries by default
         kotlin.explicitApi()
 
-        configureKotlin(configPlugin.jvmTarget)
+        configureKotlin()
         configureKotlinTest(configPlugin.testOptions)
         configureRepositories()
-
-        afterEvaluate {
-            java {
-                targetCompatibility = configPlugin.jvmTarget.get()
-                sourceCompatibility = configPlugin.jvmTarget.get()
-            }
-        }
     }
 }
 

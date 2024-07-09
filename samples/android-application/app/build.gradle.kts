@@ -25,6 +25,10 @@ android {
     sourceSets.addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
     // Align Kotlin version across all dependencies
     implementation(platform(kotlin("bom", version = "2.0.0")))

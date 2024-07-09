@@ -9,9 +9,7 @@ import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
@@ -41,13 +39,12 @@ public abstract class BaseAndroidPlugin internal constructor() : InfrastructureP
             plugin("org.gradle.android.cache-fix")
         }
 
-        configureKotlin(configPlugin.jvmTarget)
+        configureKotlin()
         configureAndroid()
         androidComponents {
             finalizeDsl { extension ->
                 extension.applyAndroidOptions(
                     options = configPlugin.androidOptions,
-                    jvmTarget = configPlugin.jvmTarget,
                     staticAnalyzerSpec = configPlugin.staticAnalyzerSpec,
                 )
                 filterTestTaskDependencies(configPlugin.androidOptions)
@@ -77,7 +74,6 @@ private fun Project.configureAndroid() = android {
 @OptIn(InternalGradleInfrastructureApi::class)
 private fun CommonExtension.applyAndroidOptions(
     options: AndroidOptions,
-    jvmTarget: Provider<JavaVersion>,
     staticAnalyzerSpec: StaticAnalyzerSpec,
 ) {
     setCompileSdkVersion(options.compileSdk.get())
@@ -85,11 +81,6 @@ private fun CommonExtension.applyAndroidOptions(
 
     defaultConfig {
         minSdk = options.minSdk.get()
-    }
-
-    compileOptions {
-        sourceCompatibility = jvmTarget.get()
-        targetCompatibility = jvmTarget.get()
     }
 
     testOptions {

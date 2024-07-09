@@ -8,8 +8,12 @@ public interface RedmadrobotExtension : StaticAnalyzerSpec {
 
     /**
      * JVM version to be used as a target by Kotlin and Java compilers.
-     * By default, used Java 11.
+     * Use [JVM Toolchains](https://kotl.in/gradle/jvm/toolchain) instead.
      */
+    @Deprecated(
+        "Use JVM Toolchains instead. See https://kotl.in/gradle/jvm/toolchain",
+        level = DeprecationLevel.ERROR
+    )
     public val jvmTarget: Property<JavaVersion>
 
     public companion object {

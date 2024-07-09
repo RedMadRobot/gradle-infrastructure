@@ -16,6 +16,16 @@ android {
 
 ### :warning: BREAKING CHANGES
 
+- **common:** Deprecate `redmadrobot.jvmTarget` with deprecation level `Error`.
+  Use [JVM Toolchains](https://kotl.in/gradle/jvm/toolchain) instead to specify JVM target.
+  Kotlin, Android Gradle Plugin, detekt and many other tools have support for this mechanism,
+  In most cases, adding this into your `build.gradle.kts` should be enough:
+  ```kotlin
+  kotlin {
+      jvmToolchain(17)
+  }
+  ```
+  You can also configure [automatic toolchains downloading](https://docs.gradle.org/current/userguide/toolchains.html#sub:download_repositories).
 - **common:** Disable [automatic repositories adding](https://github.com/RedMadRobot/gradle-infrastructure#automatically-added-repositories) by default.
   If you rely on this feature, consider declaring required repositories explicitly, or enable it in `gradle.properties`:
   ```properties

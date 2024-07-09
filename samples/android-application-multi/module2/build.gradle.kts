@@ -1,5 +1,6 @@
 plugins {
     id("com.redmadrobot.android-library")
+    convention.jvm
 }
 
 // Explicit API is enabled by default, but we can disable it if needed

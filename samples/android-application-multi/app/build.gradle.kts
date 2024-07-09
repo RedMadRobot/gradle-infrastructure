@@ -1,5 +1,6 @@
 plugins {
     id("com.redmadrobot.application")
+    convention.jvm
 }
 
 // Plugin "com.redmadrobot.application" configures build types, SDK versions, proguard and so on.

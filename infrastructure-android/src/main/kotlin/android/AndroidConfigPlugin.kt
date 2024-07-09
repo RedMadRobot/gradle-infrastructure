@@ -5,10 +5,8 @@ import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.hasPlugin
 import com.redmadrobot.build.kotlin.KotlinConfigPlugin
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.internal.plugins.PluginRegistry
-import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.apply
 import javax.inject.Inject
 
@@ -24,9 +22,6 @@ public open class AndroidConfigPlugin @Inject constructor(
 
     internal lateinit var androidOptions: AndroidOptionsImpl
         private set
-
-    internal val jvmTarget: Provider<JavaVersion>
-        get() = redmadrobotExtension.jvmTarget
 
     internal val staticAnalyzerSpec: StaticAnalyzerSpec
         get() = redmadrobotExtension
