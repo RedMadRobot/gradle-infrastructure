@@ -1,5 +1,50 @@
 ## [Unreleased]
 
+### Stable `addSharedSourceSetRoot` extension
+
+Experimental extension `addSharedSourceSetRoot(...)` has been replaced with the new stable version:
+
+```kotlin
+android {
+    // The old way (Deprecated)
+    addSharedSourceSetRoot("debug", "qa")
+    
+    // The new way
+    sourceSets.addSharedSourceSetRoot("debug", "qa")
+}
+```
+
+### :warning: BREAKING CHANGES
+
+- **android:** Default `targetSdk` changed from `33` to `34`
+
+### Other Changes
+
+- **android:** Remove the workaround for Explicit API enabling as the issue has been [fixed](https://youtrack.jetbrains.com/issue/KT-37652) in Kotlin 1.9
+- **kotlin:** Deprecate accessor `kotlinCompile`.
+  It is recommended to use `kotlin.compilerOptions { ... }` to configure compilation instead.
+- Update Gradle to `8.8`
+
+### Dependencies
+
+| Dependency            |   Minimal version   |
+|-----------------------|:-------------------:|
+| Gradle                |    `7.4` → `8.0`    |
+| Kotlin Gradle Plugin  | `1.7.10` → `1.9.0`  |
+| Android Gradle Plugin |  `7.4.0` → `8.4.0`  |
+
+infrastructure-kotlin:
+- [Kotlin](https://kotlinlang.org/docs/whatsnew20.html) `1.8.10` → `2.0.0`
+
+infrastructure-android:
+- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) `7.4.2` → `8.5.0`
+- [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v3.0.1)  `2.7.0` → `3.0.1`
+- Remove `com.android.tools:common` from dependencies
+
+infrastructure-detekt:
+- [Detekt](https://github.com/detekt/detekt/releases/tag/v1.23.6) `1.22.0` → `1.23.6`
+- [JGit](https://projects.eclipse.org/projects/technology.jgit/releases/6.10.0) `6.4.0` → `6.10.0`
+
 ## [0.18.1] (2023-04-18)
 
 - Fix compatibility with Gradle lower than 8.0 (#127)

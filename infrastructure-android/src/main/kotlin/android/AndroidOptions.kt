@@ -36,6 +36,6 @@ public interface AndroidOptions {
 
     public companion object {
         internal const val DEFAULT_MIN_API = 23
-        internal const val DEFAULT_TARGET_API = 33
+        internal const val DEFAULT_TARGET_API = 34
     }
 }

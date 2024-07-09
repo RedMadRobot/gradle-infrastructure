@@ -85,7 +85,8 @@ private fun Project.configureApp() = android<ApplicationExtension> {
 // set isDebuggable to `false` and manually set "debuggable" flag in manifest
 // See: https://issuetracker.google.com/issues/238655204
 private fun ApplicationVariant.makeDebuggable(tasks: TaskContainer) {
-    val makeDebuggableTask = tasks.register<MakeDebuggableTask>("make${name.capitalize()}Debuggable")
+    val capitalizedName = name.replaceFirstChar { it.uppercaseChar() }
+    val makeDebuggableTask = tasks.register<MakeDebuggableTask>("make${capitalizedName}Debuggable")
 
     artifacts.use(makeDebuggableTask)
         .wiredWithFiles(

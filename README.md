@@ -79,7 +79,7 @@ plugins {
 
 redmadrobot {
     android {
-        minSdk.set(28)
+        minSdk = 28
     }
 }
 ```
@@ -103,6 +103,7 @@ android {
 
 | gradle-infrastructure | Minimal Gradle version | Minimal KGP version | Minimal AGP version |
 |----------------------:|:----------------------:|:-------------------:|:-------------------:|
+|              **0.19** |          8.0           |        1.9.0        |        8.4.0        |
 |              **0.18** |          7.5           |       1.7.10        |        7.4.0        |
 |              **0.17** |          7.2           |       1.7.10        |        7.1.0        |
 
@@ -147,8 +148,8 @@ You can configure publication via extension `redmadrobot.publishing`:
 ```kotlin
 redmadrobot {
     publishing {
-        signArtifacts.set(true) // Enables artifacts signing, required for publication to OSSRH
-        useGpgAgent.set(true)   // By default use gpg-agent for artifacts signing
+        signArtifacts = true // Enables artifacts signing, required for publication to OSSRH
+        useGpgAgent = true   // By default use gpg-agent for artifacts signing
     }
 }
 ```
@@ -301,7 +302,7 @@ The extension should be configured in root project.
 // root project build.gradle.kts
 
 redmadrobot {
-    configsDir.set(file("path/to/configs/"))
+    configsDir = file("path/to/configs/")
 }
 ```
 

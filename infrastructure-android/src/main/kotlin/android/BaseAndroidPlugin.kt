@@ -2,13 +2,9 @@
 
 package com.redmadrobot.build.android
 
-import com.android.build.api.dsl.CommonExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
-import com.redmadrobot.build.android.internal.android
-import com.redmadrobot.build.android.internal.androidComponents
-import com.redmadrobot.build.android.internal.ifPresent
-import com.redmadrobot.build.android.internal.test
+import com.redmadrobot.build.android.internal.*
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
@@ -62,7 +58,7 @@ public abstract class BaseAndroidPlugin internal constructor() : InfrastructureP
     }
 }
 
-private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
+private fun Project.configureAndroid() = android {
     // Set NDK version from env variable if exists
     val requestedNdkVersion = System.getenv("ANDROID_NDK_VERSION")
     if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
@@ -81,7 +77,7 @@ private fun Project.configureAndroid() = android<CommonExtension<*, *, *, *>> {
 }
 
 @OptIn(InternalGradleInfrastructureApi::class)
-private fun CommonExtension<*, *, *, *>.applyAndroidOptions(
+private fun CommonExtension.applyAndroidOptions(
     options: AndroidOptions,
     jvmTarget: Provider<JavaVersion>,
     staticAnalyzerSpec: StaticAnalyzerSpec,
@@ -109,7 +105,7 @@ private fun CommonExtension<*, *, *, *>.applyAndroidOptions(
 }
 
 /** Universal function to set compile SDK even if it is preview version. */
-private fun CommonExtension<*, *, *, *>.setCompileSdkVersion(version: String) {
+private fun CommonExtension.setCompileSdkVersion(version: String) {
     val intVersion = version.toIntOrNull()
     if (intVersion != null) {
         compileSdk = intVersion

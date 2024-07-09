@@ -4,6 +4,6 @@ plugins {
 }
 
 gradlePlugin {
-    website.set("https://github.com/RedMadRobot/gradle-infrastructure")
-    vcsUrl.set("https://github.com/RedMadRobot/gradle-infrastructure.git")
+    website = "https://github.com/RedMadRobot/gradle-infrastructure"
+    vcsUrl = "https://github.com/RedMadRobot/gradle-infrastructure.git"
 }
