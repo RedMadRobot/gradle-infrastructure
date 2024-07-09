@@ -1,7 +1,4 @@
-import com.redmadrobot.build.dsl.developer
-import com.redmadrobot.build.dsl.isRunningOnCi
-import com.redmadrobot.build.dsl.mit
-import com.redmadrobot.build.dsl.setGitHubProject
+import com.redmadrobot.build.dsl.*
 
 plugins {
     id("com.redmadrobot.detekt")
