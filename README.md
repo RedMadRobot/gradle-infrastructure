@@ -225,20 +225,19 @@ Common configurations for Android libraries and application.
 Both:
 - Specifies `jvmTarget` and `compatibility` 11
 - Specifies default compile, min and target SDK
-- Disables `aidl`, `renderScript` and `shaders` [build-features]
+- Disables `shaders` [build-features] by default
 - Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)
 
 Library:
 - Applies plugin `com.android.library`
 - Adds all proguard files from `proguard` folder as `consumerProguardFiles`
-- Disables `buildConfig`, `androidResources` and `resValues` [build-features]
+- Disables `androidResources` and `resValues` [build-features] by default
 - Enables [explicit API mode][explicit-api]
 
 Application:
 - Applies plugin `com.android.application`
 - Adds all proguard files from `proguard` folder
 - Configures `debug`, `qa` and `release` build types
-- Adds `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` BuildConfig variables which `false` only for `debug` build type
 - Configures Android Lint [default options][lint-options]
 
 #### QA build type name configuration

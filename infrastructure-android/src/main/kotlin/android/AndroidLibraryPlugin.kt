@@ -28,7 +28,6 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
             }
 
             buildFeatures {
-                buildConfig = false
                 resValues = false
                 androidResources = false
             }

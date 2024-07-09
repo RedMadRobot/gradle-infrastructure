@@ -64,8 +64,6 @@ private fun Project.configureAndroid() = android {
     if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
 
     buildFeatures {
-        aidl = false
-        renderScript = false
         shaders = false
     }
 

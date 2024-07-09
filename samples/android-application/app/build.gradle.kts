@@ -1,6 +1,4 @@
-import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
-import com.redmadrobot.build.dsl.BUILD_TYPE_QA
-import com.redmadrobot.build.dsl.addSharedSourceSetRoot
+import com.redmadrobot.build.dsl.*
 
 plugins {
     id("com.redmadrobot.application")
@@ -18,11 +16,6 @@ android {
         // If we need any additional configurations we still can add it.
         // For example we need to run instrumentation tests.
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    // TODO: Remove after removal of implicitly added BuildConfig fields
-    buildFeatures {
-        buildConfig = true
     }
 
     // If we need to share sources between two build types,

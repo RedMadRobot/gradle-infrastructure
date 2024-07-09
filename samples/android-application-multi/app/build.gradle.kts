@@ -15,11 +15,6 @@ android {
         // For example, specify instrumentation tests runner.
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    // TODO: Remove after removal of implicitly added BuildConfig fields
-    buildFeatures {
-        buildConfig = true
-    }
 }
 
 dependencies {
