@@ -117,7 +117,6 @@ Common configurations for pure Kotlin libraries.
 
 - Applies plugin `kotlin`
 - Specifies `jvmTarget` 11
-- Adds repository `mavenCentral` (see [Automatically added repositories](#automatically-added-repositories))
 - Enables [explicit API mode][explicit-api]
 
 ### publish
@@ -206,7 +205,6 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 
 ### detekt
 
-- Adds repository `mavenCentral` (see [Automatically added repositories](#automatically-added-repositories))
 - Applies `detekt` plugin with `detekt-formatting`
 - Configures additional tasks:
     - `detektAll` - Runs Detekt over the whole codebase
@@ -228,7 +226,6 @@ Both:
 - Specifies `jvmTarget` and `compatibility` 11
 - Specifies default compile, min and target SDK
 - Disables `aidl`, `renderScript` and `shaders` [build-features]
-- Adds repositories `mavenCentral` and `google` (see [Automatically added repositories](#automatically-added-repositories))
 - Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)
 
 Library:
@@ -424,16 +421,20 @@ redmadrobot {
 
 ### Automatically added repositories
 
-Infrastructure plugins automatically add repositories required to make project work:
+> [!WARNING]
+> This feature is deprecated and is disabled by default since v0.19
+> Currently you can enable this behavior, though this option may be deleted at some point.
+
+Infrastructure plugins can automatically add required repositories:
 
 - **kotlin** plugin adds `mavenCentral` repo
 - **detekt** plugin adds `mavenCentral` repo
 - **android** plugins add `mavenCentral` and `google` repos
 
-In the case you don't want these repositories to be added automatically, you can disable this behavior via flag in `gradle.properties`:
+This feature should be enabled by flag in `gradle.properties`:
 
 ```properties
-redmadrobot.add.repositories=false
+redmadrobot.add.repositories=true
 ```
 
 ## Samples

@@ -16,6 +16,11 @@ android {
 
 ### :warning: BREAKING CHANGES
 
+- **common:** Disable [automatic repositories adding](https://github.com/RedMadRobot/gradle-infrastructure#automatically-added-repositories) by default.
+  If you rely on this feature, consider declaring required repositories explicitly, or enable it in `gradle.properties`:
+  ```properties
+  redmadrobot.add.repositories=true
+  ```
 - **android:** Default `targetSdk` changed from `33` to `34`
 
 ### Other Changes
