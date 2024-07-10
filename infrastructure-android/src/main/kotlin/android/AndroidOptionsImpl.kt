@@ -31,6 +31,9 @@ internal abstract class AndroidOptionsImpl @Inject constructor(
         buildToolsVersion
             .convention(providers.environmentVariable("ANDROID_BUILD_TOOLS_VERSION"))
             .finalizeValueOnRead()
+        ndkVersion
+            .convention(providers.environmentVariable("ANDROID_NDK_VERSION"))
+            .finalizeValueOnRead()
         testTasksFilter
             .convention { taskProvider -> taskProvider.name.endsWith("ReleaseUnitTest") }
             .finalizeValueOnRead()
@@ -48,6 +51,7 @@ internal abstract class AndroidOptionsImpl @Inject constructor(
         targetSdk.convention(defaults.targetSdk)
         compileSdk.convention(defaults.compileSdk)
         buildToolsVersion.convention(defaults.buildToolsVersion)
+        ndkVersion.convention(defaults.ndkVersion)
         testTasksFilter.convention(defaults.testTasksFilter)
         setTestDefaults(defaults.testOptions)
     }

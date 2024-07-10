@@ -34,6 +34,12 @@ public interface AndroidOptions {
     public val buildToolsVersion: Property<String>
 
     /**
+     * NDK to be used in all android modules.
+     * By default, uses the version from the environment variable `ANDROID_NDK_VERSION` if it is set.
+     */
+    public val ndkVersion: Property<String>
+
+    /**
      * Filters test tasks that should be run on ':test'.
      * It is useful if you don't want to run tests for all build variants when run 'test' task.
      *

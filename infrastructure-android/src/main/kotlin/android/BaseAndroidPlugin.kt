@@ -56,10 +56,6 @@ public abstract class BaseAndroidPlugin internal constructor() : InfrastructureP
 }
 
 private fun Project.configureAndroid() = android {
-    // Set NDK version from env variable if exists
-    val requestedNdkVersion = System.getenv("ANDROID_NDK_VERSION")
-    if (requestedNdkVersion != null) ndkVersion = requestedNdkVersion
-
     buildFeatures {
         shaders = false
     }
@@ -78,6 +74,7 @@ private fun CommonExtension.applyAndroidOptions(
 ) {
     setCompileSdkVersion(options.compileSdk.get())
     options.buildToolsVersion.ifPresent { buildToolsVersion = it }
+    options.ndkVersion.ifPresent { ndkVersion = it }
 
     defaultConfig {
         minSdk = options.minSdk.get()

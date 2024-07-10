@@ -349,6 +349,9 @@ redmadrobot {
         // Build Tools version to be used in all android modules.
         buildToolsVersion = System.getenv("ANDROID_BUILD_TOOLS_VERSION")
 
+        // NDK version to be used in all android modules.
+        ndkVersion = System.getenv("ANDROID_NDK_VERSION")
+
         // Filter for test tasks that should be run on ':test'.
         testTasksFilter = { taskProvider -> taskProvider.name.endsWith("ReleaseUnitTest") }
     
