@@ -2,34 +2,38 @@
 
 package com.redmadrobot.build.android
 
-import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.*
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
+import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.getPlugin
 
 /**
  * Base plugin with common configurations for both application and library modules.
  * @see AndroidLibraryPlugin
  * @see AndroidApplicationPlugin
  */
-public abstract class BaseAndroidPlugin internal constructor() : InfrastructurePlugin() {
+public abstract class BaseAndroidPlugin internal constructor(
+    private val androidPluginId: String,
+) : Plugin<Project> {
 
-    @InternalGradleInfrastructureApi
-    protected val configPlugin: AndroidConfigPlugin
-        get() = project.plugins.getPlugin(AndroidConfigPlugin::class)
+    override fun apply(target: Project) {
+        with(target) {
+            val configPlugin = plugins.apply(AndroidConfigPlugin::class)
+            applyBaseAndroidPlugin(androidPluginId, configPlugin)
+            configure(configPlugin)
+        }
+    }
 
-    /** Should be called from [configure] in implementation. */
-    @InternalGradleInfrastructureApi
-    protected fun Project.applyBaseAndroidPlugin(pluginId: String) {
-        val configPlugin = plugins.apply(AndroidConfigPlugin::class)
+    internal abstract fun Project.configure(configPlugin: AndroidConfigPlugin)
+
+    @OptIn(InternalGradleInfrastructureApi::class)
+    private fun Project.applyBaseAndroidPlugin(pluginId: String, configPlugin: AndroidConfigPlugin) {
         apply {
             plugin(pluginId)
             plugin("kotlin-android")
@@ -39,7 +43,7 @@ public abstract class BaseAndroidPlugin internal constructor() : InfrastructureP
             plugin("org.gradle.android.cache-fix")
         }
 
-        configureKotlin()
+        configPlugin.configureKotlin()
         configureAndroid()
         androidComponents {
             finalizeDsl { extension ->

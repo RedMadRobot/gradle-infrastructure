@@ -12,7 +12,6 @@ import com.redmadrobot.build.android.internal.androidComponents
 import com.redmadrobot.build.android.internal.projectProguardFiles
 import com.redmadrobot.build.android.task.MakeDebuggableTask
 import com.redmadrobot.build.dsl.*
-import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.kotlin.dsl.register
@@ -23,12 +22,9 @@ import org.gradle.kotlin.dsl.register
  *
  * Tied to `com.redmadrobot.application` plugin ID.
  */
-public class AndroidApplicationPlugin : BaseAndroidPlugin() {
+public class AndroidApplicationPlugin : BaseAndroidPlugin("com.android.application") {
 
-    @InternalGradleInfrastructureApi
-    override fun Project.configure() {
-        applyBaseAndroidPlugin("com.android.application")
-
+    override fun Project.configure(configPlugin: AndroidConfigPlugin) {
         configureApp()
         androidComponents<ApplicationAndroidComponentsExtension> {
             onVariants(selector().withBuildType(BUILD_TYPE_QA)) { it.makeDebuggable(tasks) }

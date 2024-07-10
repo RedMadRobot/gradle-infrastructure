@@ -4,12 +4,12 @@ import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
-import com.redmadrobot.build.kotlin.internal.kotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 /**
  * Plugin that applies default configurations for Kotlin library project.
@@ -25,7 +25,7 @@ public class KotlinLibraryPlugin : InfrastructurePlugin() {
         val configPlugin = plugins.apply(KotlinConfigPlugin::class)
 
         // Enable Explicit API mode for libraries by default
-        kotlin.explicitApi()
+        kotlinExtension.explicitApi()
 
         configureKotlin()
         configureKotlinTest(configPlugin.testOptions)
