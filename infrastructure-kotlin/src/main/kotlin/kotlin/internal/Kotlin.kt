@@ -1,6 +1,5 @@
 package com.redmadrobot.build.kotlin.internal
 
-import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.dsl.isRunningOnCi
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.findBooleanProperty
@@ -8,9 +7,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
 
 @InternalGradleInfrastructureApi
-public fun InfrastructurePlugin.configureKotlin() {
-    val warningsAsErrors = project.getWarningsAsErrorsProperty()
-    project.kotlinCompile {
+public fun Project.configureKotlin() {
+    val warningsAsErrors = getWarningsAsErrorsProperty()
+    kotlinCompile {
         compilerOptions {
             allWarningsAsErrors = warningsAsErrors
             freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")

@@ -43,7 +43,7 @@ public abstract class BaseAndroidPlugin internal constructor(
             plugin("org.gradle.android.cache-fix")
         }
 
-        configPlugin.configureKotlin()
+        configureKotlin()
         configureAndroid()
         androidComponents {
             finalizeDsl { extension ->

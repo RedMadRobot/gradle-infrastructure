@@ -1,10 +1,10 @@
 package com.redmadrobot.build.kotlin
 
-import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
+import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
@@ -17,10 +17,14 @@ import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
  *
  * Tied to `com.redmadrobot.kotlin-library` plugin ID.
  */
-public class KotlinLibraryPlugin : InfrastructurePlugin() {
+public class KotlinLibraryPlugin : Plugin<Project> {
 
-    @InternalGradleInfrastructureApi
-    override fun Project.configure() {
+    override fun apply(target: Project) {
+        target.configure()
+    }
+
+    @OptIn(InternalGradleInfrastructureApi::class)
+    private fun Project.configure() {
         apply(plugin = "kotlin")
         val configPlugin = plugins.apply(KotlinConfigPlugin::class)
 
