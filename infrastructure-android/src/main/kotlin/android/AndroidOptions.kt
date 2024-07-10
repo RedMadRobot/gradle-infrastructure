@@ -6,22 +6,30 @@ import org.gradle.api.tasks.TaskProvider
 /** Options for android projects. */
 public interface AndroidOptions {
 
-    /** Minimal Android SDK to use across all android modules. */
+    /**
+     * Minimal Android SDK to be used in all android modules.
+     * By default, SDK 23 is used.
+     */
     public val minSdk: Property<Int>
 
-    /** Target Android SDK to use across all android modules. */
+    /**
+     * Target Android SDK to be used in all android modules.
+     * By default, SDK 34 is used.
+     */
     public val targetSdk: Property<Int>
 
     /**
-     * Compile Android SDK to use across all android modules.
+     * Compile Android SDK to be used in all android modules.
      * It can be version number ("33") or version code ("T").
      * Uses [targetSdk] as compile SDK if not configured.
      */
     public val compileSdk: Property<String>
 
     /**
-     * Build Tools version to use across all android modules.
-     * Uses default version for current Android Gradle Plugin if not configured.
+     * Build Tools version to be used in all android modules.
+     *
+     * By default, uses the version from environment variable `ANDROID_BUILD_TOOLS_VERSION`,
+     * or default version for current Android Gradle Plugin if the variable is not present.
      */
     public val buildToolsVersion: Property<String>
 
