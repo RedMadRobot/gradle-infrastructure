@@ -1,13 +1,12 @@
 package com.redmadrobot.build.publish
 
 import com.android.build.api.dsl.LibraryExtension
-import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.dsl.isReleaseVersion
-import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.publish.internal.isPluginAutomatedPublishing
 import com.redmadrobot.build.publish.internal.java
 import com.redmadrobot.build.publish.internal.publishing
 import com.redmadrobot.build.publish.internal.signing
+import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.*
@@ -18,10 +17,13 @@ import org.gradle.plugins.signing.Sign
  *
  * Tied to `com.redmadrobot.publish` plugin ID.
  */
-public open class PublishPlugin : InfrastructurePlugin() {
+public open class PublishPlugin : Plugin<Project> {
 
-    @InternalGradleInfrastructureApi
-    override fun Project.configure() {
+    override fun apply(target: Project) {
+        target.configure()
+    }
+
+    private fun Project.configure() {
         apply(plugin = "maven-publish")
         val configPlugin = plugins.apply(PublishConfigPlugin::class)
 
