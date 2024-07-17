@@ -5,10 +5,10 @@ import org.gradle.api.file.DirectoryProperty
 /** Options used for static analyzers' configurations. */
 public interface StaticAnalyzerSpec {
 
-    /** Directory where stored configs for static analyzers. */
+    /** Directory with configs for static analyzers and other tools. */
     public val configsDir: DirectoryProperty
 
-    /** Directory where will be stored static analyzers reports. */
+    /** Directory with reports of static analyzers and other tools. */
     public val reportsDir: DirectoryProperty
 
     public companion object {

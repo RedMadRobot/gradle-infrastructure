@@ -1,5 +1,6 @@
 plugins {
     id("com.redmadrobot.application")
+    convention.jvm
 }
 
 // Plugin "com.redmadrobot.application" configures build types, SDK versions, proguard and so on.
@@ -14,11 +15,6 @@ android {
         // If we need any additional configurations we still can add it.
         // For example, specify instrumentation tests runner.
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    // TODO: Remove after removal of implicitly added BuildConfig fields
-    buildFeatures {
-        buildConfig = true
     }
 }
 

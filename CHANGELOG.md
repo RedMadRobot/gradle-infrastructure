@@ -16,11 +16,30 @@ android {
 
 ### :warning: BREAKING CHANGES
 
+- **common:** Deprecate `redmadrobot.jvmTarget` with deprecation level `Error`.
+  Use [JVM Toolchains](https://kotl.in/gradle/jvm/toolchain) instead to specify JVM target.
+  Kotlin, Android Gradle Plugin, detekt and many other tools have support for this mechanism,
+  In most cases, adding this into your `build.gradle.kts` should be enough:
+  ```kotlin
+  kotlin {
+      jvmToolchain(17)
+  }
+  ```
+  You can also configure [automatic toolchains downloading](https://docs.gradle.org/current/userguide/toolchains.html#sub:download_repositories).
+- **common:** Disable [automatic repositories adding](https://github.com/RedMadRobot/gradle-infrastructure#automatically-added-repositories) by default.
+  If you rely on this feature, consider declaring required repositories explicitly, or enable it in `gradle.properties`:
+  ```properties
+  redmadrobot.add.repositories=true
+  ```
 - **android:** Default `targetSdk` changed from `33` to `34`
+- **android:** Do not add `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` variables to `BuildConfig` implicitly
 
 ### Other Changes
 
+- **android:** Use `ANDROID_BUILD_TOOLS_VERSION` env variable for `buildToolsVersion` if the option is not configured (#132)
+- **android:** Add the option `redmadrobot.android.ndkVersion` to specify NDK version for all android modules
 - **android:** Remove the workaround for Explicit API enabling as the issue has been [fixed](https://youtrack.jetbrains.com/issue/KT-37652) in Kotlin 1.9
+- **android:** Remove disabling of build features `aidl`, `renderScript` and `buildConfig` as they are already disabled by default in new versions of AGP
 - **kotlin:** Deprecate accessor `kotlinCompile`.
   It is recommended to use `kotlin.compilerOptions { ... }` to configure compilation instead.
 - Update Gradle to `8.8`

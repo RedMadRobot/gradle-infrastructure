@@ -1,6 +1,4 @@
-import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
-import com.redmadrobot.build.dsl.BUILD_TYPE_QA
-import com.redmadrobot.build.dsl.addSharedSourceSetRoot
+import com.redmadrobot.build.dsl.*
 
 plugins {
     id("com.redmadrobot.application")
@@ -20,16 +18,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // TODO: Remove after removal of implicitly added BuildConfig fields
-    buildFeatures {
-        buildConfig = true
-    }
-
     // If we need to share sources between two build types,
     // we can add shared source set root.
     // In this case will be created directory "debugQa"
     // that will be included to debug and QA source sets.
     sourceSets.addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

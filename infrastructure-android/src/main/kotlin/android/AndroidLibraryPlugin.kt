@@ -5,9 +5,8 @@ package com.redmadrobot.build.android
 import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.projectProguardFiles
-import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
-import com.redmadrobot.build.kotlin.internal.kotlin
 import org.gradle.api.Project
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 /**
  * Plugin that applies default configurations for Android library project.
@@ -15,12 +14,9 @@ import org.gradle.api.Project
  *
  * Tied to `com.redmadrobot.android-library` plugin ID.
  */
-public class AndroidLibraryPlugin : BaseAndroidPlugin() {
+public class AndroidLibraryPlugin : BaseAndroidPlugin("com.android.library") {
 
-    @InternalGradleInfrastructureApi
-    override fun Project.configure() {
-        applyBaseAndroidPlugin("com.android.library")
-
+    override fun Project.configure(configPlugin: AndroidConfigPlugin) {
         android<LibraryExtension> {
             defaultConfig {
                 // Add all files from 'proguard' dir
@@ -28,13 +24,12 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin() {
             }
 
             buildFeatures {
-                buildConfig = false
                 resValues = false
                 androidResources = false
             }
         }
 
         // Enable Explicit API mode for libraries by default
-        kotlin.explicitApi()
+        kotlinExtension.explicitApi()
     }
 }

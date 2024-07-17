@@ -1,7 +1,6 @@
 package com.redmadrobot.build
 
 import com.redmadrobot.build.internal.findByName
-import org.gradle.api.JavaVersion
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.ExtensionContainer
@@ -13,9 +12,6 @@ internal abstract class RedmadrobotExtensionImpl @Inject constructor(
 ) : RedmadrobotExtension, ExtensionAware, WithDefaults<RedmadrobotExtensionImpl> {
 
     init {
-        jvmTarget
-            .convention(JavaVersion.VERSION_11)
-            .finalizeValueOnRead()
         configsDir
             .convention(layout.projectDirectory.dir(StaticAnalyzerSpec.DEFAULT_CONFIGS_DIR))
             .finalizeValueOnRead()
@@ -25,7 +21,6 @@ internal abstract class RedmadrobotExtensionImpl @Inject constructor(
     }
 
     override fun setDefaults(defaults: RedmadrobotExtensionImpl) {
-        jvmTarget.convention(defaults.jvmTarget)
         configsDir.convention(defaults.configsDir)
         reportsDir.convention(defaults.reportsDir)
     }
