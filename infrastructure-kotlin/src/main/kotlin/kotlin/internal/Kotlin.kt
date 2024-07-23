@@ -10,10 +10,7 @@ import org.gradle.kotlin.dsl.*
 public fun Project.configureKotlin() {
     val warningsAsErrors = getWarningsAsErrorsProperty()
     kotlinCompile {
-        compilerOptions {
-            allWarningsAsErrors = warningsAsErrors
-            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-        }
+        compilerOptions.allWarningsAsErrors = warningsAsErrors
     }
 }
 
