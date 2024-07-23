@@ -94,7 +94,7 @@ private fun CommonExtension.applyAndroidOptions(
     }
 }
 
-/** Universal function to set compile SDK even if it is preview version. */
+/** Universal function to set compile SDK even if it is a preview version. */
 private fun CommonExtension.setCompileSdkVersion(version: String) {
     val intVersion = version.toIntOrNull()
     if (intVersion != null) {
@@ -104,7 +104,7 @@ private fun CommonExtension.setCompileSdkVersion(version: String) {
     }
 }
 
-/** Filter unit tests to be run with 'test' task. */
+/** Filter unit tests to be run with the 'test' task. */
 private fun Project.filterTestTaskDependencies(options: AndroidOptions) {
     afterEvaluate {
         tasks.named("test") {

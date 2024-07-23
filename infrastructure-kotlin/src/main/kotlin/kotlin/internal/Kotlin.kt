@@ -17,7 +17,7 @@ public fun Project.configureKotlin() {
     }
 }
 
-/** Use property value if it exists or fallback to true if running on CI. */
+/** Use property value if it exists or fall back to true if running on CI. */
 @OptIn(InternalGradleInfrastructureApi::class)
 private fun Project.getWarningsAsErrorsProperty(): Boolean {
     return findBooleanProperty("warningsAsErrors") ?: isRunningOnCi

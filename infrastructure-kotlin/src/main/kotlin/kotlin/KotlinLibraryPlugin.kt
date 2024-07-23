@@ -12,7 +12,7 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 /**
- * Plugin that applies default configurations for Kotlin library project.
+ * Plugin that applies default configurations for a Kotlin library project.
  * Should be applied in place of `kotlin` plugin.
  *
  * Tied to `com.redmadrobot.kotlin-library` plugin ID.
