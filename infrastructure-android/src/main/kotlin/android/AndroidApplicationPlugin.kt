@@ -9,6 +9,7 @@ import com.android.build.api.variant.ApplicationVariant
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidComponents
+import com.redmadrobot.build.android.internal.ifPresent
 import com.redmadrobot.build.android.task.MakeDebuggableTask
 import com.redmadrobot.build.dsl.*
 import org.gradle.api.Project
@@ -82,9 +83,7 @@ private fun ApplicationExtension.finalizeApp(
     androidOptions: AndroidOptions,
     staticAnalyzerSpec: StaticAnalyzerSpec,
 ) {
-    defaultConfig {
-        targetSdk = androidOptions.targetSdk.get()
-    }
+    androidOptions.targetSdk.ifPresent { defaultConfig.targetSdk = it }
 
     lint {
         xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile

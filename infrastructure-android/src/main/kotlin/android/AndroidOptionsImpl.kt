@@ -20,10 +20,8 @@ internal abstract class AndroidOptionsImpl @Inject constructor(
 
     init {
         minSdk
-            .convention(AndroidOptions.DEFAULT_MIN_API)
             .finalizeValueOnRead()
         targetSdk
-            .convention(AndroidOptions.DEFAULT_TARGET_API)
             .finalizeValueOnRead()
         compileSdk
             .convention(targetSdk.map(Int::toString))

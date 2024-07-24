@@ -6,16 +6,10 @@ import org.gradle.api.tasks.TaskProvider
 /** Options for android projects. */
 public interface AndroidOptions {
 
-    /**
-     * Minimal Android SDK to be used in all android modules.
-     * By default, SDK 23 is used.
-     */
+    /** Minimal Android SDK to be used in all android modules. */
     public val minSdk: Property<Int>
 
-    /**
-     * Target Android SDK to be used in all android modules.
-     * By default, SDK 34 is used.
-     */
+    /** Target Android SDK to be used in all android modules. */
     public val targetSdk: Property<Int>
 
     /**
@@ -48,8 +42,5 @@ public interface AndroidOptions {
      */
     public val testTasksFilter: Property<(TaskProvider<*>) -> Boolean>
 
-    public companion object {
-        internal const val DEFAULT_MIN_API = 23
-        internal const val DEFAULT_TARGET_API = 34
-    }
+    public companion object
 }

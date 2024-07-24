@@ -5,3 +5,11 @@ plugins {
 
     id("com.redmadrobot.android-config") version "0.19-SNAPSHOT"
 }
+
+// Common configurations for all modules
+redmadrobot {
+    android {
+        minSdk = 21
+        targetSdk = 34
+    }
+}

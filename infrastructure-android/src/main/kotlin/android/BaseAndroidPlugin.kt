@@ -76,13 +76,10 @@ private fun CommonExtension.applyAndroidOptions(
     options: AndroidOptions,
     staticAnalyzerSpec: StaticAnalyzerSpec,
 ) {
-    setCompileSdkVersion(options.compileSdk.get())
+    options.compileSdk.ifPresent { setCompileSdkVersion(it) }
     options.buildToolsVersion.ifPresent { buildToolsVersion = it }
     options.ndkVersion.ifPresent { ndkVersion = it }
-
-    defaultConfig {
-        minSdk = options.minSdk.get()
-    }
+    options.minSdk.ifPresent { defaultConfig.minSdk = it }
 
     testOptions {
         unitTests.all { it.setTestOptions(options.test) }

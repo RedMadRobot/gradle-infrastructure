@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+> [!NOTE]
+> This release removes many implicit features that couldn't be configured from outside.
+> It is also a part of a process of removing the features that could be easily implemented via [pre-compiled script plugins](https://docs.gradle.org/current/userguide/implementing_gradle_plugins_precompiled.html) (for example, SDK versions and tests configuration).
+> It is recommended to migrate these configurations to pre-compiled script plugins.
+
 ### Stable `addSharedSourceSetRoot` extension
 
 Experimental extension `addSharedSourceSetRoot(...)` has been replaced with the new stable version:
@@ -26,6 +31,17 @@ android {
   }
   ```
   You can also configure [automatic toolchains downloading](https://docs.gradle.org/current/userguide/toolchains.html#sub:download_repositories).
+- **android:** Don't set default `minSdk` (it was `23`) and `targetSdk` (it was `33`).
+  It was a poor decision to set defaults for these fields as could implicitly bump an SDK version in a project.
+  If you want to use `redmadrobot.android` to align SDK versions among all modules, you should set these properties explicitly:
+  ```kotlin
+  redmadrobot {
+      android {
+          minSdk = 23
+          targetSdk = 34
+      }
+  }
+  ```
 - **common:** Disable [automatic repositories adding](https://github.com/RedMadRobot/gradle-infrastructure#automatically-added-repositories) by default.
   If you rely on this feature, consider declaring required repositories explicitly, or enable it in `gradle.properties`:
   ```properties
@@ -40,7 +56,6 @@ android {
       }
   }
   ```
-- **android:** Default `targetSdk` changed from `33` to `34`
 - **android:** Do not add `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` variables to `BuildConfig` implicitly
 
 ### Other Changes
