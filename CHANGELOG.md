@@ -60,6 +60,9 @@ android {
   ```properties
   redmadrobot.add.repositories=true
   ```
+- **android:** Don't apply [`org.gradle.android.cache-fix` plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/) automatically.
+  This change allows removing android-cache-fix-gradle-plugin from the project dependencies.
+  See [the plugin documentation](https://github.com/gradle/android-cache-fix-gradle-plugin/?tab=readme-ov-file#applying-the-plugin) to learn how to apply this plugin to your project.
 - **android:** Don't apply `proguard-android-optimize.txt` rules by default.
   If you need these rules, apply it manually:
   ```kotlin
@@ -104,7 +107,7 @@ infrastructure-kotlin:
 
 infrastructure-android:
 - [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) `7.4.2` → `8.5.0`
-- [Android cache fix Gradle plugin](https://github.com/gradle/android-cache-fix-gradle-plugin/releases/tag/v3.0.1)  `2.7.0` → `3.0.1`
+- Remove `android-cache-fix-gradle-plugin` from dependencies
 - Remove `com.android.tools:common` from dependencies
 
 infrastructure-detekt:
