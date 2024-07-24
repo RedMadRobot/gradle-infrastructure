@@ -2,7 +2,6 @@ package com.redmadrobot.build.kotlin
 
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
-import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -31,7 +30,6 @@ public class KotlinLibraryPlugin : Plugin<Project> {
         // Enable Explicit API mode for libraries by default
         kotlinExtension.explicitApi()
 
-        configureKotlin()
         configureKotlinTest(configPlugin.testOptions)
         configureRepositories()
     }

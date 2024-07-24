@@ -6,7 +6,6 @@ import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.*
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
-import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -32,7 +31,6 @@ public abstract class BaseAndroidPlugin internal constructor(
 
     internal abstract fun Project.configure(configPlugin: AndroidConfigPlugin)
 
-    @OptIn(InternalGradleInfrastructureApi::class)
     private fun Project.applyBaseAndroidPlugin(pluginId: String, configPlugin: AndroidConfigPlugin) {
         apply {
             plugin(pluginId)
@@ -43,7 +41,6 @@ public abstract class BaseAndroidPlugin internal constructor(
             plugin("org.gradle.android.cache-fix")
         }
 
-        configureKotlin()
         configureAndroid()
         androidComponents {
             finalizeDsl { extension ->

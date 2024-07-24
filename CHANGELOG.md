@@ -57,6 +57,15 @@ android {
   }
   ```
 - **android:** Do not add `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` variables to `BuildConfig` implicitly
+- **kotlin:** Don't set `allWarningsAsErrors` flag implicitly.
+  It was impossible to disable this feature.
+  To keep going with the old behavior, add the following code to your build script:
+  ```kotlin
+  val warningsAsErrors = findProperty("warningsAsErrors") == "true" || isRunningOnCi
+  tasks.withType<KotlinJvmCompile>().configureEach {
+      compilerOptions.allWarningsAsErrors = warningsAsErrors
+  }
+  ```
 
 ### Other Changes
 
