@@ -106,7 +106,7 @@ infrastructure-kotlin:
 - [Kotlin](https://kotlinlang.org/docs/whatsnew20.html) `1.8.10` → `2.0.0`
 
 infrastructure-android:
-- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) `7.4.2` → `8.5.0`
+- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) `7.4.2` → `8.5.1`
 - Remove `android-cache-fix-gradle-plugin` from dependencies
 - Remove `com.android.tools:common` from dependencies
 
