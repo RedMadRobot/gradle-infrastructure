@@ -19,6 +19,19 @@ android {
 }
 ```
 
+### Introduce `SigningConfig.fromProperties` (Experimental)
+
+It is common practice to store keystore credentials in `.properties` file.
+This extension lets you apply configurations from a property file.
+
+```kotlin
+android {
+    signingConfigs.getByName<SigningConfig>("debug") {
+        fromProperties(file("cert/debug.properties"))
+    }
+}
+```
+
 ### :warning: BREAKING CHANGES
 
 - **common:** Deprecate `redmadrobot.jvmTarget` with deprecation level `Error`.
