@@ -31,12 +31,22 @@ android {
   ```properties
   redmadrobot.add.repositories=true
   ```
+- **android:** Don't apply `proguard-android-optimize.txt` rules by default.
+  If you need these rules, apply it manually:
+  ```kotlin
+  android {
+      defaultConfig {
+          proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
+      }
+  }
+  ```
 - **android:** Default `targetSdk` changed from `33` to `34`
 - **android:** Do not add `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` variables to `BuildConfig` implicitly
 
 ### Other Changes
 
 - **android:** Use `ANDROID_BUILD_TOOLS_VERSION` env variable for `buildToolsVersion` if the option is not configured (#132)
+- **android:** Make an extension `Project.collectProguardFiles` public
 - **android:** Add the option `redmadrobot.android.ndkVersion` to specify NDK version for all android modules
 - **android:** Remove the workaround for Explicit API enabling as the issue has been [fixed](https://youtrack.jetbrains.com/issue/KT-37652) in Kotlin 1.9
 - **android:** Remove disabling of build features `aidl`, `renderScript` and `buildConfig` as they are already disabled by default in new versions of AGP

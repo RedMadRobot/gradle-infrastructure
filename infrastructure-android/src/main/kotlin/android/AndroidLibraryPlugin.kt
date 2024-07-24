@@ -4,7 +4,7 @@ package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.LibraryExtension
 import com.redmadrobot.build.android.internal.android
-import com.redmadrobot.build.android.internal.projectProguardFiles
+import com.redmadrobot.build.dsl.collectProguardFiles
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
@@ -20,7 +20,7 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin("com.android.library") {
         android<LibraryExtension> {
             defaultConfig {
                 // Add all files from 'proguard' dir
-                consumerProguardFiles.addAll(projectProguardFiles())
+                consumerProguardFiles.addAll(collectProguardFiles())
             }
 
             buildFeatures {
