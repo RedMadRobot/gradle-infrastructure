@@ -412,13 +412,6 @@ dependencies {
 }
 ```
 
-### Warnings as errors
-
-By default, infrastructure plugins enable Kotlin compiler's option `allWarningsAsErrors` (`-Werror`) on CI.
-You can change it by defining the `warningsAsErrors` project property.
-
-[Read more about Gradle project properties][project-properties]
-
 ### Share sources between build variants
 
 You can share sources between two build variants.  

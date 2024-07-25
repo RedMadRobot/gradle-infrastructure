@@ -33,7 +33,5 @@ gradlePlugin {
 dependencies {
     api(projects.infrastructureKotlin)
 
-    compileOnly(libs.androidTools.gradle) // Should be provided by project
-
-    implementation(libs.androidGradleCacheFix)
+    compileOnly(libs.androidTools.gradle) // Should be provided by a project
 }

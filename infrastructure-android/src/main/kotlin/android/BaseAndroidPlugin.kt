@@ -6,7 +6,6 @@ import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.*
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
-import com.redmadrobot.build.kotlin.internal.configureKotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -32,18 +31,12 @@ public abstract class BaseAndroidPlugin internal constructor(
 
     internal abstract fun Project.configure(configPlugin: AndroidConfigPlugin)
 
-    @OptIn(InternalGradleInfrastructureApi::class)
     private fun Project.applyBaseAndroidPlugin(pluginId: String, configPlugin: AndroidConfigPlugin) {
         apply {
             plugin(pluginId)
             plugin("kotlin-android")
-
-            // Apply fix for Android caching problems
-            // See https://github.com/gradle/android-cache-fix-gradle-plugin
-            plugin("org.gradle.android.cache-fix")
         }
 
-        configureKotlin()
         configureAndroid()
         androidComponents {
             finalizeDsl { extension ->
@@ -76,13 +69,10 @@ private fun CommonExtension.applyAndroidOptions(
     options: AndroidOptions,
     staticAnalyzerSpec: StaticAnalyzerSpec,
 ) {
-    setCompileSdkVersion(options.compileSdk.get())
+    options.compileSdk.ifPresent { setCompileSdkVersion(it) }
     options.buildToolsVersion.ifPresent { buildToolsVersion = it }
     options.ndkVersion.ifPresent { ndkVersion = it }
-
-    defaultConfig {
-        minSdk = options.minSdk.get()
-    }
+    options.minSdk.ifPresent { defaultConfig.minSdk = it }
 
     testOptions {
         unitTests.all { it.setTestOptions(options.test) }
@@ -94,7 +84,7 @@ private fun CommonExtension.applyAndroidOptions(
     }
 }
 
-/** Universal function to set compile SDK even if it is preview version. */
+/** Universal function to set compile SDK even if it is a preview version. */
 private fun CommonExtension.setCompileSdkVersion(version: String) {
     val intVersion = version.toIntOrNull()
     if (intVersion != null) {
@@ -104,7 +94,7 @@ private fun CommonExtension.setCompileSdkVersion(version: String) {
     }
 }
 
-/** Filter unit tests to be run with 'test' task. */
+/** Filter unit tests to be run with the 'test' task. */
 private fun Project.filterTestTaskDependencies(options: AndroidOptions) {
     afterEvaluate {
         tasks.named("test") {

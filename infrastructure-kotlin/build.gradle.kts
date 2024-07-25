@@ -25,5 +25,5 @@ gradlePlugin {
 
 dependencies {
     api(projects.infrastructureCommon)
-    compileOnlyApi(libs.kotlinGradle) // Should be provided by project
+    compileOnlyApi(libs.kotlinGradle) // Should be provided by a project
 }
