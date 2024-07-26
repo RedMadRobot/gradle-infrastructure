@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+- *No changes*
+
+## [0.19] (2024-07-26)
+
 > [!NOTE]
 > This release removes many implicit features that couldn't be configured from outside.
 > It is also a part of a process of removing the features that could be easily implemented via [pre-compiled script plugins](https://docs.gradle.org/current/userguide/implementing_gradle_plugins_precompiled.html) (for example, SDK versions and tests configuration).
@@ -717,6 +721,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.19]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18.1..v0.19
 [0.18.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18..v0.18.1
 [0.18]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.17..v0.18
 [0.17]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.16.2..v0.17
