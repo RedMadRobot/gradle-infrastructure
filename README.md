@@ -5,7 +5,8 @@
 
 Small plugins to reduce boilerplate in Gradle build scripts.
 
-> :warning: It is designed to use with Gradle Kotlin DSL and can't be used from Groovy DSL.
+> [!IMPORTANT]
+> These plugins are designed to be used with Gradle Kotlin DSL only.
 
 ---
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -24,7 +25,7 @@ Small plugins to reduce boilerplate in Gradle build scripts.
   - [Configuration](#configuration)
   - [Align version of all Kotlin libraries](#align-version-of-all-kotlin-libraries)
   - [Warnings as errors](#warnings-as-errors)
-  - [Share sources between build types](#share-sources-between-build-types)
+  - [Share sources between build variants](#share-sources-between-build-variants)
   - [Enable Detekt checks only on changed files](#enable-detekt-checks-only-on-changed-files)
   - [Configure JUnit test execution options](#configure-junit-test-execution-options)
   - [Automatically added repositories](#automatically-added-repositories)
@@ -56,11 +57,11 @@ Then you can apply any of plugins where you need:
 
 ```kotlin
 plugins {
-    id("com.redmadrobot.kotlin-library") version "0.18.1"
-    id("com.redmadrobot.publish") version "0.18.1"
-    id("com.redmadrobot.detekt") version "0.18.1"
-    id("com.redmadrobot.application") version "0.18.1"
-    id("com.redmadrobot.android-library") version "0.18.1"
+    id("com.redmadrobot.kotlin-library") version "0.19"
+    id("com.redmadrobot.publish") version "0.19"
+    id("com.redmadrobot.detekt") version "0.19"
+    id("com.redmadrobot.application") version "0.19"
+    id("com.redmadrobot.android-library") version "0.19"
 }
 ```
 
@@ -79,7 +80,7 @@ plugins {
 
 redmadrobot {
     android {
-        minSdk.set(28)
+        minSdk = 28
     }
 }
 ```
@@ -103,20 +104,42 @@ android {
 
 | gradle-infrastructure | Minimal Gradle version | Minimal KGP version | Minimal AGP version |
 |----------------------:|:----------------------:|:-------------------:|:-------------------:|
+|              **0.19** |          8.0           |        1.9.0        |        8.4.0        |
 |              **0.18** |          7.5           |       1.7.10        |        7.4.0        |
 |              **0.17** |          7.2           |       1.7.10        |        7.1.0        |
 
 ## Plugins
 
-[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggQlRcbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWFuZHJvaWRcbiAgICBhbmRyb2lkLWNvbmZpZ1tjb20ucmVkbWFkcm9ib3QuYW5kcm9pZC1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmFwcGxpY2F0aW9uIC0tPiBhbmRyb2lkLWNvbmZpZ1xuICAgIGNvbS5yZWRtYWRyb2JvdC5hbmRyb2lkLWxpYnJhcnkgLS0-IGFuZHJvaWQtY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtZGV0ZWt0XG4gICAgY29tLnJlZG1hZHJvYm90LmRldGVrdFxuZW5kXG5cbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWtvdGxpblxuICAgIGtvdGxpbi1jb25maWdbY29tLnJlZG1hZHJvYm90LmtvdGxpbi1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmtvdGxpbi1saWJyYXJ5IC0tPiBrb3RsaW4tY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtcHVibGlzaFxuICAgIHB1Ymxpc2gtY29uZmlnW2NvbS5yZWRtYWRyb2JvdC5wdWJsaXNoLWNvbmZpZ11cbiAgICBjb20ucmVkbWFkcm9ib3QucHVibGlzaCAtLT4gcHVibGlzaC1jb25maWdcbmVuZFxuXG5hbmRyb2lkLWNvbmZpZyAtLT4ga290bGluLWNvbmZpZyIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6dHJ1ZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOnRydWV9)](https://mermaid-js.github.io/mermaid-live-editor/edit/#eyJjb2RlIjoiZ3JhcGggQlRcbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWFuZHJvaWRcbiAgICBhbmRyb2lkLWNvbmZpZ1tjb20ucmVkbWFkcm9ib3QuYW5kcm9pZC1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmFwcGxpY2F0aW9uIC0tPiBhbmRyb2lkLWNvbmZpZ1xuICAgIGNvbS5yZWRtYWRyb2JvdC5hbmRyb2lkLWxpYnJhcnkgLS0-IGFuZHJvaWQtY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtZGV0ZWt0XG4gICAgY29tLnJlZG1hZHJvYm90LmRldGVrdFxuZW5kXG5cbnN1YmdyYXBoIGluZnJhc3RydWN0dXJlLWtvdGxpblxuICAgIGtvdGxpbi1jb25maWdbY29tLnJlZG1hZHJvYm90LmtvdGxpbi1jb25maWddXG4gICAgY29tLnJlZG1hZHJvYm90LmtvdGxpbi1saWJyYXJ5IC0tPiBrb3RsaW4tY29uZmlnXG5lbmRcblxuc3ViZ3JhcGggaW5mcmFzdHJ1Y3R1cmUtcHVibGlzaFxuICAgIHB1Ymxpc2gtY29uZmlnW2NvbS5yZWRtYWRyb2JvdC5wdWJsaXNoLWNvbmZpZ11cbiAgICBjb20ucmVkbWFkcm9ib3QucHVibGlzaCAtLT4gcHVibGlzaC1jb25maWdcbmVuZFxuXG5hbmRyb2lkLWNvbmZpZyAtLT4ga290bGluLWNvbmZpZyIsIm1lcm1haWQiOiJ7XG4gIFwidGhlbWVcIjogXCJkZWZhdWx0XCJcbn0iLCJ1cGRhdGVFZGl0b3IiOnRydWUsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjp0cnVlfQ)
+```mermaid
+graph BT
+subgraph infrastructure-android
+    android-config[com.redmadrobot.android-config]
+    com.redmadrobot.application --> android-config
+    com.redmadrobot.android-library --> android-config
+end
+
+subgraph infrastructure-detekt
+    com.redmadrobot.detekt
+end
+
+subgraph infrastructure-kotlin
+    kotlin-config[com.redmadrobot.kotlin-config]
+    com.redmadrobot.kotlin-library --> kotlin-config
+end
+
+subgraph infrastructure-publish
+    publish-config[com.redmadrobot.publish-config]
+    com.redmadrobot.publish --> publish-config
+end
+
+android-config --> kotlin-config
+```
 
 ### kotlin-library
 
 Common configurations for pure Kotlin libraries.
 
 - Applies plugin `kotlin`
-- Specifies `jvmTarget` 11
-- Adds repository `mavenCentral` (see [Automatically added repositories](#automatically-added-repositories))
 - Enables [explicit API mode][explicit-api]
 
 ### publish
@@ -147,8 +170,8 @@ You can configure publication via extension `redmadrobot.publishing`:
 ```kotlin
 redmadrobot {
     publishing {
-        signArtifacts.set(true) // Enables artifacts signing, required for publication to OSSRH
-        useGpgAgent.set(true)   // By default use gpg-agent for artifacts signing
+        signArtifacts = true // Enables artifacts signing, required for publication to OSSRH
+        useGpgAgent = true   // By default use gpg-agent for artifacts signing
     }
 }
 ```
@@ -205,7 +228,6 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 
 ### detekt
 
-- Adds repository `mavenCentral` (see [Automatically added repositories](#automatically-added-repositories))
 - Applies `detekt` plugin with `detekt-formatting`
 - Configures additional tasks:
     - `detektAll` - Runs Detekt over the whole codebase
@@ -223,25 +245,24 @@ publishing.publications.getByName<MavenPublication>(PUBLICATION_NAME) {
 
 Common configurations for Android libraries and application.
 
-Both:
-- Specifies `jvmTarget` and `compatibility` 11
+[Both][BaseAndroidPlugin]:
 - Specifies default compile, min and target SDK
-- Disables `aidl`, `renderScript` and `shaders` [build-features]
-- Adds repositories `mavenCentral` and `google` (see [Automatically added repositories](#automatically-added-repositories))
+- Disables `shaders` [build-features] by default
 - Applies [android-cache-fix-gradle-plugin](https://github.com/gradle/android-cache-fix-gradle-plugin)
+- Configures Android Lint with [defaults][lint-options]
+- [Filters tests][testTaskFilter] to be run on `test` task according to the config.
+  By default, keeps only tests for build type `release`.
 
-Library:
+[Library][AndroidLibraryPlugin]:
 - Applies plugin `com.android.library`
 - Adds all proguard files from `proguard` folder as `consumerProguardFiles`
-- Disables `buildConfig`, `androidResources` and `resValues` [build-features]
+- Disables `androidResources` and `resValues` [build-features] by default
 - Enables [explicit API mode][explicit-api]
 
-Application:
+[Application][AndroidApplicationPlugin]:
 - Applies plugin `com.android.application`
 - Adds all proguard files from `proguard` folder
 - Configures `debug`, `qa` and `release` build types
-- Adds `LOCK_ORIENTATION` and `CRASH_REPORTS_ENABLED` BuildConfig variables which `false` only for `debug` build type
-- Configures Android Lint [default options][lint-options]
 
 #### QA build type name configuration
 
@@ -293,15 +314,71 @@ See [compatibility table](#compatibility) to check what versions are compatible 
 
 ### Configuration
 
-You can configure the plugins with an extension named `redmadrobot`.
-Look for available properties with description in [RedmadrobotExtension].
+You can configure the plugins via the `redmadrobot` extension.
+Here are listed all available options, with their default values:
 
-The extension should be configured in root project.
 ```kotlin
-// root project build.gradle.kts
-
 redmadrobot {
-    configsDir.set(file("path/to/configs/"))
+    /* Common options */
+    // Directory with configs for static analyzers and other tools.
+    configsDir = file("config/")
+
+    // Directory with reports of static analyzers and other tools.
+    reportsDir = file("build/reports/")
+
+    /* `kotlin-config` options */
+    test {
+        // Specifies that JUnit Platform (JUnit 5) should be used to execute tests.
+        useJunitPlatform()
+
+        // Specifies that JUnit 4 should be used to execute tests.
+        useJunit()
+    }
+
+    /* `android-config` options */
+    android {
+        // minSdk to be used in all android modules.
+        minSdk = 23
+
+        // targetSdk to be used in all android modules.
+        targetSdk = 34
+
+        // compileSdk to be used in all android modules
+        compileSdk = "34"
+
+        // Build Tools version to be used in all android modules.
+        buildToolsVersion = System.getenv("ANDROID_BUILD_TOOLS_VERSION")
+
+        // NDK version to be used in all android modules.
+        ndkVersion = System.getenv("ANDROID_NDK_VERSION")
+
+        // Filter for test tasks that should be run on ':test'.
+        testTasksFilter = { taskProvider -> taskProvider.name.endsWith("ReleaseUnitTest") }
+    
+        // Overrides of test configuration for android projects
+        test { /* ... */ }
+    }
+    
+    /* `detekt` options */
+    detekt {
+        // Enable Detekt checks only for modified files
+        // (Disabled by default)
+        checkOnlyDiffWithBranch(branch = "main") {
+            fileExtensions = setOf(".kt", ".kts")
+        }
+    }
+
+    /* `publish-config` options */
+    publishing {
+        // Enables artifacts signing before publication.
+        signArtifacts = false
+
+        // Use gpg-agent to sign artifacts. Has effect only if signArtifacts is `true`.
+        useGpgAgent = true
+
+        // Configures POM file for this project and its subprojects.
+        pom { /* ... */ }
+    }
 }
 ```
 
@@ -335,25 +412,19 @@ dependencies {
 }
 ```
 
-### Warnings as errors
+### Share sources between build variants
 
-By default, infrastructure plugins enable Kotlin compiler's option `allWarningsAsErrors` (`-Werror`) on CI.
-You can change it by defining the `warningsAsErrors` project property.
+You can share sources between two build variants.  
+For example, you need to use debug panel in both "debug" and "QA" builds, and don't want to duplicate code for each of these build types.
+You can do it in one line with [addSharedSourceSetRoot] extension-function:
 
-[Read more about Gradle project properties][project-properties]
-
-### Share sources between build types
-
-You can share sources between two build types.  
-For example, you need to use debug panel in both debug and QA builds, and don't want to write similar duplicating code for each of these build types.
-You can do it with one line with [addSharedSourceSetRoot] extension-function:
 ```kotlin
 android {
     // We need to share sources between debug and QA builds
-    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
+    sourceSet.addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
 
-    // We can specify name for the source set root if need
-    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
+    // We can specify a name for the source set root if needed
+    sourceSet.addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA, name = "debugPanel")
 }
 ```
 
@@ -423,16 +494,20 @@ redmadrobot {
 
 ### Automatically added repositories
 
-Infrastructure plugins automatically add repositories required to make project work:
+> [!WARNING]
+> This feature is deprecated and is disabled by default since v0.19
+> Currently you can enable this behavior, though this option may be deleted at some point.
+
+Infrastructure plugins can automatically add required repositories:
 
 - **kotlin** plugin adds `mavenCentral` repo
 - **detekt** plugin adds `mavenCentral` repo
 - **android** plugins add `mavenCentral` and `google` repos
 
-In the case you don't want these repositories to be added automatically, you can disable this behavior via flag in `gradle.properties`:
+This feature should be enabled by flag in `gradle.properties`:
 
 ```properties
-redmadrobot.add.repositories=false
+redmadrobot.add.repositories=true
 ```
 
 ## Samples
@@ -496,7 +571,7 @@ Execution failed for task ':app:stripDebugDebugSymbols'.
 It is because NDK version on CI differs from a requested version.
 You can change requested version by setting `android.ndkVersion`.
 
-Plugins `com.redmadrobot.android-library` and `com.redmadrobot.application` by default apply NDK version from env variable `ANDROID_NDK_VERSION` if it set.
+Plugins `com.redmadrobot.android-library` and `com.redmadrobot.application` by default apply NDK version from env variable `ANDROID_NDK_VERSION` if it is set.
 
 ### `Could not resolve` or `Could not find` dependencies
 
@@ -536,11 +611,14 @@ For major changes, please open an issue first to discuss what you would like to 
 [MIT][license]
 
 [samples]: samples/
-[RedmadrobotExtension]: infrastructure/src/main/kotlin/extension/RedmadrobotExtension.kt
 [MavenPom]: infrastructure/src/main/kotlin/dsl/MavenPom.kt
 [predicates]: infrastructure/src/main/kotlin/dsl/PublishingPredicates.kt
 [addSharedSourceSetRoot]: infrastructure-android/src/main/kotlin/dsl/SourceSets.kt
-[lint-options]: https://github.com/RedMadRobot/gradle-infrastructure/blob/2e96c04cbb9d15ca508d1d4b4a8b1e2da4bab6af/infrastructure/src/main/kotlin/AndroidApplicationPlugin.kt#L63-L72
+[lint-options]: infrastructure-android/src/main/kotlin/android/BaseAndroidPlugin.kt#L76-L80
+[testTaskFilter]: infrastructure-android/src/main/kotlin/android/AndroidOptions.kt#L28-L35
+[BaseAndroidPlugin]: infrastructure-android/src/main/kotlin/android/BaseAndroidPlugin.kt
+[AndroidLibraryPlugin]: infrastructure-android/src/main/kotlin/android/AndroidLibraryPlugin.kt
+[AndroidApplicationPlugin]: infrastructure-android/src/main/kotlin/android/AndroidApplicationPlugin.kt
 
 [infrastructure]: #
 [itemsadapter]: https://github.com/RedMadRobot/itemsadapter

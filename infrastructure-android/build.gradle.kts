@@ -1,5 +1,5 @@
 plugins {
-    id("gradle-plugin-commons")
+    convention.plugin
 }
 
 description = "Small plugins to reduce boilerplate in Android projects' Gradle build scripts."
@@ -33,8 +33,5 @@ gradlePlugin {
 dependencies {
     api(projects.infrastructureKotlin)
 
-    compileOnly(libs.androidTools.gradle) // Should be provided by project
-    compileOnly(libs.androidTools.common) // Should be provided via AGP
-
-    implementation(libs.androidGradleCacheFix)
+    compileOnly(libs.androidTools.gradle) // Should be provided by a project
 }

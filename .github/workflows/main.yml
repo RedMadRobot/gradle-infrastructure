@@ -13,19 +13,19 @@ jobs:
 
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Run Check
-        uses: eskatos/gradle-command-action@v2
-        with:
-          arguments: detektMainAll check
-          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+        run: ./gradlew detektMainAll check
 
   publish:
     name: Publish
@@ -35,19 +35,19 @@ jobs:
 
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Run Publish
-        uses: eskatos/gradle-command-action@v2
-        with:
-          arguments: publishAllPublicationsToGithubPackagesRepository
-          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+        run: ./gradlew publishAllPublicationsToGithubPackagesRepository
         env:
           ORG_GRADLE_PROJECT_githubPackagesUsername: ${{ github.actor }}
           ORG_GRADLE_PROJECT_githubPackagesPassword: ${{ secrets.GITHUB_TOKEN }}
@@ -63,22 +63,21 @@ jobs:
 
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Run Publish
-        uses: eskatos/gradle-command-action@v2
-        with:
-          arguments: publishToMavenLocal
-          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+        run: ./gradlew publishToMavenLocal
 
       - name: Run Build
-        uses: eskatos/gradle-command-action@v2
-        with:
-          arguments: build
-          build-root-directory: samples/${{ matrix.sample }}
+        run: |
+          cd samples/${{ matrix.sample }}
+          ./gradlew build

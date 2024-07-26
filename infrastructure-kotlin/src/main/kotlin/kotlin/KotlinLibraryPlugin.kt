@@ -1,43 +1,37 @@
 package com.redmadrobot.build.kotlin
 
-import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
-import com.redmadrobot.build.kotlin.internal.configureKotlin
-import com.redmadrobot.build.kotlin.internal.java
-import com.redmadrobot.build.kotlin.internal.kotlin
 import com.redmadrobot.build.kotlin.internal.setTestOptions
+import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 /**
- * Plugin that applies default configurations for Kotlin library project.
+ * Plugin that applies default configurations for a Kotlin library project.
  * Should be applied in place of `kotlin` plugin.
  *
  * Tied to `com.redmadrobot.kotlin-library` plugin ID.
  */
-public class KotlinLibraryPlugin : InfrastructurePlugin() {
+public class KotlinLibraryPlugin : Plugin<Project> {
 
-    @InternalGradleInfrastructureApi
-    override fun Project.configure() {
+    override fun apply(target: Project) {
+        target.configure()
+    }
+
+    @OptIn(InternalGradleInfrastructureApi::class)
+    private fun Project.configure() {
         apply(plugin = "kotlin")
         val configPlugin = plugins.apply(KotlinConfigPlugin::class)
 
         // Enable Explicit API mode for libraries by default
-        kotlin.explicitApi()
+        kotlinExtension.explicitApi()
 
-        configureKotlin(configPlugin.jvmTarget)
         configureKotlinTest(configPlugin.testOptions)
         configureRepositories()
-
-        afterEvaluate {
-            java {
-                targetCompatibility = configPlugin.jvmTarget.get()
-                sourceCompatibility = configPlugin.jvmTarget.get()
-            }
-        }
     }
 }
 

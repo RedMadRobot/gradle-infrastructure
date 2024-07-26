@@ -1,6 +1,4 @@
-import com.redmadrobot.build.dsl.BUILD_TYPE_DEBUG
-import com.redmadrobot.build.dsl.BUILD_TYPE_QA
-import com.redmadrobot.build.dsl.addSharedSourceSetRoot
+import com.redmadrobot.build.dsl.*
 
 plugins {
     id("com.redmadrobot.application")
@@ -24,24 +22,28 @@ android {
     // we can add shared source set root.
     // In this case will be created directory "debugQa"
     // that will be included to debug and QA source sets.
-    addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
+    sourceSets.addSharedSourceSetRoot(BUILD_TYPE_DEBUG, BUILD_TYPE_QA)
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
     // Align Kotlin version across all dependencies
-    implementation(platform(kotlin("bom", version = "1.8.10")))
+    implementation(platform(kotlin("bom", version = "2.0.0")))
 
     // Kotlin components can be added without version specifying
     implementation(kotlin("stdlib"))
 
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     testImplementation(kotlin("test-junit5"))
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 }

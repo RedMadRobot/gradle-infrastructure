@@ -1,5 +1,5 @@
 plugins {
-    id("gradle-plugin-commons")
+    convention.plugin
 }
 
 description = "Additional functionality for detekt"
