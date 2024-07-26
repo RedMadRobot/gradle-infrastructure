@@ -1,5 +1,5 @@
 plugins {
-    id("commons")
+    id("convention.common")
     id("com.gradle.plugin-publish")
 }
 

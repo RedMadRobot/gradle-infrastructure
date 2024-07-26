@@ -1,5 +1,5 @@
 plugins {
-    id("gradle-plugin-commons")
+    convention.plugin
 }
 
 description = "Small plugins to reduce boilerplate in Android projects' Gradle build scripts."

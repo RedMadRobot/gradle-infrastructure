@@ -9,6 +9,8 @@ androidTools-gradle = "com.android.tools.build:gradle:8.5.1"
 detektGradle = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.6"
 kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0"
 pluginPublish = "com.gradle.publish:plugin-publish-plugin:1.2.1"
+mavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.29.0"
+gradle-kotlinDsl = "org.gradle.kotlin:gradle-kotlin-dsl-plugins:4.4.0"
 jgit = "org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r"
 
 [plugins]

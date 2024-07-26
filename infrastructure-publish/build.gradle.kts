@@ -1,5 +1,5 @@
 plugins {
-    id("gradle-plugin-commons")
+    convention.plugin
 }
 
 description = "Plugin to simplify common publication scenarios."
