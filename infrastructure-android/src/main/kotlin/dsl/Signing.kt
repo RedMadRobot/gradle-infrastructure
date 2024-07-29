@@ -1,4 +1,4 @@
-package dsl
+package com.redmadrobot.build.dsl
 
 import com.android.build.api.dsl.SigningConfig
 import org.gradle.api.Incubating

@@ -1,6 +1,9 @@
 ## [Unreleased]
 
-- *No changes*
+### Fixes
+
+- Fixed package of the extension `SigningConfig.fromProperties`. \
+  `dsl` → `com.redmadrobot.build.dsl`
 
 ## [0.19] (2024-07-26)
 
