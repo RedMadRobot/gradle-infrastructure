@@ -1,6 +1,6 @@
 plugins {
     // Versions of AGP and KGP are specified in buildSrc module
-    id("com.redmadrobot.android-config") version "0.19"
+    id("com.redmadrobot.android-config") version "0.19.1-SNAPSHOT"
 }
 
 // Common configurations for all modules
