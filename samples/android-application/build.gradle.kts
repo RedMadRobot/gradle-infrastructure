@@ -3,7 +3,7 @@ plugins {
     id("com.android.application") version "8.5.1" apply false
     kotlin("android") version "2.0.0" apply false
 
-    id("com.redmadrobot.android-config") version "0.19.1"
+    id("com.redmadrobot.android-config") version "0.20-SNAPSHOT"
 }
 
 // Common configurations for all modules
