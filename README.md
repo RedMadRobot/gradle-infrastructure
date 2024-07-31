@@ -1,4 +1,5 @@
-# Gradle Infrastructure <GitHub path="RedMadRobot/gradle-infrastructure"/>
+# Gradle Infrastructure
+
 [![Version](https://img.shields.io/maven-central/v/com.redmadrobot.build/infrastructure-common?style=flat-square)][mavenCentral]
 [![Build Status](https://img.shields.io/github/actions/workflow/status/RedMadRobot/gradle-infrastructure/main.yml?branch=develop&style=flat-square)][ci]
 [![License](https://img.shields.io/github/license/RedMadRobot/gradle-infrastructure?style=flat-square)][license]
@@ -625,7 +626,7 @@ For major changes, please open an issue first to discuss what you would like to 
 [redmadrobot-android-ktx]: https://github.com/RedMadRobot/redmadrobot-android-ktx
 [mapmemory]: https://github.com/RedMadRobot/mapmemory
 
-[mavenCentral]: https://search.maven.org/artifact/com.redmadrobot.build/infrastructure-common
+[mavenCentral]: https://central.sonatype.com/search?namespace=com.redmadrobot.build
 [ci]: https://github.com/RedMadRobot/gradle-infrastructure/actions
 [license]: LICENSE
 
