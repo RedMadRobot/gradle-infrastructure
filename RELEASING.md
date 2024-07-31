@@ -22,8 +22,8 @@
 6. Create a release tag on the `main` branch:
    ```bash
    # Push the release tag
-   git tag [version]
-   git push origin [version]
+   git tag v[version]
+   git push origin v[version]
    ```
    Release tag push triggers a release workflow on the CI which uploads release artifacts to Maven Central and creates a GitHub release.
 
@@ -40,5 +40,6 @@
 
 ## Version Update
 
-1. Update a version in `gradle.properties` and `README.md`
+1. Update a version in `gradle.properties`
 2. Update a version used in samples in `build.gradle.kts`
+3. It the version is not a snapshot, update the version in `README.md`
