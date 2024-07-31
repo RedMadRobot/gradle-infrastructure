@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+- *No changes*
+
+## [0.19.1] (2024-07-31)
+
 ### Fixes
 
 - Fixed package of the extension `SigningConfig.fromProperties`. \
@@ -724,6 +728,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.19.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.19..v0.19.1
 [0.19]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18.1..v0.19
 [0.18.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18..v0.18.1
 [0.18]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.17..v0.18
