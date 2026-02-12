@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    id("com.redmadrobot.kotlin-library")
+    kotlin("jvm")
     id("convention.publish")
     id("org.gradle.kotlin.kotlin-dsl")
 }
@@ -11,7 +11,7 @@ kotlin {
     // Language version should be in sync with the one used in Gradle
     // https://docs.gradle.org/current/userguide/compatibility.html#kotlin
     compilerOptions {
-        apiVersion = KotlinVersion.KOTLIN_1_8
-        languageVersion = KotlinVersion.KOTLIN_1_8
+        apiVersion = KotlinVersion.KOTLIN_2_2
+        languageVersion = KotlinVersion.KOTLIN_2_2
     }
 }

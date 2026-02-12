@@ -1,11 +1,6 @@
 package com.redmadrobot.build.detekt.internal
 
-import com.android.build.gradle.AppExtension
-import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.TestExtension
 import io.gitlab.arturbosch.detekt.DetektPlugin
-import org.gradle.api.DomainObjectSet
 import org.gradle.api.Project
 
 internal val Project.hasKotlinPlugin: Boolean
@@ -16,12 +11,3 @@ internal val Project.isKotlinAndroidProject: Boolean
 
 internal val Project.hasDetektPlugin: Boolean
     get() = plugins.hasPlugin<DetektPlugin>()
-
-@Suppress("DEPRECATION") // TODO: Migrate to new AGP variants API
-internal val BaseExtension.variants: DomainObjectSet<out com.android.build.gradle.api.BaseVariant>?
-    get() = when (this) {
-        is AppExtension -> applicationVariants
-        is LibraryExtension -> libraryVariants
-        is TestExtension -> applicationVariants
-        else -> null
-    }
