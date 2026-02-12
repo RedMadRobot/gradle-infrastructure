@@ -3,8 +3,14 @@
 package com.redmadrobot.build.android
 
 import com.android.build.api.dsl.LibraryExtension
+import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
+import com.redmadrobot.build.android.internal.androidComponents
+import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.dsl.collectProguardFiles
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
+import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
@@ -24,12 +30,40 @@ public class AndroidLibraryPlugin : BaseAndroidPlugin("com.android.library") {
             }
 
             buildFeatures {
+                shaders = false
                 resValues = false
-                androidResources = false
+            }
+            androidResources.enable = false
+        }
+
+        androidComponents<LibraryAndroidComponentsExtension> {
+            finalizeDsl { dsl ->
+                dsl.applyCommonAndroidOptions(configPlugin.androidOptions)
+                dsl.finalizeLibrary(configPlugin.androidOptions, configPlugin.staticAnalyzerSpec)
             }
         }
 
+        filterTestTaskDependencies(configPlugin.androidOptions)
+
         // Enable Explicit API mode for libraries by default
         kotlinExtension.explicitApi()
+    }
+}
+
+@OptIn(InternalGradleInfrastructureApi::class)
+private fun LibraryExtension.finalizeLibrary(
+    androidOptions: AndroidOptions,
+    staticAnalyzerSpec: StaticAnalyzerSpec,
+) {
+    testOptions {
+        unitTests.all { it.setTestOptions(androidOptions.test) }
+    }
+
+    lint {
+        checkDependencies = true
+        abortOnError = true
+        warningsAsErrors = true
+        lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
+        baseline = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
     }
 }

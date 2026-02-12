@@ -2,6 +2,7 @@ package com.redmadrobot.build.dsl
 
 import org.gradle.api.Project
 
+@Suppress("NullableToStringCall")
 /** Returns `true` if version contains `-SNAPSHOT` suffix. Opposites to [isReleaseVersion]. */
 public val Project.isSnapshotVersion: Boolean
     get() = version.toString().endsWith("-SNAPSHOT")

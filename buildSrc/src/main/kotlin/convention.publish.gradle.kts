@@ -1,5 +1,4 @@
 import com.redmadrobot.build.dsl.*
-import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     id("com.vanniktech.maven.publish")
@@ -12,9 +11,15 @@ publishing {
     }
 }
 
+signing {
+    isRequired = isReleaseVersion
+}
+
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
-    signAllPublications()
+    publishToMavenCentral(automaticRelease = true)
+    if (isReleaseVersion) {
+        signAllPublications()
+    }
 
     coordinates(artifactId = project.name)
 
