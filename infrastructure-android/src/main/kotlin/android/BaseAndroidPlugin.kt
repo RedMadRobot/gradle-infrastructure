@@ -2,11 +2,9 @@
 
 package com.redmadrobot.build.android
 
-import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.*
 import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
 import com.redmadrobot.build.internal.addRepositoriesIfNeed
-import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskProvider
@@ -32,60 +30,20 @@ public abstract class BaseAndroidPlugin internal constructor(
     internal abstract fun Project.configure(configPlugin: AndroidConfigPlugin)
 
     private fun Project.applyBaseAndroidPlugin(pluginId: String, configPlugin: AndroidConfigPlugin) {
-        apply {
-            plugin(pluginId)
-            plugin("kotlin-android")
-        }
+        apply { plugin(pluginId) }
 
-        configureAndroid()
-        androidComponents {
-            finalizeDsl { extension ->
-                extension.applyAndroidOptions(
-                    options = configPlugin.androidOptions,
-                    staticAnalyzerSpec = configPlugin.staticAnalyzerSpec,
-                )
-                filterTestTaskDependencies(configPlugin.androidOptions)
-            }
+        // AGP 9+ auto-applies KGP when it's present in the classpath, registering the 'kotlin'
+        // extension. Apply kotlin-android only if it hasn't been applied yet to avoid the conflict.
+        if (extensions.findByName("kotlin") == null) {
+            apply { plugin("kotlin-android") }
         }
 
         configureRepositories()
     }
 }
 
-private fun Project.configureAndroid() = android {
-    buildFeatures {
-        shaders = false
-    }
-
-    lint {
-        checkDependencies = true
-        abortOnError = true
-        warningsAsErrors = true
-    }
-}
-
-@OptIn(InternalGradleInfrastructureApi::class)
-private fun CommonExtension.applyAndroidOptions(
-    options: AndroidOptions,
-    staticAnalyzerSpec: StaticAnalyzerSpec,
-) {
-    options.compileSdk.ifPresent { setCompileSdkVersion(it) }
-    options.buildToolsVersion.ifPresent { buildToolsVersion = it }
-    options.ndkVersion.ifPresent { ndkVersion = it }
-    options.minSdk.ifPresent { defaultConfig.minSdk = it }
-
-    testOptions {
-        unitTests.all { it.setTestOptions(options.test) }
-    }
-
-    lint {
-        lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
-        baseline = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
-    }
-}
-
 /** Universal function to set compile SDK even if it is a preview version. */
-private fun CommonExtension.setCompileSdkVersion(version: String) {
+internal fun CommonExtension.setCompileSdkVersion(version: String) {
     val intVersion = version.toIntOrNull()
     if (intVersion != null) {
         compileSdk = intVersion
@@ -94,13 +52,21 @@ private fun CommonExtension.setCompileSdkVersion(version: String) {
     }
 }
 
+/** Apply common Android options that are available on [CommonExtension] in AGP 9+. */
+@OptIn(InternalGradleInfrastructureApi::class)
+internal fun CommonExtension.applyCommonAndroidOptions(options: AndroidOptions) {
+    options.compileSdk.ifPresent { setCompileSdkVersion(it) }
+    options.buildToolsVersion.ifPresent { buildToolsVersion = it }
+    options.ndkVersion.ifPresent { ndkVersion = it }
+    options.minSdk.ifPresent { defaultConfig.minSdk = it }
+}
+
 /** Filter unit tests to be run with the 'test' task. */
-private fun Project.filterTestTaskDependencies(options: AndroidOptions) {
+internal fun Project.filterTestTaskDependencies(options: AndroidOptions) {
     afterEvaluate {
-        tasks.named("test") {
-            val testTasksFilter = options.testTasksFilter.get()
-            setDependsOn(dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
-        }
+        val testTask = tasks.findByName("test") ?: return@afterEvaluate
+        val testTasksFilter = options.testTasksFilter.get()
+        testTask.setDependsOn(testTask.dependsOn.filter { it !is TaskProvider<*> || testTasksFilter(it) })
     }
 }
 

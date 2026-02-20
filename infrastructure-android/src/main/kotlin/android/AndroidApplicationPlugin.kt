@@ -10,8 +10,11 @@ import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.android.internal.android
 import com.redmadrobot.build.android.internal.androidComponents
 import com.redmadrobot.build.android.internal.ifPresent
+import com.redmadrobot.build.android.internal.test
 import com.redmadrobot.build.android.task.MakeDebuggableTask
 import com.redmadrobot.build.dsl.*
+import com.redmadrobot.build.internal.InternalGradleInfrastructureApi
+import com.redmadrobot.build.kotlin.internal.setTestOptions
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskContainer
 import org.gradle.kotlin.dsl.register
@@ -28,8 +31,12 @@ public class AndroidApplicationPlugin : BaseAndroidPlugin("com.android.applicati
         configureApp()
         androidComponents<ApplicationAndroidComponentsExtension> {
             onVariants(selector().withBuildType(BUILD_TYPE_QA)) { it.makeDebuggable(tasks) }
-            finalizeDsl { it.finalizeApp(configPlugin.androidOptions, configPlugin.staticAnalyzerSpec) }
+            finalizeDsl { dsl ->
+                dsl.applyCommonAndroidOptions(configPlugin.androidOptions)
+                dsl.finalizeApp(configPlugin.androidOptions, configPlugin.staticAnalyzerSpec)
+            }
         }
+        filterTestTaskDependencies(configPlugin.androidOptions)
     }
 }
 
@@ -37,6 +44,10 @@ private fun Project.configureApp() = android<ApplicationExtension> {
     defaultConfig {
         // Collect proguard rules from 'proguard' dir
         proguardFiles.addAll(collectProguardFiles())
+    }
+
+    buildFeatures {
+        shaders = false
     }
 
     finalizeQaBuildType()
@@ -79,13 +90,23 @@ private fun ApplicationVariant.makeDebuggable(tasks: TaskContainer) {
         .toTransform(SingleArtifact.MERGED_MANIFEST)
 }
 
+@OptIn(InternalGradleInfrastructureApi::class)
 private fun ApplicationExtension.finalizeApp(
     androidOptions: AndroidOptions,
     staticAnalyzerSpec: StaticAnalyzerSpec,
 ) {
     androidOptions.targetSdk.ifPresent { defaultConfig.targetSdk = it }
 
+    testOptions {
+        unitTests.all { it.setTestOptions(androidOptions.test) }
+    }
+
     lint {
+        checkDependencies = true
+        abortOnError = true
+        warningsAsErrors = true
+        lintConfig = staticAnalyzerSpec.configsDir.file("lint/lint.xml").get().asFile
+        baseline = staticAnalyzerSpec.configsDir.file("lint/lint-baseline.xml").get().asFile
         xmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.xml").get().asFile
         htmlOutput = staticAnalyzerSpec.reportsDir.file("lint-results.html").get().asFile
     }

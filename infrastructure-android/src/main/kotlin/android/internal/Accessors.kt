@@ -7,10 +7,9 @@ import com.redmadrobot.build.android.AndroidOptions
 import com.redmadrobot.build.kotlin.TestOptions
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.kotlin.dsl.getByName
 import com.android.build.api.dsl.CommonExtension as ParameterizedCommonExtension
 
-internal typealias CommonExtension = ParameterizedCommonExtension<*, *, *, *, *, *>
+internal typealias CommonExtension = ParameterizedCommonExtension
 
 @JvmName("androidCommon")
 internal fun Project.android(configure: CommonExtension.() -> Unit) {
@@ -31,4 +30,4 @@ internal fun <T : AndroidComponentsExtension<*, *, *>> Project.androidComponents
 }
 
 internal val AndroidOptions.test: TestOptions
-    get() = (this as ExtensionAware).extensions.getByName<TestOptions>("test")
+    get() = (this as ExtensionAware).extensions.getByName("test") as? TestOptions ?: error("Extension 'test' not found")
