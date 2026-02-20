@@ -44,10 +44,15 @@ public abstract class InfrastructurePlugin : Plugin<Project> {
         name: String,
         publicType: KClass<in T>? = null,
     ): T {
-        val defaults = redmadrobotExtensions
-            .mapNotNull { it.extensions.findByName<T>(name) }
-            .firstOrNull()
+        val defaults = getDefaultExtensions(name, type = T::class)
         return (redmadrobotExtension as ExtensionAware).extensions.createWithDefaults(name, defaults, publicType)
+    }
+
+    @InternalGradleInfrastructureApi
+    protected fun <T : WithDefaults<T>> getDefaultExtensions(name: String, type: KClass<T>): T? {
+        return redmadrobotExtensions
+            .mapNotNull { it.extensions.findByName(name, type) }
+            .firstOrNull()
     }
 
     @InternalGradleInfrastructureApi

@@ -42,15 +42,16 @@ public fun NamedDomainObjectContainer<out AndroidSourceSet>.addSharedSourceSetRo
 
 /** Works similar to [AndroidSourceSet.setRoot], but adds the new [path] to the existing roots. */
 private fun AndroidSourceSet.addRoot(path: String) {
-    java.srcDirs("$path/java")
-    kotlin.srcDirs("$path/java", "$path/kotlin")
-    resources.srcDir("$path/resources")
-    res.srcDir("$path/res")
-    assets.srcDir("$path/assets")
+    java.directories.add("$path/java")
+    kotlin.directories.add("$path/java")
+    kotlin.directories.add("$path/kotlin")
+    resources.directories.add("$path/resources")
+    res.directories.add("$path/res")
+    assets.directories.add("$path/assets")
     manifest.srcFile("$path/AndroidManifest.xml")
-    aidl.srcDir("$path/aidl")
-    renderscript.srcDir("$path/rs")
-    jniLibs.srcDir("$path/jniLibs")
-    shaders.srcDir("$path/shaders")
-    mlModels.srcDir("$path/ml")
+    aidl.directories.add("$path/aidl")
+    renderscript.directories.add("$path/rs")
+    jniLibs.directories.add("$path/jniLibs")
+    shaders.directories.add("$path/shaders")
+    mlModels.directories.add("$path/ml")
 }

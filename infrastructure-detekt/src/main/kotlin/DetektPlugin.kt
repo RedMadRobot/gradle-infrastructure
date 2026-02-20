@@ -1,6 +1,6 @@
 package com.redmadrobot.build.detekt
 
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.CommonExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.ChangeType
@@ -12,6 +12,7 @@ import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.*
@@ -48,8 +49,9 @@ private fun Project.configureDependencies() {
         mavenCentral()
     }
 
+    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
     dependencies {
-        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
+        detektPlugins(libs.findLibrary("detekt-formatting").get())
     }
 }
 
@@ -200,8 +202,11 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
         .orEmpty()
 
     val taskProvider = if (isKotlinAndroidProject) {
-        val baseExtensions = extensions.getByType<BaseExtension>()
-        baseExtensions.checkVariantExists(variantName) { existingVariants ->
+        val androidExtension = extensions.getByType<CommonExtension>()
+        val existingVariants = computeVariantNames(androidExtension)
+
+        val requiredVariant = existingVariants.find { it.equals(variantName, ignoreCase = true) }
+        checkNotNull(requiredVariant) {
             val candidates = existingVariants.joinToString(", ") { variant ->
                 "'${createDetektVariantTaskName(taskSuffix, variant, "All")}'"
             }
@@ -217,9 +222,21 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
     return taskProvider.also { taskProvider.configure { isEnabled = false } }
 }
 
-private fun BaseExtension.checkVariantExists(variantName: String, lazyMessage: (List<String>) -> String) {
-    val requiredVariant = variants?.find { it.name.capitalized() == variantName }
-    checkNotNull(requiredVariant) { lazyMessage.invoke(variants?.map { it.name }.orEmpty()) }
+private fun computeVariantNames(extension: CommonExtension): List<String> {
+    val buildTypes = extension.buildTypes.map { it.name }
+    val productFlavors = extension.productFlavors.map { it.name }
+
+    return if (productFlavors.isEmpty()) {
+        // If there are no product flavors, variants are just build types
+        buildTypes
+    } else {
+        // Variants are the Cartesian product of flavors × buildTypes
+        productFlavors.flatMap { flavor ->
+            buildTypes.map { buildType ->
+                "$flavor${buildType.capitalized()}"
+            }
+        }
+    }
 }
 
 private fun createDetektVariantTaskName(suffix: String, variantName: String, postfix: String = ""): String {

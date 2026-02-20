@@ -4,9 +4,7 @@ plugins {
     alias(libs.plugins.versions)
 }
 
-redmadrobot {
-    jvmTarget = JavaVersion.VERSION_11
-}
+val detektFormatting = libs.detekt.formatting
 
 subprojects {
     apply {
@@ -14,6 +12,6 @@ subprojects {
     }
 
     dependencies {
-        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
+        detektPlugins(detektFormatting)
     }
 }

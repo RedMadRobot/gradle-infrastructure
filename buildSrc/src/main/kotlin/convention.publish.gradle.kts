@@ -1,5 +1,4 @@
 import com.redmadrobot.build.dsl.*
-import com.vanniktech.maven.publish.SonatypeHost
 
 plugins {
     id("com.vanniktech.maven.publish")
@@ -13,7 +12,7 @@ publishing {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
 
     coordinates(artifactId = project.name)
@@ -32,6 +31,13 @@ mavenPublishing {
             developer(id = "osipxd", name = "Osip Fatkullin", email = "o.fatkullin@redmadrobot.com")
             developer(id = "rwqwr", name = "Roman Ivanov", email = "r.ivanov@redmadrobot.com")
         }
+    }
+}
+
+// Disable signing when publishing to Maven Local (no signing required)
+gradle.taskGraph.whenReady {
+    if (allTasks.any { it is PublishToMavenLocal }) {
+        tasks.withType<Sign>().configureEach { isEnabled = false }
     }
 }
 

@@ -2,6 +2,41 @@
 
 - *No changes*
 
+## [0.20.0] (2026-02-20)
+
+### Dependencies
+
+| Dependency            |      Minimal version       |
+|-----------------------|:--------------------------:|
+| Gradle                |     `8.0` → `9.3.1`        |
+| Kotlin Gradle Plugin  |   `1.9.0` → `2.2.21`       |
+| Android Gradle Plugin |   `8.4.0` → `9.0.0`        |
+
+infrastructure-kotlin:
+- [Kotlin](https://kotlinlang.org/docs/whatsnew2220.html) `2.0.0` → `2.2.21`
+
+infrastructure-android:
+- [Android Gradle Plugin](https://developer.android.com/studio/releases/gradle-plugin) `8.5.1` → `9.0.0`
+
+infrastructure-detekt:
+- [Detekt](https://github.com/detekt/detekt/releases) `1.23.6` → `1.23.8`
+
+infrastructure-publish:
+- [Maven Publish Plugin](https://vanniktech.github.io/gradle-maven-publish-plugin/) `0.29.0` → `0.36.0`
+
+### Changes
+
+- **android:** Migrate source sets API from deprecated `srcDirs()` to `directories.add()`
+- **android:** Replace `BaseExtension` with `CommonExtension` in detekt integration
+- **android:** Remove deprecated variants API, implement dynamic variant computation via `buildTypes` and `productFlavors`
+- **android:** Refactor Android plugin to separate common and plugin-specific configuration
+- **android:** Update `CommonExtension` typealias to non-parameterized `ParameterizedCommonExtension`
+- **detekt:** Remove deprecated rules, add `CastNullableToNonNullableType`, `BracesOnIfStatements`, `BracesOnWhenStatements`, `UnusedParameter`, `UseLet`, etc.
+- **publish:** Simplify Maven publishing (remove deprecated `SonatypeHost.CENTRAL_PORTAL`)
+- Add `foojay-resolver-convention` plugin for JDK toolchain resolution
+- Update buildSrc convention plugins to Kotlin 2.2 compiler settings
+- Update [Plugin Publish](https://plugins.gradle.org/plugin/com.gradle.plugin-publish) `1.2.1` → `2.0.0`
+
 ## [0.19.1] (2024-07-31)
 
 ### Fixes
@@ -728,6 +763,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.20.0]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.19.1..v0.20.0
 [0.19.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.19..v0.19.1
 [0.19]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18.1..v0.19
 [0.18.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18..v0.18.1
