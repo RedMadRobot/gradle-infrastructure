@@ -1,5 +1,5 @@
 [versions]
-infrastructure = "0.19.1"
+infrastructure = "0.20.0"
 detekt = "1.23.8"
 
 [libraries]

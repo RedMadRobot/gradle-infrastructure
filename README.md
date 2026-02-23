@@ -58,11 +58,11 @@ Then you can apply any of the plugins where you need:
 
 ```kotlin
 plugins {
-    id("com.redmadrobot.kotlin-library") version "0.20.0"
-    id("com.redmadrobot.publish") version "0.20.0"
-    id("com.redmadrobot.detekt") version "0.20.0"
-    id("com.redmadrobot.application") version "0.20.0"
-    id("com.redmadrobot.android-library") version "0.20.0"
+    id("com.redmadrobot.kotlin-library") version "0.20.1"
+    id("com.redmadrobot.publish") version "0.20.1"
+    id("com.redmadrobot.detekt") version "0.20.1"
+    id("com.redmadrobot.application") version "0.20.1"
+    id("com.redmadrobot.android-library") version "0.20.1"
 }
 ```
 

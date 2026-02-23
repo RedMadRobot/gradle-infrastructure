@@ -2,6 +2,12 @@
 
 - *No changes*
 
+## [0.20.1] (2026-02-23)
+
+### Fixes
+
+- **detekt:** Remove `VersionCatalogsExtension` usage in `DetektPlugin` (#147)
+
 ## [0.20.0] (2026-02-20)
 
 ### Dependencies
@@ -763,6 +769,7 @@ Pull request: #35
 - Added CHANGELOG.md :)
 
 [unreleased]: https://github.com/RedMadRobot/gradle-infrastructure/compare/main..develop
+[0.20.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.20.0..v0.20.1
 [0.20.0]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.19.1..v0.20.0
 [0.19.1]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.19..v0.19.1
 [0.19]: https://github.com/RedMadRobot/gradle-infrastructure/compare/v0.18.1..v0.19
