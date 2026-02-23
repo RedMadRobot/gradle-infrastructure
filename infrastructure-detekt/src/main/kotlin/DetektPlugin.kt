@@ -12,7 +12,6 @@ import com.redmadrobot.build.internal.addRepositoriesIfNeed
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.SourceTask
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.*
@@ -49,9 +48,9 @@ private fun Project.configureDependencies() {
         mavenCentral()
     }
 
-    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+    // DON't USE VersionCatalogsExtension here
     dependencies {
-        detektPlugins(libs.findLibrary("detekt-formatting").get())
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
     }
 }
 
