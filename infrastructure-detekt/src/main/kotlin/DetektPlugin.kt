@@ -1,6 +1,6 @@
 package com.redmadrobot.build.detekt
 
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.variant.AndroidComponentsExtension
 import com.redmadrobot.build.InfrastructurePlugin
 import com.redmadrobot.build.StaticAnalyzerSpec
 import com.redmadrobot.build.detekt.CollectGitDiffFilesTask.ChangeType
@@ -86,6 +86,12 @@ private fun Project.configureDetektAllTasks(
         val isBaseline = taskData[1] == BASELINE_KEYWORD
         val requiredVariant = taskData[2]
 
+        // Регистрируем onVariants-коллбэки в фазе конфигурации — до регистрации задач.
+        // withPlugin срабатывает при конфигурации каждого субпроекта, onVariants — когда
+        // AGP обрабатывает варианты. К моменту выполнения lazy-блоков задач оба коллбэка
+        // уже отработали и Set<String> содержит актуальные имена вариантов.
+        val variantNamesByModule = registerAndroidVariantCollectors()
+
         if (isBaseline) {
             detektCreateBaselineTask(staticAnalyzerSpec, detektTaskName) {
                 val modules = subprojects.filter(Project::hasKotlinPlugin)
@@ -94,14 +100,14 @@ private fun Project.configureDetektAllTasks(
                 }
 
                 val detektTaskProviders = modules.map { subproject ->
-                    subproject.extractDetektTaskProviderByType<DetektCreateBaselineTask>(requiredVariant)
+                    subproject.extractDetektTaskProviderByType<DetektCreateBaselineTask>(
+                        requiredVariant,
+                        variantNamesByModule[subproject].orEmpty(),
+                    )
                 }
 
-                val allClasspath = detektTaskProviders.map { it.map(DetektCreateBaselineTask::classpath) }
-                val allSources = detektTaskProviders.map { it.map(DetektCreateBaselineTask::getSource) }
-
-                classpath.setFrom(allClasspath)
-                setSource(allSources)
+                classpath.setFrom(detektTaskProviders.map { it.map(DetektCreateBaselineTask::classpath) })
+                setSource(detektTaskProviders.map { it.map(DetektCreateBaselineTask::getSource) })
             }
         } else {
             detektTask(staticAnalyzerSpec, detektTaskName) {
@@ -111,14 +117,14 @@ private fun Project.configureDetektAllTasks(
                 }
 
                 val detektTaskProviders = modules.map { subproject ->
-                    subproject.extractDetektTaskProviderByType<Detekt>(requiredVariant)
+                    subproject.extractDetektTaskProviderByType<Detekt>(
+                        requiredVariant,
+                        variantNamesByModule[subproject].orEmpty(),
+                    )
                 }
 
-                val allClasspath = detektTaskProviders.map { it.map(Detekt::classpath) }
-                val allSources = detektTaskProviders.map { it.map(Detekt::getSource) }
-
-                classpath.setFrom(allClasspath)
-                setSource(allSources)
+                classpath.setFrom(detektTaskProviders.map { it.map(Detekt::classpath) })
+                setSource(detektTaskProviders.map { it.map(Detekt::getSource) })
             }
         }
     }
@@ -195,25 +201,23 @@ private inline fun Project.detektCreateBaselineTask(
 @Suppress("DefaultLocale")
 private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByType(
     variantName: String,
+    androidVariantNames: Set<String>,
 ): TaskProvider<T> {
     val taskSuffix = BASELINE_KEYWORD
         .takeIf { T::class == DetektCreateBaselineTask::class }
         .orEmpty()
 
     val taskProvider = if (isKotlinAndroidProject) {
-        val androidExtension = extensions.getByType<CommonExtension>()
-        val existingVariants = computeVariantNames(androidExtension)
-
-        val requiredVariant = existingVariants.find { it.equals(variantName, ignoreCase = true) }
+        val requiredVariant = androidVariantNames.find { it.equals(variantName, ignoreCase = true) }
         checkNotNull(requiredVariant) {
-            val candidates = existingVariants.joinToString(", ") { variant ->
+            val candidates = androidVariantNames.joinToString(", ") { variant ->
                 "'${createDetektVariantTaskName(taskSuffix, variant, "All")}'"
             }
             "Task ${createDetektVariantTaskName(taskSuffix, variantName, "All")} not found in project. " +
                 "Some candidates are: $candidates"
         }
 
-        tasks.named<T>(createDetektVariantTaskName(taskSuffix, variantName))
+        tasks.named<T>(createDetektVariantTaskName(taskSuffix, requiredVariant))
     } else {
         tasks.named<T>(createDetektVariantTaskName(taskSuffix, "Main"))
     }
@@ -221,21 +225,19 @@ private inline fun <reified T : SourceTask> Project.extractDetektTaskProviderByT
     return taskProvider.also { taskProvider.configure { isEnabled = false } }
 }
 
-private fun computeVariantNames(extension: CommonExtension): List<String> {
-    val buildTypes = extension.buildTypes.map { it.name }
-    val productFlavors = extension.productFlavors.map { it.name }
+private fun Project.registerAndroidVariantCollectors(): Map<Project, Set<String>> {
+    val result = mutableMapOf<Project, MutableSet<String>>()
 
-    return if (productFlavors.isEmpty()) {
-        // If there are no product flavors, variants are just build types
-        buildTypes
-    } else {
-        // Variants are the Cartesian product of flavors × buildTypes
-        productFlavors.flatMap { flavor ->
-            buildTypes.map { buildType ->
-                "$flavor${buildType.capitalized()}"
-            }
+    subprojects.forEach { subproject ->
+        subproject.pluginManager.withPlugin("kotlin-android") {
+            val names = mutableSetOf<String>()
+            result[subproject] = names
+            (subproject.extensions.findByName("androidComponents") as? AndroidComponentsExtension<*, *, *>)
+                ?.onVariants { variant -> names.add(variant.name) }
         }
     }
+
+    return result
 }
 
 private fun createDetektVariantTaskName(suffix: String, variantName: String, postfix: String = ""): String {

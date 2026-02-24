@@ -82,4 +82,4 @@ jobs:
       - name: Run Build
         run: |
           cd samples/${{ matrix.sample }}
-          ./gradlew build
+          ./gradlew detektReleaseAll build
